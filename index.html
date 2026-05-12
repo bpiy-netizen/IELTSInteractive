@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بوابة IELTS Interactive | الدخول الحصري</title>
+    <title>IELTS Interactive | منصة التدريب الحصرية</title>
     <style>
-        /* تصميم الواجهة المستوحى من البوستر */
         body {
             background: radial-gradient(circle, #001f3f 0%, #000b1a 100%);
             color: #ffffff;
@@ -13,42 +12,37 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
-            overflow: hidden;
         }
 
-        .login-card {
+        .container {
             background: rgba(255, 255, 255, 0.05);
-            padding: 40px;
+            padding: 30px;
             border-radius: 20px;
-            border: 1px solid #d4af37; /* اللون الذهبي */
+            border: 1px solid #d4af37;
             box-shadow: 0 15px 35px rgba(0,0,0,0.5);
             text-align: center;
-            max-width: 400px;
+            max-width: 800px;
             width: 90%;
             backdrop-filter: blur(10px);
         }
 
-        h1 { color: #d4af37; margin-bottom: 10px; font-size: 24px; }
-        p { color: #ccc; margin-bottom: 30px; font-size: 14px; }
-
+        h1 { color: #d4af37; margin-bottom: 10px; }
+        
         input {
-            width: 100%;
+            width: 80%;
             padding: 12px;
             margin-bottom: 20px;
             border-radius: 8px;
             border: 1px solid #444;
             background: #001529;
             color: white;
-            box-sizing: border-box;
             text-align: center;
-            font-size: 16px;
         }
 
         button {
-            width: 100%;
-            padding: 12px;
+            padding: 12px 30px;
             background: linear-gradient(45deg, #d4af37, #f2d06b);
             border: none;
             border-radius: 8px;
@@ -56,55 +50,90 @@
             font-weight: bold;
             cursor: pointer;
             transition: 0.3s;
-            font-size: 16px;
         }
 
-        button:hover {
-            transform: scale(1.02);
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
-        }
-
-        .cefr-badge {
+        /* حاوية الفيديو لتكون متجاوبة */
+        .video-grid {
+            display: none; /* مخفي في البداية */
             margin-top: 20px;
-            font-size: 12px;
-            color: #888;
-            letter-spacing: 2px;
+            text-align: right;
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* نسبة 16:9 */
+            height: 0;
+            overflow: hidden;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+        }
+
+        .back-btn {
+            background: #444;
+            color: white;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
 
-<div class="login-card">
-    <div style="font-size: 40px; margin-bottom: 10px;">🎓</div>
-    <h1>IELTS Interactive</h1>
-    <p>أدخل كود الوصول الحصري الخاص بك للبدء</p>
-    
-    <input type="password" id="accessCode" placeholder="أدخل كلمة السر">
-    <button onclick="validateAccess()">دخول المنصة</button>
+<div class="container" id="mainContainer">
+    <div id="loginArea">
+        <div style="font-size: 40px; margin-bottom: 10px;">🎓</div>
+        <h1>IELTS Interactive</h1>
+        <p>أدخل كود الوصول الحصري لمستواك</p>
+        <input type="password" id="accessCode" placeholder="أدخل كلمة السر">
+        <br>
+        <button onclick="validateAccess()">فتح المحتوى</button>
+    </div>
 
-    <div class="cefr-badge">CEFR ALIGNMENT A1 TO C2</div>
+    <!-- منطقة الفيديوهات (مخفية حتى يتم إدخال الكود) -->
+    <div id="videoArea" class="video-grid">
+        <h2 id="levelTitle" style="color: #d4af37;"></h2>
+        <div id="videoList"></div>
+        <button class="back-btn" onclick="location.reload()">خروج</button>
+    </div>
 </div>
 
 <script>
     function validateAccess() {
         const code = document.getElementById('accessCode').value.trim();
+        const loginArea = document.getElementById('loginArea');
+        const videoArea = document.getElementById('videoArea');
+        const videoList = document.getElementById('videoList');
+        const levelTitle = document.getElementById('levelTitle');
 
-        // منطق توزيع الطلاب بناءً على الكود (المستوى)
-        // يمكنك تغيير الروابط أدناه لروابط الفيديوهات الخاصة بك
-        if (code === "IELTS-A1") {
-            alert("مرحباً بك! يتم توجيهك لمحتوى التأسيس (A1-A2)");
-            window.location.href = "https://your-video-link-A1.com";
-        } 
-        else if (code === "IELTS-B1") {
-            alert("مرحباً بك! يتم توجيهك للمستوى المتوسط (B1-B2)");
-            window.location.href = "https://your-video-link-B1.com";
-        } 
-        else if (code === "IELTS-PRO") {
-            alert("مرحباً بك! يتم توجيهك لمستوى الاحتراف والاستراتيجيات (C1-C2)");
-            window.location.href = "https://your-video-link-C1.com";
-        } 
-        else {
-            alert("الكود غير صحيح. يرجى مراجعة المشرف الخاص بك.");
+        // مصفوفة الروابط (استخدمنا روابط فعلية لـ IELTS A1 كمثال)
+        const content = {
+            "IELTS-A1": {
+                title: "مستوى التأسيس (A1-A2)",
+                videos: ["s0b18s80Z-I", "H8mRwu1gdbE"] // معرفات فيديوهات يوتيوب
+            },
+            "IELTS-PRO": {
+                title: "مستوى الاحتراف (C1-C2)",
+                videos: ["kb9d9fM27Ew"] 
+            }
+        };
+
+        if (content[code]) {
+            loginArea.style.display = 'none';
+            videoArea.style.display = 'block';
+            levelTitle.innerText = content[code].title;
+            
+            // إنشاء الفيديوهات تلقائياً
+            videoList.innerHTML = content[code].videos.map(id => `
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/${id}?modestbranding=1&rel=0" frameborder="0" allowfullscreen></iframe>
+                </div>
+            `).join('');
+        } else {
+            alert("الكود غير صحيح!");
         }
     }
 </script>
