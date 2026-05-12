@@ -3,18 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IELTS Interactive | منصة التدريب</title>
+    <title>IELTS Interactive Portal</title>
     <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
     <style>
-        body { background: #000b1e; color: #fff; font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        .container { background: rgba(255,255,255,0.05); padding: 30px; border-radius: 20px; border: 1px solid #d4af37; text-align: center; width: 90%; max-width: 800px; backdrop-filter: blur(10px); box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
-        h1 { color: #d4af37; margin-bottom: 25px; }
-        input { width: 80%; padding: 15px; margin: 20px 0; border-radius: 10px; border: 1px solid #333; background: #001529; color: #fff; text-align: center; font-size: 18px; }
-        button { padding: 12px 35px; background: linear-gradient(45deg, #d4af37, #f2d06b); border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 16px; transition: 0.3s; }
-        button:hover { transform: scale(1.05); }
-        .video-wrapper { display: none; margin-top: 20px; border-radius: 15px; overflow: hidden; border: 1px solid #d4af37; }
-        .plyr--full-ui.plyr--video .plyr__control--overlaid { background: rgba(212, 175, 55, 0.8); }
-        .plyr--full-ui.plyr--video .plyr__control.plyr__tab-focus, .plyr--full-ui.plyr--video .plyr__control:hover { background: #d4af37; }
+        body { background: #000b1e; color: #fff; font-family: sans-serif; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .container { background: rgba(255,255,255,0.05); padding: 30px; border-radius: 20px; border: 1px solid #d4af37; text-align: center; width: 90%; max-width: 800px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+        h1 { color: #d4af37; }
+        input { width: 80%; padding: 12px; margin: 20px 0; border-radius: 10px; border: 1px solid #333; background: #001529; color: #fff; text-align: center; font-size: 18px; }
+        button { padding: 12px 30px; background: #d4af37; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; }
+        .video-wrapper { display: none; margin-top: 20px; border-radius: 15px; overflow: hidden; border: 1px solid #d4af37; background: #000; }
+        .plyr__video-embed iframe { transform: scale(1.01); } /* تحسين مظهر التغطية */
     </style>
 </head>
 <body>
@@ -22,15 +20,15 @@
 <div class="container">
     <div id="loginSection">
         <h1>IELTS Interactive</h1>
-        <p>أدخل كود المرور لتجربة المشغل</p>
-        <input type="password" id="pass" placeholder="أدخل الكود هنا">
+        <input type="password" id="pass" placeholder="أدخل كود الوصول">
         <br>
-        <button onclick="access()">دخول المنصة</button>
+        <button onclick="access()">دخول</button>
     </div>
 
     <div id="videoSection" class="video-wrapper">
-        <h2 id="title" style="color:#d4af37; margin: 15px 0;"></h2>
-        <div id="player" data-plyr-provider="youtube" data-plyr-embed-id=""></div>
+        <h2 id="title" style="color:#d4af37; margin: 15px;"></h2>
+        <div class="plyr__video-embed" id="player">
+            </div>
         <br>
         <button onclick="location.reload()" style="background:#222; color:#fff; margin-bottom: 15px;">تسجيل خروج</button>
     </div>
@@ -38,34 +36,33 @@
 
 <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
 <script>
-    // إعداد المشغل لإخفاء شعارات يوتيوب قدر الإمكان
-    const player = new Plyr('#player', {
-        youtube: { noCookie: true, rel: 0, showinfo: 0, iv_load_policy: 3, modestbranding: 1 }
-    });
-
     function access() {
         const code = document.getElementById('pass').value;
-        
-        // الأكواد وروابط الفيديوهات (هنا وضعت فيديو حقيقي للاستماع A1)
+        const videoSection = document.getElementById('videoSection');
+        const loginSection = document.getElementById('loginSection');
+        const titleElement = document.getElementById('title');
+        const playerDiv = document.getElementById('player');
+
+        // قاعدة بيانات الفيديوهات (ID حقيقي شغال)
         const db = {
             "IELTS-A1": { 
                 title: "تأسيس الاستماع - المستوى A1", 
-                id: "s0b18s80Z-I" // هذا معرف فيديو حقيقي لاختبار IELTS A1
+                youtubeId: "H8mRwu1gdbE" 
             }
         };
 
         if (db[code]) {
-            document.getElementById('loginSection').style.display = 'none';
-            document.getElementById('videoSection').style.display = 'block';
-            document.getElementById('title').innerText = db[code].title;
+            loginSection.style.display = 'none';
+            videoSection.style.display = 'block';
+            titleElement.innerText = db[code].title;
             
-            // تحميل الفيديو في المشغل
-            player.source = {
-                type: 'video',
-                sources: [{ src: db[code].id, provider: 'youtube' }]
-            };
-        } else { 
-            alert("الكود هو: IELTS-A1"); 
+            // حقن الفيديو مباشرة داخل الـ HTML
+            playerDiv.innerHTML = `<iframe src="https://www.youtube.com/embed/${db[code].youtubeId}?origin=https://plyr.io&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1" allowfullscreen allowtransparency allow="autoplay"></iframe>`;
+            
+            // تفعيل المشغل الاحترافي
+            new Plyr(playerDiv);
+        } else {
+            alert("الكود الصحيح للتجربة هو: IELTS-A1");
         }
     }
 </script>
