@@ -3,60 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IELTS Interactive | منصة التدريب الذكية</title>
+    <title>IELTS A1 | بوابة التدريب الاحترافية</title>
     <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
     <style>
-        body { background: #050a14; color: #fff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        .container { background: rgba(255, 255, 255, 0.03); padding: 40px; border-radius: 24px; border: 1px solid rgba(212, 175, 55, 0.3); text-align: center; width: 95%; max-width: 1100px; box-shadow: 0 20px 50px rgba(0,0,0,0.6); backdrop-filter: blur(15px); }
-        .grid-videos { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-top: 30px; }
-        .video-card { background: #0a111f; border: 1px solid #1a2436; border-radius: 18px; overflow: hidden; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .video-card:hover { border-color: #d4af37; transform: translateY(-10px); box-shadow: 0 15px 30px rgba(212, 175, 55, 0.1); }
-        h1 { color: #d4af37; font-size: 2.5em; margin-bottom: 10px; text-shadow: 0 2px 10px rgba(212, 175, 55, 0.2); }
-        p { color: #8892b0; margin-bottom: 30px; }
-        .input-group { position: relative; max-width: 400px; margin: 0 auto; }
-        input { width: 100%; padding: 18px; border-radius: 12px; border: 2px solid #1a2436; background: #0f172a; color: #fff; text-align: center; font-size: 18px; transition: 0.3s; box-sizing: border-box; }
-        input:focus { border-color: #d4af37; outline: none; box-shadow: 0 0 15px rgba(212, 175, 55, 0.1); }
-        .btn-main { padding: 15px 40px; background: linear-gradient(135deg, #d4af37, #b8962e); border: none; border-radius: 12px; font-weight: bold; cursor: pointer; color: #000; font-size: 16px; margin-top: 20px; transition: 0.3s; }
-        .btn-main:hover { transform: scale(1.05); box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4); }
+        body { background: #050a14; color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; min-height: 100vh; display: flex; justify-content: center; align-items: center; }
+        .container { background: rgba(255, 255, 255, 0.02); padding: 40px; border-radius: 24px; border: 1px solid rgba(212, 175, 55, 0.2); text-align: center; width: 95%; max-width: 1100px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
+        .grid-videos { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 30px; }
+        .video-card { background: #0a111f; border-radius: 20px; overflow: hidden; border: 1px solid #1a2436; transition: 0.3s; }
+        .video-card:hover { border-color: #d4af37; }
+        h1 { color: #d4af37; font-size: 2.2em; }
+        input { width: 100%; max-width: 350px; padding: 15px; border-radius: 12px; border: 1px solid #1a2436; background: #0f172a; color: #fff; text-align: center; margin-bottom: 20px; }
+        .btn { padding: 12px 35px; background: #d4af37; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; color: #000; }
         .hidden { display: none; }
-        .category-badge { display: inline-block; padding: 6px 18px; background: rgba(212, 175, 55, 0.1); color: #d4af37; border: 1px solid #d4af37; border-radius: 30px; font-size: 12px; margin-bottom: 15px; letter-spacing: 1px; }
-        
-        /* تخصيص المشغل ليناسب تصميمك الذهبي */
+        /* تخصيص لون المشغل للذهبي */
         :root { --plyr-color-main: #d4af37; }
-        .plyr { border-radius: 0; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div id="loginSection">
-        <h1>IELTS Portal</h1>
-        <p>مرحباً بك في منصة التدريب التفاعلية. يرجى إدخال كود المادة.</p>
-        <div class="input-group">
-            <input type="password" id="pass" placeholder="أدخل الكود هنا...">
-        </div>
-        <button class="btn-main" onclick="access()">دخول المنصة</button>
+        <h1>IELTS Training Portal</h1>
+        <input type="password" id="pass" placeholder="أدخل كود المهارة...">
+        <br>
+        <button class="btn" onclick="access()">دخول</button>
     </div>
 
     <div id="contentSection" class="hidden">
-        <div id="skillHeader">
-            <span class="category-badge" id="skillType"></span>
-            <h2 id="skillTitle" style="color: #fff; margin-bottom: 30px;"></h2>
-        </div>
-        
+        <h2 id="skillTitle" style="color:#d4af37"></h2>
         <div class="grid-videos" id="videoGrid"></div>
-
-        <button class="btn-main" onclick="location.reload()" style="background: #1a2436; color: #fff; margin-top: 50px;">خروج</button>
+        <br><br>
+        <button class="btn" onclick="location.reload()" style="background:#222; color:#fff;">خروج</button>
     </div>
 </div>
 
 <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
 <script>
     const database = {
-        "A1-LISTENING": { title: "تطوير مهارات الاستماع (A1)", videos: ["bnX1qUo2DIE", "DTwz0-aC2fU", "hpkxUKHrvRk", "s0b18s80Z-I", "O9gdhDvXuY4"] },
-        "A1-READING": { title: "تطوير مهارات القراءة (A1)", videos: ["rm5j4lsWJss", "hpkxUKHrvRk", "s0b18s80Z-I", "0_eiQFV8UA0", "2XrwQDEuBqY"] },
-        "A1-WRITING": { title: "تطوير مهارات الكتابة (A1)", videos: ["rm5j4lsWJss", "k83s5826-xI", "j8H4HPHd1_c", "0_eiQFV8UA0", "dNOZYdnO_FU"] },
-        "A1-SPEAKING": { title: "تطوير مهارات المحادثة (A1)", videos: ["O9gdhDvXuY4", "o3F8TLQBwdE", "hpkxUKHrvRk", "0_eiQFV8UA0", "AGEOQR2nrjk"] }
+        "A1-LISTENING": { title: "Listening Skills", videos: ["bnX1qUo2DIE", "DTwz0-aC2fU", "hpkxUKHrvRk", "s0b18s80Z-I", "O9gdhDvXuY4"] },
+        "A1-READING": { title: "Reading Skills", videos: ["rm5j4lsWJss", "hpkxUKHrvRk", "s0b18s80Z-I", "0_eiQFV8UA0", "2XrwQDEuBqY"] },
+        "A1-WRITING": { title: "Writing Skills", videos: ["rm5j4lsWJss", "k83s5826-xI", "j8H4HPHd1_c", "0_eiQFV8UA0", "dNOZYdnO_FU"] },
+        "A1-SPEAKING": { title: "Speaking Skills", videos: ["O9gdhDvXuY4", "o3F8TLQBwdE", "hpkxUKHrvRk", "0_eiQFV8UA0", "AGEOQR2nrjk"] }
     };
 
     function access() {
@@ -67,36 +54,35 @@
             document.getElementById('loginSection').classList.add('hidden');
             document.getElementById('contentSection').classList.remove('hidden');
             document.getElementById('skillTitle').innerText = data.title;
-            document.getElementById('skillType').innerText = code;
 
             const grid = document.getElementById('videoGrid');
             grid.innerHTML = '';
 
-            data.videos.forEach((id, index) => {
+            data.videos.forEach((videoId, index) => {
                 const card = document.createElement('div');
                 card.className = 'video-card';
+                
+                // هنا نضع حاوية فارغة ونعطيها الـ ID الخاص باليوتيوب كـ attribute
                 card.innerHTML = `
-                    <div style="padding:15px; border-bottom: 1px solid #1a2436; font-size: 14px; color: #8892b0;">الدرس ${index + 1}</div>
-                    <div class="plyr__video-embed js-player">
-                        <iframe 
-                            src="https://www.youtube.com/embed/${id}?origin=${window.location.origin}&iv_load_policy=3&modestbranding=1&playsinline=1&showinfo=0&rel=0&enablejsapi=1" 
-                            allowfullscreen 
-                            allowtransparency 
-                            allow="autoplay">
-                        </iframe>
-                    </div>
+                    <div style="padding:15px; font-size:14px; border-bottom:1px solid #1a2436">الدرس ${index + 1}</div>
+                    <div class="player-container" data-plyr-provider="youtube" data-plyr-embed-id="${videoId}"></div>
                 `;
                 grid.appendChild(card);
             });
 
-            // أهم خطوة: تفعيل المشغل الاحترافي لكل الفيديوهات الجديدة
-            const players = Array.from(document.querySelectorAll('.js-player')).map(p => new Plyr(p, {
-                controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
-                ratio: '16:9'
+            // تفعيل المشغل على الحاويات الجديدة
+            // هذه الطريقة تجبر Plyr على بناء الـ iframe بنفسه وبإعداداته الخاصة
+            const players = Array.from(document.querySelectorAll('.player-container')).map(p => new Plyr(p, {
+                youtube: {
+                    noCookie: true,
+                    rel: 0,
+                    showinfo: 0,
+                    iv_load_policy: 3,
+                    modestbranding: 1
+                }
             }));
-
         } else {
-            alert("الكود غير صحيح. جرب: A1-LISTENING");
+            alert("الكود غير صحيح!");
         }
     }
 </script>
