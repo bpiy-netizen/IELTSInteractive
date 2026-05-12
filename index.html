@@ -3,66 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IELTS Interactive Portal</title>
+    <title>IELTS A1 Interactive | بوابة التدريب</title>
     <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
     <style>
-        body { background: #000b1e; color: #fff; font-family: sans-serif; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        .container { background: rgba(255,255,255,0.05); padding: 30px; border-radius: 20px; border: 1px solid #d4af37; text-align: center; width: 90%; max-width: 800px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
-        h1 { color: #d4af37; }
-        input { width: 80%; padding: 12px; margin: 20px 0; border-radius: 10px; border: 1px solid #333; background: #001529; color: #fff; text-align: center; font-size: 18px; }
-        button { padding: 12px 30px; background: #d4af37; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; }
-        .video-wrapper { display: none; margin-top: 20px; border-radius: 15px; overflow: hidden; border: 1px solid #d4af37; background: #000; }
-        .plyr__video-embed iframe { transform: scale(1.01); } /* تحسين مظهر التغطية */
+        body { background: #000b1e; color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .container { background: rgba(255,255,255,0.05); padding: 30px; border-radius: 20px; border: 1px solid #d4af37; text-align: center; width: 90%; max-width: 900px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); backdrop-filter: blur(10px); }
+        .grid-videos { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px; }
+        .video-card { background: #001529; border: 1px solid #333; border-radius: 15px; overflow: hidden; transition: 0.3s; }
+        .video-card:hover { border-color: #d4af37; transform: translateY(-5px); }
+        h1, h2 { color: #d4af37; }
+        input { width: 80%; padding: 15px; margin: 20px 0; border-radius: 10px; border: 1px solid #333; background: #001529; color: #fff; text-align: center; font-size: 18px; }
+        button { padding: 12px 30px; background: linear-gradient(45deg, #d4af37, #f2d06b); border: none; border-radius: 10px; font-weight: bold; cursor: pointer; color: #000; }
+        .hidden { display: none; }
+        .category-badge { display: inline-block; padding: 5px 15px; background: #d4af37; color: #000; border-radius: 20px; font-size: 14px; margin-bottom: 10px; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div id="loginSection">
-        <h1>IELTS Interactive</h1>
-        <input type="password" id="pass" placeholder="أدخل كود الوصول">
+        <h1>IELTS Interactive Portal</h1>
+        <p>أدخل كود المهارة للبدء (مثلاً: A1-LISTENING)</p>
+        <input type="text" id="pass" placeholder="A1-LISTENING, A1-READING, etc.">
         <br>
-        <button onclick="access()">دخول</button>
+        <button onclick="access()">فتح المحتوى</button>
     </div>
 
-    <div id="videoSection" class="video-wrapper">
-        <h2 id="title" style="color:#d4af37; margin: 15px;"></h2>
-        <div class="plyr__video-embed" id="player">
+    <div id="contentSection" class="hidden">
+        <div id="skillHeader">
+            <span class="category-badge" id="skillType"></span>
+            <h2 id="skillTitle"></h2>
+        </div>
+        
+        <div class="grid-videos" id="videoGrid">
             </div>
-        <br>
-        <button onclick="location.reload()" style="background:#222; color:#fff; margin-bottom: 15px;">تسجيل خروج</button>
+
+        <br><br>
+        <button onclick="location.reload()" style="background:#222; color:#fff;">العودة للرئيسية</button>
     </div>
 </div>
 
 <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
 <script>
+    const database = {
+        "A1-LISTENING": {
+            title: "مهارة الاستماع - Listening",
+            videos: ["bnX1qUo2DIE", "DTwz0-aC2fU", "hpkxUKHrvRk", "s0b18s80Z-I", "O9gdhDvXuY4"]
+        },
+        "A1-READING": {
+            title: "مهارة القراءة - Reading",
+            videos: ["rm5j4lsWJss", "hpkxUKHrvRk", "s0b18s80Z-I", "0_eiQFV8UA0", "2XrwQDEuBqY"]
+        },
+        "A1-WRITING": {
+            title: "مهارة الكتابة - Writing",
+            videos: ["rm5j4lsWJss", "k83s5826-xI", "j8H4HPHd1_c", "0_eiQFV8UA0", "dNOZYdnO_FU"]
+        },
+        "A1-SPEAKING": {
+            title: "مهارة المحادثة - Speaking",
+            videos: ["O9gdhDvXuY4", "o3F8TLQBwdE", "hpkxUKHrvRk", "0_eiQFV8UA0", "AGEOQR2nrjk"]
+        }
+    };
+
     function access() {
-        const code = document.getElementById('pass').value;
-        const videoSection = document.getElementById('videoSection');
-        const loginSection = document.getElementById('loginSection');
-        const titleElement = document.getElementById('title');
-        const playerDiv = document.getElementById('player');
+        const code = document.getElementById('pass').value.toUpperCase().trim();
+        const data = database[code];
 
-        // قاعدة بيانات الفيديوهات (ID حقيقي شغال)
-        const db = {
-            "IELTS-A1": { 
-                title: "تأسيس الاستماع - المستوى A1", 
-                youtubeId: "H8mRwu1gdbE" 
-            }
-        };
+        if (data) {
+            document.getElementById('loginSection').classList.add('hidden');
+            document.getElementById('contentSection').classList.remove('hidden');
+            document.getElementById('skillTitle').innerText = data.title;
+            document.getElementById('skillType').innerText = code;
 
-        if (db[code]) {
-            loginSection.style.display = 'none';
-            videoSection.style.display = 'block';
-            titleElement.innerText = db[code].title;
-            
-            // حقن الفيديو مباشرة داخل الـ HTML
-            playerDiv.innerHTML = `<iframe src="https://www.youtube.com/embed/${db[code].youtubeId}?origin=https://plyr.io&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1" allowfullscreen allowtransparency allow="autoplay"></iframe>`;
-            
-            // تفعيل المشغل الاحترافي
-            new Plyr(playerDiv);
+            const grid = document.getElementById('videoGrid');
+            grid.innerHTML = '';
+
+            data.videos.forEach((id, index) => {
+                const card = document.createElement('div');
+                card.className = 'video-card';
+                card.innerHTML = `
+                    <div style="padding:15px; color:#d4af37; font-weight:bold;">الدرس رقم ${index + 1}</div>
+                    <div class="plyr__video-embed">
+                        <iframe src="https://www.youtube.com/embed/${id}?origin=https://plyr.io&iv_load_policy=3&modestbranding=1&rel=0" allowfullscreen allowtransparency allow="autoplay"></iframe>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            // تفعيل المشغل لجميع الفيديوهات في الصفحة
+            Plyr.setup('.plyr__video-embed');
         } else {
-            alert("الكود الصحيح للتجربة هو: IELTS-A1");
+            alert("يرجى إدخال كود صحيح: A1-LISTENING, A1-READING, A1-WRITING, A1-SPEAKING");
         }
     }
 </script>
