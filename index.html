@@ -3,140 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IELTS Interactive | منصة التدريب الحصرية</title>
+    <title>IELTS Interactive | Premium Portal</title>
+    <!-- مكتبة Plyr لتحويل شكل يوتيوب لمشغل احترافي -->
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
     <style>
-        body {
-            background: radial-gradient(circle, #001f3f 0%, #000b1a 100%);
-            color: #ffffff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-        }
-
-        .container {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 30px;
-            border-radius: 20px;
-            border: 1px solid #d4af37;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-            text-align: center;
-            max-width: 800px;
-            width: 90%;
-            backdrop-filter: blur(10px);
-        }
-
-        h1 { color: #d4af37; margin-bottom: 10px; }
-        
-        input {
-            width: 80%;
-            padding: 12px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            border: 1px solid #444;
-            background: #001529;
-            color: white;
-            text-align: center;
-        }
-
-        button {
-            padding: 12px 30px;
-            background: linear-gradient(45deg, #d4af37, #f2d06b);
-            border: none;
-            border-radius: 8px;
-            color: #000;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        /* حاوية الفيديو لتكون متجاوبة */
-        .video-grid {
-            display: none; /* مخفي في البداية */
-            margin-top: 20px;
-            text-align: right;
-        }
-
-        .video-wrapper {
-            position: relative;
-            padding-bottom: 56.25%; /* نسبة 16:9 */
-            height: 0;
-            overflow: hidden;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-
-        .video-wrapper iframe {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-        }
-
-        .back-btn {
-            background: #444;
-            color: white;
-            margin-top: 20px;
-        }
+        body { background: #000b1e; color: #fff; font-family: sans-serif; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .container { background: rgba(255,255,255,0.05); padding: 30px; border-radius: 20px; border: 1px solid #d4af37; text-align: center; width: 90%; max-width: 800px; backdrop-filter: blur(10px); }
+        h1 { color: #d4af37; }
+        input { width: 80%; padding: 12px; margin: 20px 0; border-radius: 8px; border: 1px solid #444; background: #001529; color: #fff; text-align: center; }
+        button { padding: 12px 30px; background: #d4af37; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        .video-wrapper { display: none; margin-top: 20px; border-radius: 15px; overflow: hidden; border: 1px solid #333; }
+        /* تخصيص لون المشغل ليناسب هويتك الذهبية */
+        .plyr--full-ui.plyr--video .plyr__control--overlaid { background: rgba(212, 175, 55, 0.8); }
+        .plyr--full-ui.plyr--video .plyr__control.plyr__tab-focus, .plyr--full-ui.plyr--video .plyr__control:hover, .plyr--full-ui.plyr--video .plyr__controls__item.plyr__control--pressed { background: #d4af37; }
     </style>
 </head>
 <body>
 
-<div class="container" id="mainContainer">
-    <div id="loginArea">
-        <div style="font-size: 40px; margin-bottom: 10px;">🎓</div>
+<div class="container">
+    <div id="loginSection">
         <h1>IELTS Interactive</h1>
-        <p>أدخل كود الوصول الحصري لمستواك</p>
-        <input type="password" id="accessCode" placeholder="أدخل كلمة السر">
+        <input type="password" id="pass" placeholder="أدخل كود الوصول">
         <br>
-        <button onclick="validateAccess()">فتح المحتوى</button>
+        <button onclick="access()">دخول</button>
     </div>
 
-    <!-- منطقة الفيديوهات (مخفية حتى يتم إدخال الكود) -->
-    <div id="videoArea" class="video-grid">
-        <h2 id="levelTitle" style="color: #d4af37;"></h2>
-        <div id="videoList"></div>
-        <button class="back-btn" onclick="location.reload()">خروج</button>
+    <div id="videoSection" class="video-wrapper">
+        <h2 id="title" style="color:#d4af37"></h2>
+        <div id="player" data-plyr-provider="youtube" data-plyr-embed-id=""></div>
+        <br>
+        <button onclick="location.reload()" style="background:#222; color:#fff;">خروج</button>
     </div>
 </div>
 
+<script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
 <script>
-    function validateAccess() {
-        const code = document.getElementById('accessCode').value.trim();
-        const loginArea = document.getElementById('loginArea');
-        const videoArea = document.getElementById('videoArea');
-        const videoList = document.getElementById('videoList');
-        const levelTitle = document.getElementById('levelTitle');
+    const player = new Plyr('#player', {
+        settings: ['quality', 'speed'],
+        youtube: { noCookie: true, rel: 0, showinfo: 0, iv_load_policy: 3, modestbranding: 1 }
+    });
 
-        // مصفوفة الروابط (استخدمنا روابط فعلية لـ IELTS A1 كمثال)
-        const content = {
-            "IELTS-A1": {
-                title: "مستوى التأسيس (A1-A2)",
-                videos: ["s0b18s80Z-I", "H8mRwu1gdbE"] // معرفات فيديوهات يوتيوب
-            },
-            "IELTS-PRO": {
-                title: "مستوى الاحتراف (C1-C2)",
-                videos: ["kb9d9fM27Ew"] 
-            }
+    function access() {
+        const code = document.getElementById('pass').value;
+        const db = {
+            "IELTS-A1": { title: "تأسيس الاستماع A1", id: "s0b18s80Z-I" },
+            "IELTS-PRO": { title: "احتراف القراءة PRO", id: "kb9d9fM27Ew" }
         };
 
-        if (content[code]) {
-            loginArea.style.display = 'none';
-            videoArea.style.display = 'block';
-            levelTitle.innerText = content[code].title;
-            
-            // إنشاء الفيديوهات تلقائياً
-            videoList.innerHTML = content[code].videos.map(id => `
-                <div class="video-wrapper">
-                    <iframe src="https://www.youtube.com/embed/${id}?modestbranding=1&rel=0" frameborder="0" allowfullscreen></iframe>
-                </div>
-            `).join('');
-        } else {
-            alert("الكود غير صحيح!");
-        }
+        if (db[code]) {
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('videoSection').style.display = 'block';
+            document.getElementById('title').innerText = db[code].title;
+            player.source = {
+                type: 'video',
+                sources: [{ src: db[code].id, provider: 'youtube' }]
+            };
+        } else { alert("الكود خطأ!"); }
     }
 </script>
-
 </body>
 </html>
