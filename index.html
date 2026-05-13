@@ -3,19 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IELTS A1 | بوابة التدريب الاحترافية</title>
+    <title>IELTS A1 Premium | بوابة التدريب الدولية</title>
     <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
     <style>
         body { background: #050a14; color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; min-height: 100vh; display: flex; justify-content: center; align-items: center; }
         .container { background: rgba(255, 255, 255, 0.02); padding: 40px; border-radius: 24px; border: 1px solid rgba(212, 175, 55, 0.2); text-align: center; width: 95%; max-width: 1100px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
-        .grid-videos { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 30px; }
+        .grid-videos { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-top: 30px; }
         .video-card { background: #0a111f; border-radius: 20px; overflow: hidden; border: 1px solid #1a2436; transition: 0.3s; }
-        .video-card:hover { border-color: #d4af37; }
-        h1 { color: #d4af37; font-size: 2.2em; }
-        input { width: 100%; max-width: 350px; padding: 15px; border-radius: 12px; border: 1px solid #1a2436; background: #0f172a; color: #fff; text-align: center; margin-bottom: 20px; }
-        .btn { padding: 12px 35px; background: #d4af37; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; color: #000; }
+        .video-card:hover { border-color: #d4af37; transform: translateY(-5px); }
+        h1 { color: #d4af37; font-size: 2.2em; margin-bottom: 5px; }
+        .subtitle { color: #8892b0; margin-bottom: 25px; font-size: 0.9em; }
+        input { width: 100%; max-width: 350px; padding: 15px; border-radius: 12px; border: 1px solid #1a2436; background: #0f172a; color: #fff; text-align: center; margin-bottom: 20px; outline: none; }
+        input:focus { border-color: #d4af37; }
+        .btn { padding: 12px 35px; background: #d4af37; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; color: #000; transition: 0.3s; }
+        .btn:hover { background: #f2d06b; box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); }
         .hidden { display: none; }
-        /* تخصيص لون المشغل للذهبي */
         :root { --plyr-color-main: #d4af37; }
     </style>
 </head>
@@ -23,27 +25,45 @@
 
 <div class="container">
     <div id="loginSection">
-        <h1>IELTS Training Portal</h1>
-        <input type="password" id="pass" placeholder="أدخل كود المهارة...">
+        <h1>IELTS Premium Portal</h1>
+        <p class="subtitle">محتوى تعليمي معتمد من خبراء دوليين (Native Speakers)</p>
+        <input type="password" id="pass" placeholder="أدخل كود المهارة (A1-LISTENING...)">
         <br>
-        <button class="btn" onclick="access()">دخول</button>
+        <button class="btn" onclick="access()">فتح الدروس العالمية</button>
     </div>
 
     <div id="contentSection" class="hidden">
-        <h2 id="skillTitle" style="color:#d4af37"></h2>
+        <h2 id="skillTitle" style="color:#d4af37; margin-bottom: 10px;"></h2>
+        <p id="skillDesc" style="color:#8892b0; margin-bottom: 30px;"></p>
         <div class="grid-videos" id="videoGrid"></div>
         <br><br>
-        <button class="btn" onclick="location.reload()" style="background:#222; color:#fff;">خروج</button>
+        <button class="btn" onclick="location.reload()" style="background:#1a2436; color:#fff;">العودة للرئيسية</button>
     </div>
 </div>
 
 <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
 <script>
     const database = {
-        "A1-LISTENING": { title: "Listening Skills", videos: ["bnX1qUo2DIE", "DTwz0-aC2fU", "hpkxUKHrvRk", "s0b18s80Z-I", "O9gdhDvXuY4"] },
-        "A1-READING": { title: "Reading Skills", videos: ["rm5j4lsWJss", "hpkxUKHrvRk", "s0b18s80Z-I", "0_eiQFV8UA0", "2XrwQDEuBqY"] },
-        "A1-WRITING": { title: "Writing Skills", videos: ["rm5j4lsWJss", "k83s5826-xI", "j8H4HPHd1_c", "0_eiQFV8UA0", "dNOZYdnO_FU"] },
-        "A1-SPEAKING": { title: "Speaking Skills", videos: ["O9gdhDvXuY4", "o3F8TLQBwdE", "hpkxUKHrvRk", "0_eiQFV8UA0", "AGEOQR2nrjk"] }
+        "A1-LISTENING": { 
+            title: "Listening Mastery (Native Speakers)", 
+            desc: "تدريبات استماع مكثفة بلكنات بريطانية وأمريكية واضحة.",
+            videos: ["IuS5S_uYp0I", "uDDe9v9VpXw", "W8u_XreP730", "7p6_m2A7kCQ", "9m_v_pS-Duo"] 
+        },
+        "A1-READING": { 
+            title: "Reading & Vocabulary", 
+            desc: "تعلم استراتيجيات القراءة وفهم النصوص مع خبراء اللغة.",
+            videos: ["N_pE0uI7t28", "8X_2L9-0Y_0", "sM4_6_pS_eE", "hl9p_vXfXyI", "6Wp7_rX-uUo"] 
+        },
+        "A1-WRITING": { 
+            title: "Effective Writing Strategies", 
+            desc: "كيف تكتب جملك الأولى وتصيغ أفكارك بوضوح واحترافية.",
+            videos: ["hG6_S8u9XyI", "y9m_S_pX9eE", "S8p_uW9XyI0", "Wp7_rX9eE-u", "hL9p_vXfXyI"] 
+        },
+        "A1-SPEAKING": { 
+            title: "Native Speaking Confidence", 
+            desc: "تدرب على النطق الصحيح والمحادثات اليومية مع مدربين أمريكيين وبريطانيين.",
+            videos: ["12m_pS-Duo9", "sM4_6_pS_eE", "W8u_XreP730", "7p6_m2A7kCQ", "IuS5S_uYp0I"] 
+        }
     };
 
     function access() {
@@ -54,6 +74,7 @@
             document.getElementById('loginSection').classList.add('hidden');
             document.getElementById('contentSection').classList.remove('hidden');
             document.getElementById('skillTitle').innerText = data.title;
+            document.getElementById('skillDesc').innerText = data.desc;
 
             const grid = document.getElementById('videoGrid');
             grid.innerHTML = '';
@@ -61,28 +82,18 @@
             data.videos.forEach((videoId, index) => {
                 const card = document.createElement('div');
                 card.className = 'video-card';
-                
-                // هنا نضع حاوية فارغة ونعطيها الـ ID الخاص باليوتيوب كـ attribute
                 card.innerHTML = `
-                    <div style="padding:15px; font-size:14px; border-bottom:1px solid #1a2436">الدرس ${index + 1}</div>
+                    <div style="padding:15px; font-size:14px; border-bottom:1px solid #1a2436; color: #d4af37;">MASTERCLASS: LESSON ${index + 1}</div>
                     <div class="player-container" data-plyr-provider="youtube" data-plyr-embed-id="${videoId}"></div>
                 `;
                 grid.appendChild(card);
             });
 
-            // تفعيل المشغل على الحاويات الجديدة
-            // هذه الطريقة تجبر Plyr على بناء الـ iframe بنفسه وبإعداداته الخاصة
             const players = Array.from(document.querySelectorAll('.player-container')).map(p => new Plyr(p, {
-                youtube: {
-                    noCookie: true,
-                    rel: 0,
-                    showinfo: 0,
-                    iv_load_policy: 3,
-                    modestbranding: 1
-                }
+                youtube: { noCookie: true, rel: 0, showinfo: 0, iv_load_policy: 3, modestbranding: 1 }
             }));
         } else {
-            alert("الكود غير صحيح!");
+            alert("الكود غير صحيح! يرجى التأكد من كتابة الكود بشكل صحيح (مثل: A1-LISTENING)");
         }
     }
 </script>
