@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IELTS A1 Premium | بوابة التدريب الدولية</title>
+    <title>IELTS Premium Mastery</title>
     <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
     <style>
         body { background: #050a14; color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; min-height: 100vh; display: flex; justify-content: center; align-items: center; }
@@ -12,11 +12,8 @@
         .video-card { background: #0a111f; border-radius: 20px; overflow: hidden; border: 1px solid #1a2436; transition: 0.3s; }
         .video-card:hover { border-color: #d4af37; transform: translateY(-5px); }
         h1 { color: #d4af37; font-size: 2.2em; margin-bottom: 5px; }
-        .subtitle { color: #8892b0; margin-bottom: 25px; font-size: 0.9em; }
         input { width: 100%; max-width: 350px; padding: 15px; border-radius: 12px; border: 1px solid #1a2436; background: #0f172a; color: #fff; text-align: center; margin-bottom: 20px; outline: none; }
-        input:focus { border-color: #d4af37; }
         .btn { padding: 12px 35px; background: #d4af37; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; color: #000; transition: 0.3s; }
-        .btn:hover { background: #f2d06b; box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); }
         .hidden { display: none; }
         :root { --plyr-color-main: #d4af37; }
     </style>
@@ -26,43 +23,39 @@
 <div class="container">
     <div id="loginSection">
         <h1>IELTS Premium Portal</h1>
-        <p class="subtitle">محتوى تعليمي معتمد من خبراء دوليين (Native Speakers)</p>
-        <input type="password" id="pass" placeholder="أدخل كود المهارة (A1-LISTENING...)">
+        <p style="color: #8892b0;">محتوى تعليمي معتمد (Native Speakers)</p>
+        <input type="password" id="pass" placeholder="أدخل كود المهارة...">
         <br>
-        <button class="btn" onclick="access()">فتح الدروس العالمية</button>
+        <button class="btn" onclick="access()">فتح الدروس</button>
     </div>
 
     <div id="contentSection" class="hidden">
-        <h2 id="skillTitle" style="color:#d4af37; margin-bottom: 10px;"></h2>
-        <p id="skillDesc" style="color:#8892b0; margin-bottom: 30px;"></p>
+        <h2 id="skillTitle" style="color:#d4af37"></h2>
         <div class="grid-videos" id="videoGrid"></div>
         <br><br>
-        <button class="btn" onclick="location.reload()" style="background:#1a2436; color:#fff;">العودة للرئيسية</button>
+        <button class="btn" onclick="location.reload()" style="background:#1a2436; color:#fff;">العودة</button>
     </div>
 </div>
 
 <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
 <script>
+    // تم استبدال الروابط المعطلة بروابط تدعم العرض الخارجي (Embed)
     const database = {
         "A1-LISTENING": { 
-            title: "Listening Mastery (Native Speakers)", 
-            desc: "تدريبات استماع مكثفة بلكنات بريطانية وأمريكية واضحة.",
-            videos: ["IuS5S_uYp0I", "uDDe9v9VpXw", "W8u_XreP730", "7p6_m2A7kCQ", "9m_v_pS-Duo"] 
+            title: "Listening Mastery", 
+            videos: ["9658pndWbB0", "7p6_m2A7kCQ", "h0pS_S8O_Yk", "7Y7W9C_C7_k", "fP_jH0Xm5E4"] 
         },
         "A1-READING": { 
-            title: "Reading & Vocabulary", 
-            desc: "تعلم استراتيجيات القراءة وفهم النصوص مع خبراء اللغة.",
+            title: "Reading Strategies", 
             videos: ["N_pE0uI7t28", "8X_2L9-0Y_0", "sM4_6_pS_eE", "hl9p_vXfXyI", "6Wp7_rX-uUo"] 
         },
         "A1-WRITING": { 
-            title: "Effective Writing Strategies", 
-            desc: "كيف تكتب جملك الأولى وتصيغ أفكارك بوضوح واحترافية.",
-            videos: ["hG6_S8u9XyI", "y9m_S_pX9eE", "S8p_uW9XyI0", "Wp7_rX9eE-u", "hL9p_vXfXyI"] 
+            title: "Writing Mastery", 
+            videos: ["hG6_S8u9XyI", "d-W09W4E-S8", "j8H4HPHd1_c", "0_eiQFV8UA0", "AGEOQR2nrjk"] 
         },
         "A1-SPEAKING": { 
-            title: "Native Speaking Confidence", 
-            desc: "تدرب على النطق الصحيح والمحادثات اليومية مع مدربين أمريكيين وبريطانيين.",
-            videos: ["12m_pS-Duo9", "sM4_6_pS_eE", "W8u_XreP730", "7p6_m2A7kCQ", "IuS5S_uYp0I"] 
+            title: "Speaking Confidence", 
+            videos: ["o3F8TLQBwdE", "iG9_p-rMuwY", "hpkxUKHrvRk", "P2X_vU_aB_U", "1S_pS_S8_Yk"] 
         }
     };
 
@@ -74,7 +67,6 @@
             document.getElementById('loginSection').classList.add('hidden');
             document.getElementById('contentSection').classList.remove('hidden');
             document.getElementById('skillTitle').innerText = data.title;
-            document.getElementById('skillDesc').innerText = data.desc;
 
             const grid = document.getElementById('videoGrid');
             grid.innerHTML = '';
@@ -93,7 +85,7 @@
                 youtube: { noCookie: true, rel: 0, showinfo: 0, iv_load_policy: 3, modestbranding: 1 }
             }));
         } else {
-            alert("الكود غير صحيح! يرجى التأكد من كتابة الكود بشكل صحيح (مثل: A1-LISTENING)");
+            alert("الكود غير صحيح!");
         }
     }
 </script>
