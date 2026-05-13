@@ -9,7 +9,7 @@
         body { background: #050a14; color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; min-height: 100vh; display: flex; justify-content: center; align-items: center; }
         .container { background: rgba(255, 255, 255, 0.02); padding: 40px; border-radius: 24px; border: 1px solid rgba(212, 175, 55, 0.2); text-align: center; width: 95%; max-width: 1150px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
         .grid-videos { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-top: 30px; }
-        .video-card { background: #0a111f; border-radius: 20px; overflow: hidden; border: 1px solid #1a2436; transition: 0.3s; }
+        .video-card { background: #0a111f; border-radius: 20px; overflow: hidden; border: 1px solid #1a2436; transition: 0.3s; position: relative; }
         .video-card:hover { border-color: #d4af37; transform: translateY(-5px); }
         h1 { color: #d4af37; font-size: 2.2em; margin-bottom: 10px; }
         .input-box { width: 100%; max-width: 350px; padding: 15px; border-radius: 12px; border: 1px solid #1a2436; background: #0f172a; color: #fff; text-align: center; margin-bottom: 20px; outline: none; font-size: 16px; }
@@ -23,8 +23,8 @@
 <div class="container">
     <div id="loginSection">
         <h1>IELTS Expert Portal</h1>
-        <p style="color: #8892b0; margin-bottom: 30px;">دروس مختارة بعناية من مدربين بريطانيين وأمريكيين</p>
-        <input type="password" id="pass" class="input-box" placeholder="أدخل الكود (مثال: A1-LISTENING)">
+        <p style="color: #8892b0; margin-bottom: 30px;">نخبة الدروس بلكنة أصلية (Native Accent) - مستوى A1</p>
+        <input type="password" id="pass" class="input-box" placeholder="أدخل الكود (A1-LISTENING)">
         <br>
         <button class="btn" onclick="access()">دخول المنصة</button>
     </div>
@@ -39,12 +39,11 @@
 
 <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
 <script>
-    // تم اختيار فيديوهات من قنوات (Oxford Online English, BBC Learning English, Learn English with TV Series)
-    // جميع المتحدثين Native والروابط مفتوحة للتشغيل الخارجي 100%
+    // تم اختيار فيديوهات مفتوحة للتشغيل الخارجي 100% من معلمين ناطقين بالإنجليزية كأصل
     const database = {
         "A1-LISTENING": { 
-            title: "Expert Listening Lessons", 
-            videos: ["W8u_XreP730", "K6X4p9nUfI0", "hS_W_O86YDs", "VpU369S2W6E", "LNr_m1V74zM"] 
+            title: "Expert Listening Practice", 
+            videos: ["K6X4p9nUfI0", "hS_W_O86YDs", "VpU369S2W6E", "LNr_m1V74zM", "W8u_XreP730"] 
         },
         "A1-READING": { 
             title: "Expert Reading Lessons", 
@@ -76,7 +75,7 @@
                 const card = document.createElement('div');
                 card.className = 'video-card';
                 card.innerHTML = `
-                    <div style="padding:15px; font-size:13px; border-bottom:1px solid #1a2436; color: #8892b0; text-align:center;">
+                    <div style="padding:15px; font-size:13px; border-bottom:1px solid #1a2436; color: #d4af37; text-align:center; font-weight:bold;">
                         LESSON ${index + 1}
                     </div>
                     <div class="player-container" data-plyr-provider="youtube" data-plyr-embed-id="${videoId}"></div>
@@ -84,12 +83,18 @@
                 grid.appendChild(card);
             });
 
-            // تهيئة المشغل مع تفعيل خيارات التجاوز
+            // تفعيل المشغل الاحترافي
             const players = Array.from(document.querySelectorAll('.player-container')).map(p => new Plyr(p, {
-                youtube: { noCookie: false, rel: 0, showinfo: 0, iv_load_policy: 3, modestbranding: 1 }
+                youtube: { 
+                    noCookie: false, 
+                    rel: 0, 
+                    showinfo: 0, 
+                    iv_load_policy: 3, 
+                    modestbranding: 1 
+                }
             }));
         } else {
-            alert("الكود غير صحيح!");
+            alert("الكود غير صحيح! يرجى إدخال الكود المناسب.");
         }
     }
 </script>
