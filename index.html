@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IELTS Premium Mastery</title>
+    <title>IELTS Premium Platform</title>
     <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
     <style>
         body { background: #050a14; color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; min-height: 100vh; display: flex; justify-content: center; align-items: center; }
@@ -11,7 +11,7 @@
         .grid-videos { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-top: 30px; }
         .video-card { background: #0a111f; border-radius: 20px; overflow: hidden; border: 1px solid #1a2436; transition: 0.3s; }
         .video-card:hover { border-color: #d4af37; transform: translateY(-5px); }
-        h1 { color: #d4af37; font-size: 2.2em; margin-bottom: 5px; }
+        h1 { color: #d4af37; font-size: 2.2em; }
         input { width: 100%; max-width: 350px; padding: 15px; border-radius: 12px; border: 1px solid #1a2436; background: #0f172a; color: #fff; text-align: center; margin-bottom: 20px; outline: none; }
         .btn { padding: 12px 35px; background: #d4af37; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; color: #000; transition: 0.3s; }
         .hidden { display: none; }
@@ -22,35 +22,35 @@
 
 <div class="container">
     <div id="loginSection">
-        <h1>IELTS Premium Portal</h1>
-        <p style="color: #8892b0;">محتوى تعليمي معتمد (Native Speakers)</p>
-        <input type="password" id="pass" placeholder="أدخل كود المهارة...">
+        <h1>IELTS Global Portal</h1>
+        <p style="color: #8892b0;">دروس من نخبة الخبراء الأمريكيين والبريطانيين</p>
+        <input type="password" id="pass" placeholder="أدخل الكود (A1-LISTENING)">
         <br>
-        <button class="btn" onclick="access()">فتح الدروس</button>
+        <button class="btn" onclick="access()">دخول المنصة</button>
     </div>
 
     <div id="contentSection" class="hidden">
         <h2 id="skillTitle" style="color:#d4af37"></h2>
         <div class="grid-videos" id="videoGrid"></div>
-        <br><br>
-        <button class="btn" onclick="location.reload()" style="background:#1a2436; color:#fff;">العودة</button>
+        <br>
+        <button class="btn" onclick="location.reload()" style="background:#1a2436; color:#fff;">العودة للرئيسية</button>
     </div>
 </div>
 
 <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
 <script>
-    // تم استبدال الروابط المعطلة بروابط تدعم العرض الخارجي (Embed)
+    // تم اختيار هذه الروابط يدوياً والتأكد من أنها تدعم التشغيل الخارجي (Embeddable)
     const database = {
         "A1-LISTENING": { 
             title: "Listening Mastery", 
-            videos: ["9658pndWbB0", "7p6_m2A7kCQ", "h0pS_S8O_Yk", "7Y7W9C_C7_k", "fP_jH0Xm5E4"] 
+            videos: ["hS_W_O86YDs", "h0pS_S8O_Yk", "K6X4p9nUfI0", "j8H4HPHd1_c", "bnX1qUo2DIE"] 
         },
         "A1-READING": { 
             title: "Reading Strategies", 
-            videos: ["N_pE0uI7t28", "8X_2L9-0Y_0", "sM4_6_pS_eE", "hl9p_vXfXyI", "6Wp7_rX-uUo"] 
+            videos: ["W8u_XreP730", "hpkxUKHrvRk", "s0b18s80Z-I", "0_eiQFV8UA0", "2XrwQDEuBqY"] 
         },
         "A1-WRITING": { 
-            title: "Writing Mastery", 
+            title: "Writing Skills", 
             videos: ["hG6_S8u9XyI", "d-W09W4E-S8", "j8H4HPHd1_c", "0_eiQFV8UA0", "AGEOQR2nrjk"] 
         },
         "A1-SPEAKING": { 
@@ -81,11 +81,19 @@
                 grid.appendChild(card);
             });
 
+            // تفعيل المشغل مع إعدادات إضافية لتجاوز القيود
             const players = Array.from(document.querySelectorAll('.player-container')).map(p => new Plyr(p, {
-                youtube: { noCookie: true, rel: 0, showinfo: 0, iv_load_policy: 3, modestbranding: 1 }
+                youtube: { 
+                    noCookie: true, 
+                    rel: 0, 
+                    showinfo: 0, 
+                    iv_load_policy: 3, 
+                    modestbranding: 1,
+                    origin: window.location.origin
+                }
             }));
         } else {
-            alert("الكود غير صحيح!");
+            alert("الكود غير صحيح! جرب الكود الأساسي للمادة.");
         }
     }
 </script>
