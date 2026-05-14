@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>أكاديمية IELTS التفاعلية - د. مصطفى</title>
+    <title>أكاديمية IELTS التفاعلية - النسخة الذهبية</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;900&display=swap');
@@ -12,116 +12,164 @@
             --primary-dark: #000a14;
             --gold-matte: #c5a059;
             --gold-bright: #f1d279;
+            --gold-glow: rgba(197, 160, 89, 0.4);
             --glass: rgba(255, 255, 255, 0.03);
             --border-glass: rgba(197, 160, 89, 0.2);
         }
 
         body {
-            margin: 0; background-color: var(--primary-dark);
-            font-family: 'Cairo', sans-serif; color: #e0e0e0;
+            margin: 0; padding: 0;
+            background-color: var(--primary-dark);
+            background-image: radial-gradient(circle at 20% 30%, rgba(197, 160, 89, 0.05) 0%, transparent 40%),
+                              radial-gradient(circle at 80% 70%, rgba(197, 160, 89, 0.05) 0%, transparent 40%);
+            font-family: 'Cairo', sans-serif;
+            color: #e0e0e0;
+            min-height: 100vh;
         }
 
-        /* تنسيق الهيدر الجديد لضمان الوضوح */
-        header {
-            padding: 30px 20px;
-            text-align: center;
-            background: linear-gradient(to bottom, #001225, transparent);
-        }
+        header { padding: 40px 20px; text-align: center; }
 
-        .logo-wrapper {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 25px;
-            max-width: 600px;
+        .header-logo-container {
+            max-width: 500px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 10px;
             background: var(--glass);
             border: 1px solid var(--border-glass);
             border-radius: 20px;
             backdrop-filter: blur(10px);
         }
 
-        .logo-wrapper img {
-            height: 65px; /* تحديد الارتفاع بدلاً من العرض يحافظ على الدقة */
-            width: auto;
+        .header-logo-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 12px;
+            /* تحسين حدة الصورة برمجياً */
             image-rendering: -webkit-optimize-contrast;
-            filter: drop-shadow(0 0 5px rgba(0,0,0,0.5));
+            image-rendering: crisp-edges;
         }
 
-        .separator {
-            font-size: 24px;
-            color: var(--gold-matte);
-            font-weight: 300;
-        }
+        .container { max-width: 1100px; margin: 0 auto 100px; padding: 0 20px; }
 
-        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .info-cards {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 30px 0;
+        }
+        .info-item {
+            background: var(--glass); border: 1px solid var(--border-glass);
+            padding: 12px; border-radius: 12px; text-align: center;
+            font-size: 0.85rem; color: var(--gold-bright);
+        }
 
         .skills-nav {
-            display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin: 30px 0;
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 40px;
         }
 
         .skill-box {
             background: var(--glass); border: 1px solid var(--border-glass);
-            border-radius: 15px; padding: 20px 10px; cursor: pointer;
-            text-align: center; transition: 0.3s;
+            border-radius: 20px; padding: 25px 10px; cursor: pointer;
+            transition: 0.4s; text-align: center;
         }
+
+        .skill-box i { font-size: 2rem; color: var(--gold-matte); margin-bottom: 10px; display: block; }
+        .skill-box span { font-weight: 700; font-size: 0.9rem; }
 
         .skill-box.active {
             background: rgba(197, 160, 89, 0.15);
             border-color: var(--gold-bright);
+            box-shadow: 0 0 15px var(--gold-glow);
         }
 
         .content-panel {
             background: var(--glass); border: 1px solid var(--border-glass);
-            border-radius: 25px; padding: 30px; display: none;
+            border-radius: 30px; padding: 30px; display: none;
+            backdrop-filter: blur(20px);
         }
-        .content-panel.active { display: block; }
+        .content-panel.active { display: block; animation: fadeIn 0.5s ease; }
+
+        .lesson-tile {
+            background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);
+            padding: 20px; border-radius: 15px; display: flex; justify-content: space-between;
+            align-items: center; margin-bottom: 10px;
+        }
+
+        .play-circle {
+            width: 40px; height: 40px; background: var(--gold-matte);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            color: var(--primary-dark);
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        @media (max-width: 768px) {
+            .skills-nav { grid-template-columns: repeat(2, 1fr); }
+            .info-cards { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="logo-wrapper">
-        <img src="https://res.cloudinary.com/dr3i6fqai/image/upload/v1715725791/51talk_logo.png" alt="51Talk">
-        <div class="separator">✕</div>
-        <img src="https://res.cloudinary.com/dr3i6fqai/image/upload/v1715725791/ielts_logo.png" alt="IELTS">
+    <div class="header-logo-container">
+        <img src="https://res.cloudinary.com/dr3i6fqai/image/upload/f_auto,q_auto:best/v1778798404/117_z6fozk.png" alt="51Talk x IELTS Interactive">
     </div>
-    <h2 style="color: var(--gold-bright); margin-top: 20px;">أكاديمية د. مصطفى IELTS</h2>
-    <p style="color: var(--gold-matte);">منصة التعليم التفاعلي الذكية</p>
+    <p style="color: var(--gold-matte); margin-top: 15px; font-weight: 700;">منصة التعليم التفاعلي الذكية - د. مصطفى</p>
 </header>
 
 <div class="container">
+    <div class="info-cards">
+        <div class="info-item"><i class="fas fa-gem"></i> Gold Edition</div>
+        <div class="info-item"><i class="fas fa-shield-alt"></i> وصول كامل 24/7</div>
+        <div class="info-item"><i class="fas fa-graduation-cap"></i> محتوى معتمد</div>
+    </div>
+
     <div class="skills-nav">
-        <div class="skill-box active" onclick="showTab('listening', this)">
-            <i class="fas fa-headphones"></i><br>استماع
+        <div class="skill-box active" onclick="openSkill('listening', this)">
+            <i class="fas fa-headphones"></i><span>الاستماع</span>
         </div>
-        <div class="skill-box" onclick="showTab('reading', this)">
-            <i class="fas fa-book-open"></i><br>قراءة
+        <div class="skill-box" onclick="openSkill('reading', this)">
+            <i class="fas fa-book-open"></i><span>القراءة</span>
         </div>
-        <div class="skill-box" onclick="showTab('writing', this)">
-            <i class="fas fa-pen"></i><br>كتابة
+        <div class="skill-box" onclick="openSkill('writing', this)">
+            <i class="fas fa-pen"></i><span>الكتابة</span>
         </div>
-        <div class="skill-box" onclick="showTab('speaking', this)">
-            <i class="fas fa-comments"></i><br>محادثة
+        <div class="skill-box" onclick="openSkill('speaking', this)">
+            <i class="fas fa-comments"></i><span>المحادثة</span>
         </div>
     </div>
 
     <div id="listening" class="content-panel active">
-        <h3>دروس مهارة الاستماع</h3>
-        <p>المحتوى المخصص لطلاب النخبة...</p>
+        <h3 style="color: var(--gold-bright);">دروس مهارة الاستماع</h3>
+        <div class="lesson-tile">
+            <span>الدرس 1: مقدمة وشرح عام</span>
+            <div class="play-circle"><i class="fas fa-play"></i></div>
+        </div>
     </div>
-    <div id="reading" class="content-panel"><h3>دروس مهارة القراءة</h3></div>
-    <div id="writing" class="content-panel"><h3>دروس مهارة الكتابة</h3></div>
-    <div id="speaking" class="content-panel"><h3>دروس مهارة المحادثة</h3></div>
+
+    <div id="reading" class="content-panel">
+        <h3 style="color: var(--gold-bright);">دروس مهارة القراءة</h3>
+        <p>المحتوى سيظهر هنا قريباً...</p>
+    </div>
+
+    <div id="writing" class="content-panel">
+        <h3 style="color: var(--gold-bright);">دروس مهارة الكتابة</h3>
+        <p>المحتوى سيظهر هنا قريباً...</p>
+    </div>
+
+    <div id="speaking" class="content-panel">
+        <h3 style="color: var(--gold-bright);">دروس مهارة المحادثة</h3>
+        <p>المحتوى سيظهر هنا قريباً...</p>
+    </div>
 </div>
 
 <script>
-    function showTab(id, btn) {
+    function openSkill(id, element) {
+        // إخفاء جميع اللوحات
         document.querySelectorAll('.content-panel').forEach(p => p.classList.remove('active'));
+        // إلغاء تفعيل جميع الأزرار
         document.querySelectorAll('.skill-box').forEach(b => b.classList.remove('active'));
+        // إظهار اللوحة المطلوبة وتفعيل زرها
         document.getElementById(id).classList.add('active');
-        btn.classList.add('active');
+        element.classList.add('active');
     }
 </script>
 
