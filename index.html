@@ -27,10 +27,10 @@
             min-height: 100vh;
         }
 
-        header { padding: 50px 20px; text-align: center; }
+        header { padding: 40px 20px; text-align: center; }
 
         .header-logo-container {
-            max-width: 550px; margin: 0 auto; padding: 15px;
+            max-width: 500px; margin: 0 auto; padding: 15px;
             background: var(--glass); border: 1px solid var(--border-glass);
             border-radius: 20px; backdrop-filter: blur(10px);
         }
@@ -39,70 +39,67 @@
 
         .container { max-width: 1100px; margin: 0 auto 100px; padding: 0 20px; }
 
-        .skills-nav { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin: 50px 0; }
+        .skills-nav { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin: 40px 0; }
 
         .skill-box {
             background: var(--glass); border: 1px solid var(--border-glass);
-            border-radius: 25px; padding: 35px 20px; cursor: pointer;
+            border-radius: 20px; padding: 25px 15px; cursor: pointer;
             transition: 0.4s; text-align: center;
         }
 
         .skill-box.active {
             border-color: var(--gold-bright); background: rgba(197, 160, 89, 0.1);
-            box-shadow: 0 0 20px var(--gold-glow);
+            box-shadow: 0 0 15px var(--gold-glow);
         }
 
         .content-panel {
             background: var(--glass); border: 1px solid var(--border-glass);
-            border-radius: 35px; padding: 40px; display: none; backdrop-filter: blur(20px);
+            border-radius: 30px; padding: 30px; display: none; backdrop-filter: blur(20px);
         }
-        .content-panel.active { display: block; animation: fadeIn 0.5s ease; }
+        .content-panel.active { display: block; }
 
         .lesson-tile {
             background: rgba(255,255,255,0.02); border: 1px solid var(--border-glass);
-            padding: 25px; border-radius: 20px; display: flex; justify-content: space-between;
-            align-items: center; margin-bottom: 15px; cursor: pointer; transition: 0.3s;
+            padding: 20px; border-radius: 15px; display: flex; justify-content: space-between;
+            align-items: center; margin-bottom: 12px; cursor: pointer; transition: 0.3s;
         }
 
         .lesson-tile:hover { background: rgba(197, 160, 89, 0.1); border-color: var(--gold-bright); }
 
         .play-circle {
-            width: 50px; height: 50px; background: var(--gold-matte);
+            width: 45px; height: 45px; background: var(--gold-matte);
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            color: var(--primary-dark); font-size: 1.1rem;
+            color: var(--primary-dark); font-size: 1rem;
         }
 
-        /* --- تصميم مشغل الفيديو المنبثق للملفات المحلية --- */
+        /* --- تصميم مشغل الفيديو المنبثق (كما في الصورة الأخيرة) --- */
         .video-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.9); display: none; justify-content: center;
-            align-items: center; z-index: 1000; backdrop-filter: blur(10px);
+            align-items: center; z-index: 1000; backdrop-filter: blur(8px);
         }
 
         .video-container {
-            width: 90%; max-width: 900px; position: relative;
-            border: 2px solid var(--gold-matte); border-radius: 15px; overflow: hidden;
-            background: #000;
+            width: 90%; max-width: 850px; position: relative;
+            border: 1px solid var(--gold-matte); border-radius: 15px; overflow: hidden;
+            background: #1a1a1a; box-shadow: 0 0 30px rgba(0,0,0,0.5);
         }
 
-        video { width: 100%; display: block; }
+        video { width: 100%; display: block; outline: none; }
 
-        .close-video {
-            position: absolute; top: 15px; right: 20px; color: white;
-            font-size: 25px; cursor: pointer; z-index: 1001; background: rgba(0,0,0,0.5);
-            padding: 5px 15px; border-radius: 10px;
+        .close-btn {
+            position: absolute; top: 10px; right: 15px; color: white;
+            background: rgba(0,0,0,0.6); padding: 5px 15px; border-radius: 8px;
+            cursor: pointer; font-size: 0.9rem; z-index: 1001; border: 1px solid var(--border-glass);
         }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        @media (max-width: 768px) { .skills-nav { grid-template-columns: repeat(2, 1fr); } }
+        .close-btn:hover { background: var(--gold-matte); color: var(--primary-dark); }
     </style>
 </head>
 <body>
 
 <header>
     <div class="header-logo-container">
-        <img src="https://res.cloudinary.com/dr3i6fqai/image/upload/v1778798404/117_z6fozk.png" alt="Logo">
+        <img src="logo.png" alt="IELTS Interactive Logo">
     </div>
 </header>
 
@@ -115,28 +112,36 @@
     </div>
 
     <div id="listening" class="content-panel active">
-        <h2 style="color: var(--gold-bright);">دروس الاستماع</h2>
+        <h3 style="color: var(--gold-bright); margin-bottom: 20px;">مكتبة الاستماع الذهبية</h3>
         
-        <div class="lesson-tile" onclick="openLocalVideo('intro.mp4')">
+        <div class="lesson-tile" onclick="playLocalVideo('intro.mp4')">
             <div>
-                <h3 style="margin:0;">الدرس الأول: مقدمة</h3>
-                <p style="margin:5px 0 0; color: #888;">ملف فيديو من المجلد المحلي</p>
+                <h4 style="margin:0;">مرحباً بك في المنصة التفاعلية</h4>
+                <p style="margin:5px 0 0; color: #888; font-size: 0.85rem;">مقدمة وشرح عام للمنصة</p>
+            </div>
+            <div class="play-circle"><i class="fas fa-play"></i></div>
+        </div>
+
+        <div class="lesson-tile" onclick="playLocalVideo('test_video.mp4')">
+            <div>
+                <h4 style="margin:0;">تجربة تشغيل فيديو 2</h4>
+                <p style="margin:5px 0 0; color: #888; font-size: 0.85rem;">اختبار الملفات المحلية</p>
             </div>
             <div class="play-circle"><i class="fas fa-play"></i></div>
         </div>
     </div>
 
-    <div id="reading" class="content-panel"><h2>قريباً...</h2></div>
-    <div id="writing" class="content-panel"><h2>قريباً...</h2></div>
-    <div id="speaking" class="content-panel"><h2>قريباً...</h2></div>
+    <div id="reading" class="content-panel"><h3>قريباً...</h3></div>
+    <div id="writing" class="content-panel"><h3>قريباً...</h3></div>
+    <div id="speaking" class="content-panel"><h3>قريباً...</h3></div>
 </div>
 
-<div id="videoOverlay" class="video-overlay">
-    <div class="video-container">
-        <span class="close-video" onclick="closeLocalVideo()">&times; إغلاق</span>
-        <video id="localVideoPlayer" controls controlsList="nodownload">
+<div id="videoOverlay" class="video-overlay" onclick="closeVideo()">
+    <div class="video-container" onclick="event.stopPropagation()">
+        <div class="close-btn" onclick="closeVideo()"><i class="fas fa-times"></i> إغلاق</div>
+        <video id="mainVideo" controls controlsList="nodownload">
             <source src="" type="video/mp4">
-            متصفحك لا يدعم تشغيل الفيديو.
+            المتصفح لا يدعم تشغيل هذا الفيديو.
         </video>
     </div>
 </div>
@@ -149,17 +154,17 @@
         element.classList.add('active');
     }
 
-    function openLocalVideo(fileName) {
+    function playLocalVideo(file) {
         const overlay = document.getElementById('videoOverlay');
-        const video = document.getElementById('localVideoPlayer');
-        video.src = fileName; // سيقرأ الملف من نفس مجلد الـ HTML
+        const video = document.getElementById('mainVideo');
+        video.src = file; // يقرأ من نفس المجلد
         overlay.style.display = 'flex';
         video.play();
     }
 
-    function closeLocalVideo() {
+    function closeVideo() {
         const overlay = document.getElementById('videoOverlay');
-        const video = document.getElementById('localVideoPlayer');
+        const video = document.getElementById('mainVideo');
         video.pause();
         video.src = "";
         overlay.style.display = 'none';
