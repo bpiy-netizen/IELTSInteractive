@@ -3,199 +3,235 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>أكاديمية د. مصطفى IELTS - Elite Edition</title>
+    <title>أكاديمية د. مصطفى IELTS - النسخة النخبوية</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;900&display=swap');
+
         :root {
-            /* نظام ألوان البوستر: ذهبي وكحلي ملكي */
-            --bg-dark: #001225; /* كحلي ملكي داكن جداً */
-            --gold-light: #f6e07d;
-            --gold-main: #c9a050; /* ذهبي معتدل */
-            --gold-dark: #8c7035;
-            --glass-bg: rgba(0, 18, 37, 0.9); /* زجاجي مظلم */
-            --text-gold: #fdf5d6;
-            --main-gradient: linear-gradient(135deg, #001225 0%, #001c3d 100%);
-            --shadow-gold: 0 10px 25px rgba(201, 160, 80, 0.15);
+            --primary-dark: #000a14;
+            --secondary-dark: #001225;
+            --gold-matte: #c5a059;
+            --gold-bright: #f1d279;
+            --gold-glow: rgba(197, 160, 89, 0.4);
+            --glass: rgba(255, 255, 255, 0.03);
+            --border-glass: rgba(197, 160, 89, 0.2);
         }
 
         body {
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-dark);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: var(--text-gold);
+            margin: 0; padding: 0;
+            background-color: var(--primary-dark);
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(197, 160, 89, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(197, 160, 89, 0.05) 0%, transparent 40%);
+            font-family: 'Cairo', sans-serif;
+            color: #e0e0e0;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        /* الهيدر الفخم */
+        /* هيدر احترافي */
         header {
-            background: var(--main-gradient);
-            color: var(--gold-light);
-            padding: 40px 20px;
+            padding: 80px 20px;
             text-align: center;
-            border-radius: 0 0 50px 50px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            border-bottom: 2px solid var(--gold-dark);
+            background: linear-gradient(to bottom, #001225, transparent);
+            position: relative;
         }
 
-        header h1 { font-size: 2.5rem; margin: 0; letter-spacing: 1px; }
-        header p { opacity: 0.9; font-size: 1.1rem; margin-top: 10px; color: var(--gold-light); }
-
-        .container { max-width: 1000px; margin: -40px auto 50px; padding: 0 20px; }
-
-        /* لوحة التحكم (الذهبية) */
-        .stats-bar {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px; margin-bottom: 30px;
+        .logo-area img { width: 120px; filter: drop-shadow(0 0 10px var(--gold-glow)); }
+        
+        header h1 {
+            font-weight: 900; font-size: 3rem; margin: 10px 0;
+            background: linear-gradient(135deg, var(--gold-bright), var(--gold-matte));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5));
         }
 
-        .stat-card {
-            background: var(--glass-bg); padding: 15px; border-radius: 20px;
-            text-align: center; box-shadow: var(--shadow-gold);
-            border: 1px solid var(--gold-dark); color: var(--gold-light);
+        header p { color: var(--gold-matte); font-size: 1.2rem; letter-spacing: 2px; text-transform: uppercase; }
+
+        .container { max-width: 1100px; margin: -40px auto 100px; padding: 0 20px; }
+
+        /* الأزرار العلوية */
+        .info-cards {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 50px;
+        }
+        .info-item {
+            background: var(--glass); border: 1px solid var(--border-glass);
+            padding: 15px; border-radius: 15px; text-align: center;
+            font-size: 0.9rem; color: var(--gold-bright); backdrop-filter: blur(10px);
         }
 
-        /* قائمة المهارات (تطابق مع البوستر) */
-        .skills-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px; margin-bottom: 40px;
+        /* شبكة المهارات - التطور الأكبر */
+        .skills-nav {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 60px;
         }
 
-        .skill-btn {
-            background: var(--glass-bg); border: 2px solid var(--gold-dark); padding: 25px; border-radius: 25px;
-            cursor: pointer; transition: all 0.4s ease;
+        .skill-box {
+            background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+            border: 1px solid var(--border-glass); border-radius: 25px;
+            padding: 35px 20px; cursor: pointer; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex; flex-direction: column; align-items: center; gap: 15px;
-            box-shadow: var(--shadow-gold);
+            position: relative; overflow: hidden;
         }
 
-        .skill-btn i { font-size: 2.5rem; color: var(--gold-light); }
-        .skill-btn span { font-weight: bold; font-size: 1.2rem; color: var(--gold-light); }
-
-        .skill-btn:hover, .skill-btn.active {
-            background: var(--gold-main); transform: translateY(-10px);
-            border-color: var(--gold-light);
+        .skill-box::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--gold-matte); opacity: 0; transition: 0.5s; z-index: 0;
         }
-        .skill-btn:hover i, .skill-btn:hover span, .skill-btn.active i, .skill-btn.active span { color: var(--bg-dark); }
 
-        /* قسم الدروس المظلم */
-        .lessons-container {
-            background: var(--glass-bg); backdrop-filter: blur(10px);
-            border-radius: 30px; padding: 30px; display: none;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            border: 1px solid var(--gold-dark);
+        .skill-box i { font-size: 2.5rem; color: var(--gold-matte); position: relative; z-index: 1; transition: 0.5s; }
+        .skill-box span { font-weight: 700; color: white; position: relative; z-index: 1; transition: 0.5s; }
+
+        .skill-box:hover, .skill-box.active {
+            transform: translateY(-15px);
+            border-color: var(--gold-bright);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 20px var(--gold-glow);
         }
-        .lessons-container.active { display: block; animation: fadeInUp 0.6s ease; }
 
-        .lesson-card {
-            background: rgba(255, 255, 255, 0.03); margin-bottom: 15px; padding: 20px;
-            border-radius: 20px; display: flex; justify-content: space-between;
-            align-items: center; transition: 0.3s; border: 1px solid rgba(255, 255, 255, 0.1);
-            cursor: pointer;
+        .skill-box.active i, .skill-box.active span { color: var(--gold-bright); }
+        .skill-box.active { background: rgba(197, 160, 89, 0.1); }
+
+        /* منطقة المحتوى */
+        .content-panel {
+            background: var(--glass); border: 1px solid var(--border-glass);
+            border-radius: 35px; padding: 40px; display: none;
+            backdrop-filter: blur(20px); box-shadow: 0 30px 60px rgba(0,0,0,0.5);
         }
-        .lesson-card:hover { border-color: var(--gold-main); background: rgba(255, 255, 255, 0.05); padding-right: 30px; }
+        .content-panel.active { display: block; animation: slideUp 0.8s ease forwards; }
 
-        .play-btn { 
-            background: var(--gold-main); color: var(--bg-dark); width: 45px; height: 45px; 
+        .lesson-tile {
+            background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);
+            padding: 25px; border-radius: 20px; display: flex; justify-content: space-between;
+            align-items: center; margin-bottom: 15px; transition: 0.4s;
+        }
+
+        .lesson-tile:hover {
+            background: rgba(197, 160, 89, 0.08); border-color: var(--gold-matte);
+            transform: scale(1.02);
+        }
+
+        .play-circle {
+            width: 55px; height: 55px; background: var(--gold-matte);
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            color: var(--primary-dark); font-size: 1.2rem; transition: 0.4s;
+            box-shadow: 0 0 15px var(--gold-glow);
         }
 
-        /* نافذة الفيديو (Modal) المظلمة */
-        .video-modal {
-            position: fixed; top:0; left:0; width:100%; height:100%;
-            background: rgba(0,0,0,0.95); display:none; z-index: 1000;
-            align-items: center; justify-content: center; padding: 20px;
-        }
-        .modal-content { width: 100%; max-width: 800px; position: relative; }
-        video { width: 100%; border-radius: 20px; box-shadow: 0 0 50px rgba(201, 160, 80, 0.3); border: 2px solid var(--gold-main); }
-        .close-modal { 
-            position: absolute; top: -50px; right: 0; color: var(--gold-light); 
-            font-size: 2rem; cursor: pointer; 
+        .lesson-tile:hover .play-circle { background: var(--gold-bright); transform: rotate(360deg); }
+
+        /* مشغل الفيديو السينمائي */
+        .video-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.98); display: none; z-index: 9999;
+            align-items: center; justify-content: center;
         }
 
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
+        .video-wrapper { width: 90%; max-width: 1000px; position: relative; }
+        video { width: 100%; border-radius: 20px; border: 1px solid var(--gold-matte); box-shadow: 0 0 50px rgba(197, 160, 89, 0.2); }
+        
+        .close-vid {
+            position: absolute; top: -60px; right: 0; color: white;
+            cursor: pointer; font-size: 1.5rem; background: var(--gold-matte);
+            padding: 10px 25px; border-radius: 10px; color: var(--primary-dark); font-weight: bold;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .skills-nav { grid-template-columns: repeat(2, 1fr); }
+            .info-cards { grid-template-columns: 1fr; }
+            header h1 { font-size: 2rem; }
         }
     </style>
 </head>
 <body>
 
 <header>
-    <h1><i class="fas fa-graduation-cap"></i> أكاديمية د. مصطفى IELTS التفاعلية</h1>
-    <p>هدية التميز ووصول كامل لطلابنا النخبة</p>
+    <div class="logo-area">
+        <i class="fas fa-crown" style="font-size: 3rem; color: var(--gold-matte); margin-bottom: 20px;"></i>
+    </div>
+    <h1>أكاديمية د. مصطفى IELTS</h1>
+    <p>بوابتك النخبوية نحو العالمية</p>
 </header>
 
 <div class="container">
-    <div class="stats-bar">
-        <div class="stat-card"><strong>4</strong> المهارات الأساسية</div>
-        <div class="stat-card"><strong>CEFR</strong> محتوى مخصص لجميع المستويات</div>
-        <div class="stat-card"><strong>Gold Edition</strong> نسخة نخبوية</div>
+    <div class="info-cards">
+        <div class="info-item"><i class="fas fa-shield-alt"></i> وصول كامل 24/7</div>
+        <div class="info-item"><i class="fas fa-gem"></i> نسخة Gold Edition</div>
+        <div class="info-item"><i class="fas fa-graduation-cap"></i> محتوى CEFR معتمد</div>
     </div>
 
-    <div class="skills-grid">
-        <button class="skill-btn active" onclick="showSkill('listening', this)">
-            <i class="fas fa-headset"></i><span>الاستماع (Listening)</span>
-        </button>
-        <button class="skill-btn" onclick="showSkill('reading', this)">
-            <i class="fas fa-book-reader"></i><span>القراءة (Reading)</span>
-        </button>
-        <button class="skill-btn" onclick="showSkill('writing', this)">
-            <i class="fas fa-pen-fancy"></i><span>الكتابة (Writing)</span>
-        </button>
-        <button class="skill-btn" onclick="showSkill('speaking', this)">
-            <i class="fas fa-microphone-alt"></i><span>المحادثة (Speaking)</span>
-        </button>
-    </div>
-
-    <div id="listening" class="lessons-container active">
-        <h2 style="margin-top:0; color:var(--gold-light);"><i class="fas fa-play-circle"></i> دروس الاستماع - للمبتدئين B1-B2</h2>
-        <div class="lesson-card" onclick="openVideo('L1', 'final projet 1.mov', 'الدرس الأول: مقدمة وتعريف بالمنصة التفاعلية')">
-            <div>
-                <strong style="display:block; font-size:1.1rem; color: var(--gold-light);">مرحباً بك في المنصة</strong>
-                <small style="color:var(--text-gold);">اضغط لبدء الفيديو التجريبي</small>
-            </div>
-            <div class="play-btn"><i class="fas fa-play"></i></div>
+    <div class="skills-nav">
+        <div class="skill-box active" onclick="openSkill('listening', this)">
+            <i class="fas fa-headphones-alt"></i><span>الاستماع</span>
+        </div>
+        <div class="skill-box" onclick="openSkill('reading', this)">
+            <i class="fas fa-book-open"></i><span>القراءة</span>
+        </div>
+        <div class="skill-box" onclick="openSkill('writing', this)">
+            <i class="fas fa-pen-nib"></i><span>الكتابة</span>
+        </div>
+        <div class="skill-box" onclick="openSkill('speaking', this)">
+            <i class="fas fa-users"></i><span>المحادثة</span>
         </div>
     </div>
 
-    <div id="reading" class="lessons-container"><h2 style="text-align:center; color:var(--gold-main);">(A1-A2) قريباً... مكتبة القراءة</h2></div>
-    <div id="writing" class="lesson-container"><h2 style="text-align:center; color:var(--gold-main);">قريباً... أسرار الكتابة</h2></div>
-    <div id="speaking" class="lessons-container"><h2 style="text-align:center; color:var(--gold-main);">قريباً... تدريبات المحادثة التفاعلية</h2></div>
+    <div id="listening" class="content-panel active">
+        <h2 style="color: var(--gold-bright); margin-bottom: 30px;">مكتبة الاستماع الذهبية</h2>
+        
+        <div class="lesson-tile" onclick="startVideo('L1', 'final projet 1.mov', 'الدرس الترحيبي: كيف تحقق 8.5 في الاستماع؟')">
+            <div>
+                <h3 style="margin:0; color: white;">مرحباً بك في المنصة التفاعلية</h3>
+                <p style="margin:5px 0 0; color: #888; font-size: 0.9rem;">اضغط لمشاهدة فيديو البداية</p>
+            </div>
+            <div class="play-circle"><i class="fas fa-play"></i></div>
+        </div>
+
+        <div class="lesson-tile" style="opacity: 0.5; cursor: not-allowed;">
+            <div>
+                <h3 style="margin:0; color: white;">الدرس القادم: استراتيجيات التوقع</h3>
+                <p style="margin:5px 0 0; color: #888; font-size: 0.9rem;">يتم الرفع حالياً...</p>
+            </div>
+            <i class="fas fa-lock" style="color: var(--gold-matte);"></i>
+        </div>
+    </div>
+
+    <div id="reading" class="content-panel"><h2 style="text-align:center;">قريباً في مكتبة القراءة</h2></div>
+    <div id="writing" class="content-panel"><h2 style="text-align:center;">قريباً في مكتبة الكتابة</h2></div>
+    <div id="speaking" class="content-panel"><h2 style="text-align:center;">قريباً في مكتبة المحادثة</h2></div>
 </div>
 
-<div class="video-modal" id="videoModal">
-    <div class="modal-content">
-        <span class="close-modal" onclick="closeVideo()">&times; إغلاق</span>
-        <video id="mainPlayer" controls playsinline></video>
-        <h3 id="modalTitle" style="color:var(--gold-light); text-align:center; margin-top:15px;"></h3>
+<div class="video-overlay" id="vidOverlay">
+    <div class="video-wrapper">
+        <div class="close-vid" onclick="stopVideo()">إغلاق X</div>
+        <video id="videoPlayer" controls playsinline></video>
+        <h3 id="vidHeader" style="text-align: center; color: var(--gold-bright); margin-top: 20px;"></h3>
     </div>
 </div>
 
 <script>
-    function showSkill(id, btn) {
-        document.querySelectorAll('.lessons-container').forEach(c => c.classList.remove('active'));
-        document.querySelectorAll('.skill-btn').forEach(b => b.classList.remove('active'));
+    function openSkill(id, element) {
+        document.querySelectorAll('.content-panel').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.skill-box').forEach(b => b.classList.remove('active'));
         document.getElementById(id).classList.add('active');
-        btn.classList.add('active');
+        element.classList.add('active');
     }
 
-    function openVideo(folder, file, title) {
-        const cloudName = "dr3i6fqai";
-        const url = `https://res.cloudinary.com/${cloudName}/video/upload/f_auto,q_auto/${folder}/${file}`;
-        const modal = document.getElementById('videoModal');
-        const player = document.getElementById('mainPlayer');
-        
-        document.getElementById('modalTitle').innerText = title;
+    function startVideo(folder, file, title) {
+        const url = `https://res.cloudinary.com/dr3i6fqai/video/upload/f_auto,q_auto/${folder}/${file}`;
+        const player = document.getElementById('videoPlayer');
+        document.getElementById('vidHeader').innerText = title;
         player.src = url;
-        modal.style.display = 'flex';
+        document.getElementById('vidOverlay').style.display = 'flex';
         player.play();
     }
 
-    function closeVideo() {
-        const modal = document.getElementById('videoModal');
-        const player = document.getElementById('mainPlayer');
-        modal.style.display = 'none';
-        player.pause();
+    function stopVideo() {
+        document.getElementById('vidOverlay').style.display = 'none';
+        document.getElementById('videoPlayer').pause();
     }
 </script>
 
