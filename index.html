@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>أكاديمية IELTS التفاعلية - النسخة الملكية</title>
+    <title>أكاديمية IELTS التفاعلية - النسخة النخبوية</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;900&display=swap');
@@ -21,50 +21,42 @@
         body {
             margin: 0; padding: 0;
             background-color: var(--primary-dark);
-            background-image: 
-                radial-gradient(circle at 20% 30%, rgba(197, 160, 89, 0.05) 0%, transparent 40%),
-                radial-gradient(circle at 80% 70%, rgba(197, 160, 89, 0.05) 0%, transparent 40%);
+            background-image: radial-gradient(circle at 20% 30%, rgba(197, 160, 89, 0.05) 0%, transparent 40%),
+                              radial-gradient(circle at 80% 70%, rgba(197, 160, 89, 0.05) 0%, transparent 40%);
             font-family: 'Cairo', sans-serif;
             color: #e0e0e0;
             min-height: 100vh;
-            overflow-x: hidden;
         }
 
-        /* هيدر يحتوي على شعار التعاون */
         header {
-            padding: 40px 20px;
+            padding: 50px 20px;
             text-align: center;
             background: linear-gradient(to bottom, #001225, transparent);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
         }
 
-        .partnership-logo {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 30px;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 20px 40px;
-            border-radius: 20px;
+        /* حاوية صورة التعاون */
+        .header-logo-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            background: var(--glass);
             border: 1px solid var(--border-glass);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
         }
 
-        .partnership-logo img {
-            height: 60px; /* يمكنك تعديل الحجم هنا */
-            filter: drop-shadow(0 0 5px rgba(255,255,255,0.2));
+        .header-logo-container img {
+            width: 100%;
+            height: auto;
+            display: block;
         }
 
-        .x-separator {
+        .sub-header-text {
             color: var(--gold-matte);
-            font-size: 1.5rem;
-            font-weight: bold;
+            font-size: 1.2rem;
+            margin-top: 20px;
+            font-weight: 700;
         }
-
-        header p { color: var(--gold-matte); font-size: 1.1rem; letter-spacing: 1px; margin-top: 15px; }
 
         .container { max-width: 1100px; margin: 20px auto 100px; padding: 0 20px; }
 
@@ -84,84 +76,53 @@
         .skill-box {
             background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
             border: 1px solid var(--border-glass); border-radius: 25px;
-            padding: 35px 20px; cursor: pointer; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 35px 20px; cursor: pointer; transition: all 0.4s ease;
             display: flex; flex-direction: column; align-items: center; gap: 15px;
-            position: relative; overflow: hidden;
         }
 
-        .skill-box i { font-size: 2.5rem; color: var(--gold-matte); transition: 0.5s; }
-        .skill-box span { font-weight: 700; color: white; transition: 0.5s; }
+        .skill-box i { font-size: 2.5rem; color: var(--gold-matte); }
+        .skill-box span { font-weight: 700; color: white; }
 
-        .skill-box:hover, .skill-box.active {
-            transform: translateY(-10px);
+        .skill-box.active {
             border-color: var(--gold-bright);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.4), 0 0 15px var(--gold-glow);
             background: rgba(197, 160, 89, 0.1);
+            box-shadow: 0 0 20px var(--gold-glow);
         }
-
-        .skill-box.active i, .skill-box.active span { color: var(--gold-bright); }
 
         .content-panel {
             background: var(--glass); border: 1px solid var(--border-glass);
             border-radius: 35px; padding: 40px; display: none;
-            backdrop-filter: blur(20px); box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+            backdrop-filter: blur(20px);
         }
-        .content-panel.active { display: block; animation: slideUp 0.8s ease forwards; }
+        .content-panel.active { display: block; animation: fadeIn 0.8s ease; }
 
         .lesson-tile {
             background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);
             padding: 25px; border-radius: 20px; display: flex; justify-content: space-between;
-            align-items: center; margin-bottom: 15px; transition: 0.4s; cursor: pointer;
-        }
-
-        .lesson-tile:hover {
-            background: rgba(197, 160, 89, 0.08); border-color: var(--gold-matte);
-            transform: scale(1.01);
+            align-items: center; margin-bottom: 15px; cursor: pointer;
         }
 
         .play-circle {
             width: 50px; height: 50px; background: var(--gold-matte);
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            color: var(--primary-dark); font-size: 1.1rem;
+            color: var(--primary-dark);
         }
 
-        .video-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.98); display: none; z-index: 9999;
-            align-items: center; justify-content: center;
-        }
-
-        .video-wrapper { width: 90%; max-width: 1000px; position: relative; }
-        video { width: 100%; border-radius: 20px; border: 1px solid var(--gold-matte); }
-        
-        .close-vid {
-            position: absolute; top: -50px; right: 0; color: var(--primary-dark);
-            cursor: pointer; background: var(--gold-matte);
-            padding: 8px 20px; border-radius: 8px; font-weight: bold;
-        }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         @media (max-width: 768px) {
             .skills-nav { grid-template-columns: repeat(2, 1fr); }
             .info-cards { grid-template-columns: 1fr; }
-            .partnership-logo { gap: 15px; padding: 15px; }
-            .partnership-logo img { height: 40px; }
         }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="partnership-logo">
-        <img src="https://res.cloudinary.com/dr3i6fqai/image/upload/v1715724123/51talk_logo.png" alt="51Talk Logo">
-        <div class="x-separator">✕</div>
-        <img src="https://res.cloudinary.com/dr3i6fqai/image/upload/v1715724123/ielts_logo.png" alt="IELTS Interactive Logo">
+    <div class="header-logo-container">
+        <img src="https://res.cloudinary.com/dr3i6fqai/image/upload/v1715725200/partnership_header.png" alt="51Talk x IELTS Interactive">
     </div>
-    <p>هدية التميز ووصول كامل لطلابنا النخبة</p>
+    <p class="sub-header-text">هدية التميز ووصول كامل لطلابنا النخبة</p>
 </header>
 
 <div class="container">
@@ -188,10 +149,10 @@
 
     <div id="listening" class="content-panel active">
         <h2 style="color: var(--gold-bright); margin-bottom: 30px;">مكتبة الاستماع الذهبية</h2>
-        <div class="lesson-tile" onclick="startVideo('L1', 'final projet 1.mov', 'الدرس الترحيبي: كيف تحقق 8.5 في الاستماع؟')">
+        <div class="lesson-tile">
             <div>
-                <h3 style="margin:0; color: white;">مرحباً بك في المنصة التفاعلية</h3>
-                <p style="margin:5px 0 0; color: #888; font-size: 0.9rem;">اضغط لمشاهدة فيديو البداية</p>
+                <h3 style="margin:0; color: white;">الدرس الأول: مقدمة وشرح عام</h3>
+                <p style="margin:5px 0 0; color: #888;">استعراض مميزات الموقع والدروس</p>
             </div>
             <div class="play-circle"><i class="fas fa-play"></i></div>
         </div>
@@ -202,34 +163,12 @@
     <div id="speaking" class="content-panel"><h2 style="text-align:center;">قريباً...</h2></div>
 </div>
 
-<div class="video-overlay" id="vidOverlay">
-    <div class="video-wrapper">
-        <div class="close-vid" onclick="stopVideo()">إغلاق X</div>
-        <video id="videoPlayer" controls playsinline></video>
-        <h3 id="vidHeader" style="text-align: center; color: var(--gold-bright); margin-top: 20px;"></h3>
-    </div>
-</div>
-
 <script>
     function openSkill(id, element) {
         document.querySelectorAll('.content-panel').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.skill-box').forEach(b => b.classList.remove('active'));
         document.getElementById(id).classList.add('active');
         element.classList.add('active');
-    }
-
-    function startVideo(folder, file, title) {
-        const url = `https://res.cloudinary.com/dr3i6fqai/video/upload/f_auto,q_auto/${folder}/${file}`;
-        const player = document.getElementById('videoPlayer');
-        document.getElementById('vidHeader').innerText = title;
-        player.src = url;
-        document.getElementById('vidOverlay').style.display = 'flex';
-        player.play();
-    }
-
-    function stopVideo() {
-        document.getElementById('vidOverlay').style.display = 'none';
-        document.getElementById('videoPlayer').pause();
     }
 </script>
 
