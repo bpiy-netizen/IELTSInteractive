@@ -2,68 +2,79 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>منصة IELTS التفاعلية - د. مصطفى</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أكاديمية IELTS - د. مصطفى</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; background-color: #f4f4f9; padding: 50px; }
-        .search-box { margin-bottom: 30px; }
-        input { padding: 10px; width: 250px; border-radius: 5px; border: 1px solid #ccc; }
-        button { padding: 10px 20px; background-color: #28a745; color: white; border: none; cursor: pointer; border-radius: 5px; }
-        #videoContainer { margin-top: 20px; display: none; }
-        video { border: 5px solid #fff; box-shadow: 0 0 10px rgba(0,0,0,0.1); border-radius: 10px; }
+        :root { --primary: #2c3e50; --secondary: #3498db; --bg: #f4f7f6; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg); margin: 0; padding: 20px; color: var(--primary); text-align: center; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .tabs { display: flex; justify-content: space-around; margin-bottom: 20px; border-bottom: 2px solid #eee; overflow-x: auto; }
+        .tab-btn { padding: 10px 20px; cursor: pointer; border: none; background: none; font-weight: bold; color: #999; transition: 0.3s; white-space: nowrap; }
+        .tab-btn.active { color: var(--secondary); border-bottom: 3px solid var(--secondary); }
+        .content-section { display: none; text-align: right; }
+        .content-section.active { display: block; animation: fadeIn 0.5s; }
+        .video-item { background: #f8f9fa; margin: 10px 0; padding: 15px; border-radius: 8px; cursor: pointer; display: flex; justify-content: space-between; transition: 0.2s; }
+        .video-item:hover { background: #eef2f7; transform: scale(1.01); }
+        .player-container { margin-top: 25px; display: none; }
+        video { width: 100%; border-radius: 10px; background: #000; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
-    <h1>بوابة دروس IELTS الذكية</h1>
-    <p>أدخل رمز المستوى (مثلاً: A1-LISTENING) لمشاهدة الدرس</p>
+<div class="container">
+    <h1>أكاديمية IELTS الذكية</h1>
+    <p>بوابة الدروس التفاعلية - د. مصطفى</p>
 
-    <div class="search-box">
-        <input type="text" id="studentInput" placeholder="اكتب رمز الدرس هنا...">
-        <button onclick="searchLesson()">عرض الدرس</button>
+    <div class="tabs">
+        <button class="tab-btn active" onclick="openTab('listening')">الاستماع</button>
+        <button class="tab-btn" onclick="openTab('reading')">القراءة</button>
+        <button class="tab-btn" onclick="openTab('writing')">الكتابة</button>
+        <button class="tab-btn" onclick="openTab('speaking')">المحادثة</button>
     </div>
 
-    <div id="videoContainer">
-        <h3 id="lessonTitle"></h3>
-        <video id="videoPlayer" width="640" controls>
-            <source src="" type="video/mp4">
-            متصفحك لا يدعم تشغيل الفيديو.
-        </video>
+    <div id="listening" class="content-section active">
+        <h3>مهارة الاستماع (Listening)</h3>
+        <div class="video-item" onclick="playVideo('L1', 'Lesson1')">
+            <span>Lesson 1: Introduction to Listening</span>
+            <span>▶</span>
+        </div>
+        <div class="video-item" onclick="playVideo('L1', 'Lesson2')">
+            <span>Lesson 2: Sentence Completion</span>
+            <span>▶</span>
+        </div>
     </div>
 
-    <script>
-        async function searchLesson() {
-            const category = document.getElementById('studentInput').value.toUpperCase().trim();
-            const cloudName = "dr3i6fqai";
-            const videoContainer = document.getElementById('videoContainer');
-            const videoPlayer = document.getElementById('videoPlayer');
-            const lessonTitle = document.getElementById('lessonTitle');
+    <div id="reading" class="content-section"><h3>قريباً: دروس القراءة</h3></div>
+    <div id="writing" class="content-section"><h3>قريباً: دروس الكتابة</h3></div>
+    <div id="speaking" class="content-section"><h3>قريباً: دروس المحادثة</h3></div>
 
-            if (!category) {
-                alert("يرجى إدخال رمز المستوى أولاً");
-                return;
-            }
+    <div id="playerArea" class="player-container">
+        <h4 id="nowPlaying"></h4>
+        <video id="mainPlayer" controls playsinline></video>
+    </div>
+</div>
 
-            // ملاحظة: روابط الـ JSON في Cloudinary تحتاج تفعيل خاصية "Client-side resource list" 
-            // كحل أضمن ومباشر، سنقوم ببناء الرابط بناءً على الوسم (Tag)
-            try {
-                // الرابط المباشر للفيديو باستخدام الـ Tag الذي وضعته في بايثون
-                // ملاحظة: Cloudinary يعرض أحدث فيديو بهذا الـ Tag
-                const videoUrl = `https://res.cloudinary.com/${cloudName}/video/upload/t_${category}/v1/dummy.mp4`;
-                
-                // للتبسيط الآن، سنستخدم الرابط الذي ظهر لك في الشاشة السوداء يدوياً أو نربطه برمز ثابت
-                // سأعطيك الطريقة الأسهل للربط المباشر:
-                const finalUrl = `https://res.cloudinary.com/${cloudName}/video/upload/${category}.mp4`;
+<script>
+    function openTab(name) {
+        document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(name).classList.add('active');
+        event.currentTarget.classList.add('active');
+    }
 
-                videoPlayer.src = finalUrl;
-                lessonTitle.innerText = "عرض درس: " + category;
-                videoContainer.style.display = "block";
-                videoPlayer.load();
-                videoPlayer.play();
-
-            } catch (error) {
-                alert("تعذر العثور على الدرس، تأكد من الرمز");
-            }
-        }
-    </script>
+    function playVideo(folder, file) {
+        const cloudName = "dr3i6fqai";
+        const videoUrl = `https://res.cloudinary.com/${cloudName}/video/upload/f_auto,q_auto/${folder}/${file}`;
+        const area = document.getElementById('playerArea');
+        const player = document.getElementById('mainPlayer');
+        area.style.display = "block";
+        document.getElementById('nowPlaying').innerText = "عرض: " + file;
+        player.src = videoUrl;
+        player.load();
+        player.play();
+        area.scrollIntoView({ behavior: 'smooth' });
+    }
+</script>
 </body>
 </html>
