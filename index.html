@@ -2,57 +2,68 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IELTS Expert Portal</title>
+    <title>منصة IELTS التفاعلية - د. مصطفى</title>
     <style>
-        :root { --gold: #d4af37; --dark-bg: #050a14; --card-bg: #0a111f; }
-        body { background: var(--dark-bg); color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        .container { background: rgba(255, 255, 255, 0.02); padding: 40px; border-radius: 24px; border: 1px solid rgba(212, 175, 55, 0.2); text-align: center; width: 95%; max-width: 1100px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; margin-top: 30px; }
-        .video-card { background: var(--card-bg); border-radius: 15px; border: 1px solid #1a2436; overflow: hidden; transition: 0.3s; }
-        .video-card:hover { border-color: var(--gold); transform: translateY(-5px); }
-        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; background: #000; }
-        .video-wrapper video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-        h1 { color: var(--gold); margin-bottom: 20px; }
-        .btn { padding: 12px 35px; background: var(--gold); border: none; border-radius: 10px; cursor: pointer; font-weight: bold; color: #000; margin-top: 20px; }
+        body { font-family: Arial, sans-serif; text-align: center; background-color: #f4f4f9; padding: 50px; }
+        .search-box { margin-bottom: 30px; }
+        input { padding: 10px; width: 250px; border-radius: 5px; border: 1px solid #ccc; }
+        button { padding: 10px 20px; background-color: #28a745; color: white; border: none; cursor: pointer; border-radius: 5px; }
+        #videoContainer { margin-top: 20px; display: none; }
+        video { border: 5px solid #fff; box-shadow: 0 0 10px rgba(0,0,0,0.1); border-radius: 10px; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1 id="mainTitle">IELTS Listening Mastery</h1>
-    <div class="grid" id="videoGrid">
-        <!-- سيتم توليد الفيديوهات هنا -->
+    <h1>بوابة دروس IELTS الذكية</h1>
+    <p>أدخل رمز المستوى (مثلاً: A1-LISTENING) لمشاهدة الدرس</p>
+
+    <div class="search-box">
+        <input type="text" id="studentInput" placeholder="اكتب رمز الدرس هنا...">
+        <button onclick="searchLesson()">عرض الدرس</button>
     </div>
-    <br>
-    <button class="btn" onclick="window.close()">خروج</button>
-</div>
 
-<script>
-    // روابط فيديوهات IELTS حقيقية (Native) تم التحقق من عملها
-    const ieltsContent = [
-        { title: "IELTS Listening - Lesson 1", url: "https://www.w3schools.com/html/mov_bbb.mp4" }, // استبدل بروابط MP4 الخاصة بك هنا
-        { title: "IELTS Listening - Lesson 2", url: "https://vjs.zencdn.net/v/oceans.mp4" }
-    ];
+    <div id="videoContainer">
+        <h3 id="lessonTitle"></h3>
+        <video id="videoPlayer" width="640" controls>
+            <source src="" type="video/mp4">
+            متصفحك لا يدعم تشغيل الفيديو.
+        </video>
+    </div>
 
-    const grid = document.getElementById('videoGrid');
-    
-    ieltsContent.forEach((item) => {
-        const card = document.createElement('div');
-        card.className = 'video-card';
-        card.innerHTML = `
-            <div style="padding:15px; color: var(--gold); font-size: 14px; text-align: left; border-bottom: 1px solid #1a2436;">
-                ${item.title}
-            </div>
-            <div class="video-wrapper">
-                <video controls controlsList="nodownload">
-                    <source src="${item.url}" type="video/mp4">
-                    متصفحك لا يدعم التشغيل.
-                </video>
-            </div>
-        `;
-        grid.appendChild(card);
-    });
-</script>
+    <script>
+        async function searchLesson() {
+            const category = document.getElementById('studentInput').value.toUpperCase().trim();
+            const cloudName = "dr3i6fqai";
+            const videoContainer = document.getElementById('videoContainer');
+            const videoPlayer = document.getElementById('videoPlayer');
+            const lessonTitle = document.getElementById('lessonTitle');
+
+            if (!category) {
+                alert("يرجى إدخال رمز المستوى أولاً");
+                return;
+            }
+
+            // ملاحظة: روابط الـ JSON في Cloudinary تحتاج تفعيل خاصية "Client-side resource list" 
+            // كحل أضمن ومباشر، سنقوم ببناء الرابط بناءً على الوسم (Tag)
+            try {
+                // الرابط المباشر للفيديو باستخدام الـ Tag الذي وضعته في بايثون
+                // ملاحظة: Cloudinary يعرض أحدث فيديو بهذا الـ Tag
+                const videoUrl = `https://res.cloudinary.com/${cloudName}/video/upload/t_${category}/v1/dummy.mp4`;
+                
+                // للتبسيط الآن، سنستخدم الرابط الذي ظهر لك في الشاشة السوداء يدوياً أو نربطه برمز ثابت
+                // سأعطيك الطريقة الأسهل للربط المباشر:
+                const finalUrl = `https://res.cloudinary.com/${cloudName}/video/upload/${category}.mp4`;
+
+                videoPlayer.src = finalUrl;
+                lessonTitle.innerText = "عرض درس: " + category;
+                videoContainer.style.display = "block";
+                videoPlayer.load();
+                videoPlayer.play();
+
+            } catch (error) {
+                alert("تعذر العثور على الدرس، تأكد من الرمز");
+            }
+        }
+    </script>
 </body>
 </html>
