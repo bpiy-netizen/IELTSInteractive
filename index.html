@@ -3,227 +3,191 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>أكاديمية IELTS - د. مصطفى</title>
+    <title>أكاديمية د. مصطفى IELTS</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --primary: #1a73e8;
-            --secondary: #34a853;
-            --dark: #202124;
-            --light-bg: #f8f9fa;
-            --card-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            --main-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --glass: rgba(255, 255, 255, 0.9);
+            --accent: #ff9a9e;
+            --text-dark: #2d3436;
         }
 
         body {
+            margin: 0;
+            padding: 0;
+            background: #f0f2f5;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--light-bg);
-            margin: 0;
-            color: var(--dark);
+            background-image: radial-gradient(circle at top right, #e0eafc, #cfdef3);
+            min-height: 100vh;
         }
 
-        /* الهيدر */
+        /* الهيدر الاحترافي */
         header {
-            background: white;
-            padding: 20px 0;
+            background: var(--main-gradient);
+            color: white;
+            padding: 40px 20px;
             text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            margin-bottom: 30px;
+            border-radius: 0 0 50px 50px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
         }
 
-        header h1 {
-            margin: 0;
-            font-size: 28px;
-            color: var(--primary);
+        header h1 { font-size: 2.5rem; margin: 0; letter-spacing: 1px; }
+        header p { opacity: 0.9; font-size: 1.1rem; margin-top: 10px; }
+
+        .container { max-width: 1000px; margin: -40px auto 50px; padding: 0 20px; }
+
+        /* لوحة التحكم السريعة */
+        .stats-bar {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px; margin-bottom: 30px;
         }
 
-        header p {
-            margin: 5px 0 0;
-            color: #5f6368;
-            font-weight: 500;
+        .stat-card {
+            background: white; padding: 15px; border-radius: 20px;
+            text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            border-bottom: 4px solid #764ba2;
         }
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 0 20px 50px;
+        /* قائمة المهارات */
+        .skills-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px; margin-bottom: 40px;
         }
 
-        /* نظام التبويبات الجديد */
-        .tabs-nav {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin-bottom: 30px;
+        .skill-btn {
+            background: white; border: none; padding: 25px; border-radius: 25px;
+            cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex; flex-direction: column; align-items: center; gap: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
         }
 
-        .tab-btn {
-            background: white;
-            border: none;
-            padding: 15px;
-            border-radius: 12px;
+        .skill-btn i { font-size: 2.5rem; color: #667eea; }
+        .skill-btn span { font-weight: bold; font-size: 1.2rem; color: var(--text-dark); }
+
+        .skill-btn:hover, .skill-btn.active {
+            background: var(--main-gradient); transform: translateY(-10px);
+        }
+        .skill-btn:hover i, .skill-btn:hover span, .skill-btn.active i, .skill-btn.active span { color: white; }
+
+        /* قسم الدروس */
+        .lessons-container {
+            background: var(--glass); backdrop-filter: blur(10px);
+            border-radius: 30px; padding: 30px; display: none;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .lessons-container.active { display: block; animation: fadeInUp 0.6s ease; }
+
+        .lesson-card {
+            background: white; margin-bottom: 15px; padding: 20px;
+            border-radius: 20px; display: flex; justify-content: space-between;
+            align-items: center; transition: 0.3s; border: 1px solid #eee;
             cursor: pointer;
-            font-weight: bold;
-            color: #5f6368;
-            transition: all 0.3s ease;
-            box-shadow: var(--card-shadow);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
+        }
+        .lesson-card:hover { border-color: #667eea; background: #f8faff; padding-right: 30px; }
+
+        .play-btn { 
+            background: #667eea; color: white; width: 45px; height: 45px; 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
         }
 
-        .tab-btn i { font-size: 20px; }
-
-        .tab-btn.active {
-            background: var(--primary);
-            color: white;
-            transform: translateY(-5px);
+        /* نافذة الفيديو (Modal) */
+        .video-modal {
+            position: fixed; top:0; left:0; width:100%; height:100%;
+            background: rgba(0,0,0,0.9); display:none; z-index: 1000;
+            align-items: center; justify-content: center; padding: 20px;
+        }
+        .modal-content { width: 100%; max-width: 800px; position: relative; }
+        video { width: 100%; border-radius: 20px; box-shadow: 0 0 50px rgba(255,255,255,0.2); }
+        .close-modal { 
+            position: absolute; top: -50px; right: 0; color: white; 
+            font-size: 2rem; cursor: pointer; 
         }
 
-        /* قائمة الدروس */
-        .content-card {
-            background: white;
-            border-radius: 16px;
-            padding: 25px;
-            box-shadow: var(--card-shadow);
-            display: none;
-        }
-
-        .content-card.active { display: block; animation: slideUp 0.4s ease; }
-
-        .lesson-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 18px;
-            border-radius: 10px;
-            margin-bottom: 12px;
-            background: #fdfdfd;
-            border: 1px solid #f1f3f4;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .lesson-item:hover {
-            border-color: var(--primary);
-            background: #f4f8ff;
-            padding-right: 25px;
-        }
-
-        .lesson-info { display: flex; align-items: center; gap: 15px; }
-        .play-icon { color: var(--primary); font-size: 18px; }
-
-        /* مشغل الفيديو */
-        .player-wrapper {
-            margin-top: 30px;
-            background: var(--dark);
-            border-radius: 16px;
-            overflow: hidden;
-            display: none;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-
-        .player-header {
-            padding: 15px;
-            background: #2c2e31;
-            color: white;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        video { width: 100%; display: block; }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
-        }
-
-        @media (max-width: 600px) {
-            .tabs-nav { grid-template-columns: repeat(2, 1fr); }
         }
     </style>
 </head>
 <body>
 
 <header>
-    <h1><i class="fas fa-graduation-cap"></i> أكاديمية د. مصطفى IELTS</h1>
-    <p>منصة التعليم التفاعلي الذكية</p>
+    <h1><i class="fas fa-star"></i> أكاديمية IELTS الذكية</h1>
+    <p>برفقة د. مصطفى - منصتك المتكاملة للنجاح</p>
 </header>
 
 <div class="container">
-    <div class="tabs-nav">
-        <button class="tab-btn active" onclick="openSkill('listening', this)">
-            <i class="fas fa-headset"></i> استماع
+    <div class="stats-bar">
+        <div class="stat-card"><strong>4</strong> المهارات</div>
+        <div class="stat-card"><strong>+20</strong> دروس متوقعة</div>
+        <div class="stat-card"><strong>24/7</strong> وصول كامل</div>
+    </div>
+
+    <div class="skills-grid">
+        <button class="skill-btn active" onclick="showSkill('listening', this)">
+            <i class="fas fa-headset"></i><span>الاستماع</span>
         </button>
-        <button class="tab-btn" onclick="openSkill('reading', this)">
-            <i class="fas fa-book-open"></i> قراءة
+        <button class="skill-btn" onclick="showSkill('reading', this)">
+            <i class="fas fa-book-reader"></i><span>القراءة</span>
         </button>
-        <button class="tab-btn" onclick="openSkill('writing', this)">
-            <i class="fas fa-pen-nib"></i> كتابة
+        <button class="skill-btn" onclick="showSkill('writing', this)">
+            <i class="fas fa-pen-fancy"></i><span>الكتابة</span>
         </button>
-        <button class="tab-btn" onclick="openSkill('speaking', this)">
-            <i class="fas fa-comments"></i> محادثة
+        <button class="skill-btn" onclick="showSkill('speaking', this)">
+            <i class="fas fa-microphone-alt"></i><span>المحادثة</span>
         </button>
     </div>
 
-    <div id="listening" class="content-card active">
-        <h3 style="margin-top:0"><i class="fas fa-list"></i> دروس مهارة الاستماع</h3>
-        <div class="lesson-item" onclick="loadLesson('L1', 'Lesson1', 'مقدمة في اختبار الاستماع')">
-            <div class="lesson-info">
-                <i class="fas fa-play-circle play-icon"></i>
-                <span>الدرس 1: مقدمة وشرح عام</span>
+    <div id="listening" class="lessons-container active">
+        <h2 style="margin-top:0; color:#444;"><i class="fas fa-play-circle"></i> دروس مهارة الاستماع المتاحة</h2>
+        <div class="lesson-card" onclick="openVideo('L1', 'final projet 1.mov', 'الدرس التمهيدي للمنصة')">
+            <div>
+                <strong style="display:block; font-size:1.1rem;">مرحباً بك في المنصة</strong>
+                <small style="color:#777;">اضغط لبدء الفيديو التجريبي</small>
             </div>
-            <small style="color: #888;">5:00 د</small>
+            <div class="play-btn"><i class="fas fa-play"></i></div>
         </div>
-        <div class="lesson-item" onclick="loadLesson('L1', 'Lesson2', 'استراتيجيات إكمال الجمل')">
-            <div class="lesson-info">
-                <i class="fas fa-play-circle play-icon"></i>
-                <span>الدرس 2: استراتيجية Sentence Completion</span>
-            </div>
-            <small style="color: #888;">12:00 د</small>
         </div>
-    </div>
 
-    <div id="reading" class="content-card"><h3><i class="fas fa-clock"></i> قريباً: دروس القراءة</h3></div>
-    <div id="writing" class="content-card"><h3><i class="fas fa-clock"></i> قريباً: دروس الكتابة</h3></div>
-    <div id="speaking" class="content-card"><h3><i class="fas fa-clock"></i> قريباً: دروس المحادثة</h3></div>
+    <div id="reading" class="lessons-container"><h2 style="text-align:center; color:#888;">قريباً... مكتبة القراءة الشاملة</h2></div>
+    <div id="writing" class="lessons-container"><h2 style="text-align:center; color:#888;">قريباً... أسرار كتابة الـ Essay</h2></div>
+    <div id="speaking" class="lessons-container"><h2 style="text-align:center; color:#888;">قريباً... تدريبات المحادثة التفاعلية</h2></div>
+</div>
 
-    <div id="videoSection" class="player-wrapper">
-        <div class="player-header">
-            <span id="videoTitle"><i class="fas fa-play"></i> جاري التشغيل...</span>
-            <span onclick="closePlayer()" style="cursor:pointer"><i class="fas fa-times"></i></span>
-        </div>
-        <video id="videoPlayer" controls playsinline></video>
+<div class="video-modal" id="videoModal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeVideo()">&times; إغلاق</span>
+        <video id="mainPlayer" controls playsinline></video>
+        <h3 id="modalTitle" style="color:white; text-align:center; margin-top:15px;"></h3>
     </div>
 </div>
 
 <script>
-    function openSkill(id, btn) {
-        document.querySelectorAll('.content-card').forEach(c => c.classList.remove('active'));
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    function showSkill(id, btn) {
+        document.querySelectorAll('.lessons-container').forEach(c => c.classList.remove('active'));
+        document.querySelectorAll('.skill-btn').forEach(b => b.classList.remove('active'));
         document.getElementById(id).classList.add('active');
         btn.classList.add('active');
-        document.getElementById('videoSection').style.display = 'none';
     }
 
-    function loadLesson(folder, file, title) {
+    function openVideo(folder, file, title) {
         const cloudName = "dr3i6fqai";
         const url = `https://res.cloudinary.com/${cloudName}/video/upload/f_auto,q_auto/${folder}/${file}`;
+        const modal = document.getElementById('videoModal');
+        const player = document.getElementById('mainPlayer');
         
-        const section = document.getElementById('videoSection');
-        const player = document.getElementById('videoPlayer');
-        
-        document.getElementById('videoTitle').innerHTML = `<i class="fas fa-play"></i> ${title}`;
-        section.style.display = 'block';
+        document.getElementById('modalTitle').innerText = title;
         player.src = url;
-        player.load();
+        modal.style.display = 'flex';
         player.play();
-        section.scrollIntoView({ behavior: 'smooth' });
     }
 
-    function closePlayer() {
-        document.getElementById('videoSection').style.display = 'none';
-        document.getElementById('videoPlayer').pause();
+    function closeVideo() {
+        const modal = document.getElementById('videoModal');
+        const player = document.getElementById('mainPlayer');
+        modal.style.display = 'none';
+        player.pause();
     }
 </script>
 
