@@ -20,11 +20,13 @@
         body {
             margin: 0; padding: 0;
             background-color: var(--primary-dark);
-            background-image: radial-gradient(circle at 20% 30%, rgba(197, 160, 89, 0.05) 0%, transparent 40%),
-                              radial-gradient(circle at 80% 70%, rgba(197, 160, 89, 0.05) 0%, transparent 40%);
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(197, 160, 89, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(197, 160, 89, 0.05) 0%, transparent 40%);
             font-family: 'Cairo', sans-serif;
             color: #e0e0e0;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
         header { padding: 40px 20px; text-align: center; }
@@ -36,6 +38,7 @@
             background: var(--glass);
             border: 1px solid var(--border-glass);
             border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
             backdrop-filter: blur(10px);
         }
 
@@ -44,9 +47,18 @@
             height: auto;
             display: block;
             border-radius: 12px;
-            /* تحسين حدة الصورة برمجياً */
-            image-rendering: -webkit-optimize-contrast;
-            image-rendering: crisp-edges;
+            /* --- تصحيح حدة الصورة برمجياً --- */
+            image-rendering: pixelated; /* لأعلى حدة ممكنة للشعارات */
+            image-rendering: crisp-edges; /* بديل احتياطي لبعض المتصفحات */
+            -ms-interpolation-mode: nearest-neighbor; /* إنترنت إكسبلورر قديم */
+        }
+
+        .welcome-text {
+            color: var(--gold-matte);
+            font-size: 1.1rem;
+            margin-top: 25px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
         }
 
         .container { max-width: 1100px; margin: 0 auto 100px; padding: 0 20px; }
@@ -86,18 +98,6 @@
         }
         .content-panel.active { display: block; animation: fadeIn 0.5s ease; }
 
-        .lesson-tile {
-            background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);
-            padding: 20px; border-radius: 15px; display: flex; justify-content: space-between;
-            align-items: center; margin-bottom: 10px;
-        }
-
-        .play-circle {
-            width: 40px; height: 40px; background: var(--gold-matte);
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            color: var(--primary-dark);
-        }
-
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         @media (max-width: 768px) {
@@ -110,16 +110,16 @@
 
 <header>
     <div class="header-logo-container">
-        <img src="https://res.cloudinary.com/dr3i6fqai/image/upload/f_auto,q_auto:best/v1778798404/117_z6fozk.png" alt="51Talk x IELTS Interactive">
+        <img src="https://res.cloudinary.com/dr3i6fqai/image/upload/v1778798404/117_z6fozk.png" alt="51Talk x IELTS Interactive">
     </div>
-    <p style="color: var(--gold-matte); margin-top: 15px; font-weight: 700;">منصة التعليم التفاعلي الذكية - د. مصطفى</p>
+    <p class="welcome-text">منصة التعليم التفاعلي الذكية - د. مصطفى</p>
 </header>
 
 <div class="container">
     <div class="info-cards">
         <div class="info-item"><i class="fas fa-gem"></i> Gold Edition</div>
         <div class="info-item"><i class="fas fa-shield-alt"></i> وصول كامل 24/7</div>
-        <div class="info-item"><i class="fas fa-graduation-cap"></i> محتوى معتمد</div>
+        <div class="info-item"><i class="fas fa-graduation-cap"></i> محتوى CEFR معتمد</div>
     </div>
 
     <div class="skills-nav">
@@ -138,36 +138,30 @@
     </div>
 
     <div id="listening" class="content-panel active">
-        <h3 style="color: var(--gold-bright);">دروس مهارة الاستماع</h3>
-        <div class="lesson-tile">
-            <span>الدرس 1: مقدمة وشرح عام</span>
-            <div class="play-circle"><i class="fas fa-play"></i></div>
-        </div>
+        <h3 style="color: var(--gold-bright);">مكتبة الاستماع الذهبية</h3>
+        <p>مرحباً بك في المنصة التفاعلية برعاية د. مصطفى. المحتوى سيظهر هنا قريباً...</p>
     </div>
 
     <div id="reading" class="content-panel">
-        <h3 style="color: var(--gold-bright);">دروس مهارة القراءة</h3>
+        <h3 style="color: var(--gold-bright);">مكتبة القراءة التفاعلية</h3>
         <p>المحتوى سيظهر هنا قريباً...</p>
     </div>
 
     <div id="writing" class="content-panel">
-        <h3 style="color: var(--gold-bright);">دروس مهارة الكتابة</h3>
+        <h3 style="color: var(--gold-bright);">مكتبة الكتابة التفاعلية</h3>
         <p>المحتوى سيظهر هنا قريباً...</p>
     </div>
 
     <div id="speaking" class="content-panel">
-        <h3 style="color: var(--gold-bright);">دروس مهارة المحادثة</h3>
+        <h3 style="color: var(--gold-bright);">مكتبة المحادثة التفاعلية</h3>
         <p>المحتوى سيظهر هنا قريباً...</p>
     </div>
 </div>
 
 <script>
     function openSkill(id, element) {
-        // إخفاء جميع اللوحات
         document.querySelectorAll('.content-panel').forEach(p => p.classList.remove('active'));
-        // إلغاء تفعيل جميع الأزرار
         document.querySelectorAll('.skill-box').forEach(b => b.classList.remove('active'));
-        // إظهار اللوحة المطلوبة وتفعيل زرها
         document.getElementById(id).classList.add('active');
         element.classList.add('active');
     }
