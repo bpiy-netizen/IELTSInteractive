@@ -12,8 +12,8 @@
         
         #lock-screen { position: fixed; inset: 0; background: var(--bg); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .login-box { background: var(--sidebar); padding: 40px; border-radius: 20px; border: 1px solid var(--gold); text-align: center; }
-        .login-box input { padding: 12px; border-radius: 8px; border: none; width: 220px; text-align: center; margin-bottom: 15px; outline: none; }
-        .login-box button { background: var(--gold); border: none; padding: 10px 30px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        .login-box input { padding: 12px; border-radius: 8px; border: none; width: 220px; text-align: center; margin-bottom: 15px; outline: none; font-family: 'Cairo', sans-serif; }
+        .login-box button { background: var(--gold); border: none; padding: 10px 30px; border-radius: 8px; cursor: pointer; font-weight: bold; font-family: 'Cairo', sans-serif; }
 
         .sidebar { width: 350px; background: var(--sidebar); border-left: 1px solid rgba(197,160,89,0.2); display: flex; flex-direction: column; }
         .sidebar-header { padding: 25px; text-align: center; border-bottom: 1px solid rgba(197,160,89,0.1); }
@@ -21,17 +21,26 @@
         .lessons-list { flex-grow: 1; overflow-y: auto; padding: 15px; }
         
         .section-title { font-size: 0.9rem; color: var(--gold); font-weight: bold; margin: 15px 5px 5px 5px; padding-bottom: 5px; border-bottom: 1px solid rgba(197,160,89,0.1); }
-        .lesson-item { background: rgba(255,255,255,0.02); padding: 12px 15px; border-radius: 12px; margin-bottom: 8px; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: 0.3s; font-size: 0.95rem; }
+        .lesson-item { background: rgba(255,255,255,0.02); padding: 12px 15px; border-radius: 12px; margin-bottom: 8px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; transition: 0.3s; font-size: 0.95rem; }
+        .lesson-item .lesson-info { display: flex; align-items: center; gap: 12px; }
         .lesson-item.active { background: var(--gold); color: black; font-weight: bold; }
         .lesson-item i { font-size: 1.1rem; }
+        .completion-badge { color: #10b981; display: none; font-size: 1.1rem; }
+        .lesson-item.completed-item .completion-badge { display: inline-block; }
+        .lesson-item.active .completion-badge { color: black; }
 
         .main-content { flex-grow: 1; display: flex; flex-direction: column; background: #000; }
         .video-container { width: 100%; aspect-ratio: 16/9; background: #000; position: relative; }
         iframe, video { width: 100%; height: 100%; border: none; position: absolute; top: 0; left: 0; }
         
-        .details { padding: 30px; background: var(--bg); border-top: 1px solid rgba(197,160,89,0.1); flex-grow: 1; overflow-y: auto; }
-        .details h1 { color: var(--gold); margin: 0; font-size: 1.8rem; }
-        .details p { margin-top: 10px; color: #94a3b8; line-height: 1.7; }
+        .details { padding: 30px; background: var(--bg); border-top: 1px solid rgba(197,160,89,0.1); flex-grow: 1; overflow-y: auto; display: flex; flex-direction: column; justify-content: space-between; gap: 20px; }
+        .details-text h1 { color: var(--gold); margin: 0; font-size: 1.8rem; }
+        .details-text p { margin-top: 10px; color: #94a3b8; line-height: 1.7; }
+        
+        .action-area { display: flex; align-items: center; gap: 15px; border-top: 1px solid rgba(197,160,89,0.05); padding-top: 20px; }
+        .complete-btn { background: #10b981; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-family: 'Cairo', sans-serif; font-weight: bold; display: flex; align-items: center; gap: 8px; transition: 0.3s; }
+        .complete-btn.is-done { background: #334155; }
+        .resume-alert { color: var(--gold); font-size: 0.9rem; display: none; align-items: center; gap: 6px; background: rgba(197,160,89,0.1); padding: 8px 15px; border-radius: 6px; }
 
         @media (max-width: 1000px) { body { flex-direction: column; overflow: auto; } .sidebar { width: 100%; } }
     </style>
@@ -52,81 +61,103 @@
         <div class="lessons-list">
             
             <div class="section-title">مقدمة المنصة</div>
-            <div class="lesson-item active" onclick="playMedia('https://res.cloudinary.com/dr3i6fqai/video/upload/v1778804565/Lark20260515-032212_pp1bf8.mp4', '1. بوابة النجاح', 'مقدمة تعريفية عن المنصة وكيفية البدء واستغلال الكورس الشامل.', 'cloudinary', this)">
-                <i class="fas fa-play-circle"></i> <span>1. بوابة النجاح</span>
+            <div class="lesson-item active" id="lesson-1" onclick="playMedia('https://res.cloudinary.com/dr3i6fqai/video/upload/v1778804565/Lark20260515-032212_pp1bf8.mp4', '1. بوابة النجاح', 'مقدمة تعريفية عن المنصة وكيفية البدء واستغلال الكورس الشامل.', 'cloudinary', this)">
+                <div class="lesson-info"><i class="fas fa-play-circle"></i> <span>1. بوابة النجاح</span></div>
+                <i class="fas fa-check-circle completion-badge"></i>
             </div>
             
             <div class="section-title">قسم القراءة (IELTS Reading)</div>
-            <div class="lesson-item" onclick="playMedia('18iCIFShbovuOywmogIJTH4vDJW7uSPSF', '2. أخطاء قاتلة في القراءة', 'شرح تفصيلي لأبرز 5 أخطاء شائعة في قسم القراءة لتجنب ضياع الوقت وتأمين باند +7.', 'drive', this)">
-                <i class="fas fa-video"></i> <span>2. أخطاء قاتلة في القراءة</span>
+            <div class="lesson-item" id="lesson-2" onclick="playMedia('18iCIFShbovuOywmogIJTH4vDJW7uSPSF', '2. أخطاء قاتلة في القراءة', 'شرح تفصيلي لأبرز 5 أخطاء شائعة في قسم القراءة لتجنب ضياع الوقت وتأمين باند +7.', 'drive', this)">
+                <div class="lesson-info"><i class="fas fa-video"></i> <span>2. أخطاء قاتلة في القراءة</span></div>
+                <i class="fas fa-check-circle completion-badge"></i>
             </div>
-            <div class="lesson-item" onclick="playMedia('1-FOBvycjwwpm_Ux3k-oAodhsfyL_SKTG', '3. الاستراتيجيات الذهبية لحل قسم القراءة', 'تعلم كيفية استخدام التكنيكات السريعة لتجاوز عقبة النصوص الطويلة واستخراج الإجابات بذكاء.', 'drive', this)">
-                <i class="fas fa-video"></i> <span>3. الاستراتيجيات الذهبية لحل قسم القراءة</span>
+            <div class="lesson-item" id="lesson-3" onclick="playMedia('1-FOBvycjwwpm_Ux3k-oAodhsfyL_SKTG', '3. الاستراتيجيات الذهبية لحل قسم القراءة', 'تعلم كيفية استخدام التكنيكات السريعة لتجاوز عقبة النصوص الطويلة واستخراج الإجابات بذكاء.', 'drive', this)">
+                <div class="lesson-info"><i class="fas fa-video"></i> <span>3. الاستراتيجيات الذهبية لحل قسم القراءة</span></div>
+                <i class="fas fa-check-circle completion-badge"></i>
             </div>
-            <div class="lesson-item" onclick="playMedia('1P5q-q7aLu7SIOxCOeQLOr6qnUu6RiF_E', '4. تفكيك أسئلة True, False, Not Given', 'تكتيكات التعامل مع أكثر أنواع الأسئلة تكراراً، والتعرف على خدع التمييز بين الإجابة الخاطئة وغير المذكورة في النص الأكاديمي.', 'drive', this)">
-                <i class="fas fa-video"></i> <span>4. تفكيك أسئلة True, False, Not Given</span>
+            <div class="lesson-item" id="lesson-4" onclick="playMedia('1P5q-q7aLu7SIOxCOeQLOr6qnUu6RiF_E', '4. تفكيك أسئلة True, False, Not Given', 'تكتيكات التعامل مع أكثر أنواع الأسئلة تكراراً، والتعرف على خدع التمييز بين الإجابة الخاطئة وغير المذكورة في النص الأكاديمي.', 'drive', this)">
+                <div class="lesson-info"><i class="fas fa-video"></i> <span>4. تفكيك أسئلة True, False, Not Given</span></div>
+                <i class="fas fa-check-circle completion-badge"></i>
             </div>
-            <div class="lesson-item" onclick="playMedia('1FY_CQya62lzJ_m7UhdGdmy9Opaf2Lqqd', '5. تكتيك حل أسئلة إكمال الفراغات والملخصات', 'شرح تفصيلي لاستراتيجيات حل أسئلة الـ Complete والـ Summary Completion وكيفية مطابقة الكلمات المفتاحية بكفاءة.', 'drive', this)">
-                <i class="fas fa-video"></i> <span>5. تكتيك حل أسئلة إكمال الفراغات والملخصات</span>
+            <div class="lesson-item" id="lesson-5" onclick="playMedia('1FY_CQya62lzJ_m7UhdGdmy9Opaf2Lqqd', '5. تكتيك حل أسئلة إكمال الفراغات والملخصات', 'شرح تفصيلي لاستراتيجيات حل أسئلة الـ Complete والـ Summary Completion وكيفية مطابقة الكلمات المفتاحية بكفاءة.', 'drive', this)">
+                <div class="lesson-info"><i class="fas fa-video"></i> <span>5. تكتيك حل أسئلة إكمال الفراغات والملخصات</span></div>
+                <i class="fas fa-check-circle completion-badge"></i>
             </div>
-            <div class="lesson-item" onclick="playMedia('12UhpKERLk18fBqnUNDUyGmxtBEQPKRoK', '6. تكتيك حل أسئلة الاختيار من متعدد (MCQs)', 'شرح كيفية استبعاد الخيارات الخاطئة بذكاء، والتركيز على الكلمات المفتاحية للوصول للإجابة الصحيحة بسرعة في أسئلة الاختيار المربكة.', 'drive', this)">
-                <i class="fas fa-video"></i> <span>6. تكتيك حل أسئلة الاختيار من متعدد (MCQs)</span>
+            <div class="lesson-item" id="lesson-6" onclick="playMedia('12UhpKERLk18fBqnUNDUyGmxtBEQPKRoK', '6. تكتيك حل أسئلة الاختيار من متعدد (MCQs)', 'شرح كيفية استبعاد الخيارات الخاطئة بذكاء، والتركيز على الكلمات المفتاحية للوصول للإجابة الصحيحة بسرعة في أسئلة الاختيار المربكة.', 'drive', this)">
+                <div class="lesson-info"><i class="fas fa-video"></i> <span>6. تكتيك حل أسئلة الاختيار من متعدد (MCQs)</span></div>
+                <i class="fas fa-check-circle completion-badge"></i>
             </div>
 
             <div class="section-title">قسم الكتابة (IELTS Writing)</div>
-            <div class="lesson-item" onclick="playMedia('1w-gQzyNC5UHuFfQQS1A2UAFbo3gC-b0R', '7. أساسيات وهيكل الكتابة للقسم الأول (Task 1)', 'مقدمة شاملة لتأسيس الطلاب في كيفية تحليل ووصف الرسوم البيانية والجداول الأكاديمية والتعرف على الهيكل الاحترافي لكتابة التقرير.', 'drive', this)">
-                <i class="fas fa-video"></i> <span>7. أساسيات وهيكل الكتابة للقسم الأول (Task 1)</span>
+            <div class="lesson-item" id="lesson-7" onclick="playMedia('1w-gQzyNC5UHuFfQQS1A2UAFbo3gC-b0R', '7. أساسيات وهيكل الكتابة للقسم الأول (Task 1)', 'مقدمة شاملة لتأسيس الطلاب في كيفية تحليل ووصف الرسوم البيانية والجداول الأكاديمية والتعرف على الهيكل الاحترافي لكتابة التقرير.', 'drive', this)">
+                <div class="lesson-info"><i class="fas fa-video"></i> <span>7. أساسيات وهيكل الكتابة للقسم الأول (Task 1)</span></div>
+                <i class="fas fa-check-circle completion-badge"></i>
             </div>
-            <div class="lesson-item" onclick="playMedia('11d7vH_lh0NWtBliPOEsE2nIjifATirlw', '8. الدرس 13 خطأ شائع في الكتابة الأكاديمية بالايلتس', 'شرح تفصيلي لأبرز الأخطاء الشائعة والقاتلة التي يقع فيها الطلاب أثناء صياغة الجمل الأكاديمية وكيفية تجنبها لرفع السكور.', 'drive', this)">
-                <i class="fas fa-video"></i> <span>8. الدرس 13 خطأ شائع في الكتابة الأكاديمية بالايلتس</span>
+            <div class="lesson-item" id="lesson-8" onclick="playMedia('11d7vH_lh0NWtBliPOEsE2nIjifATirlw', '8. الدرس 13 خطأ شائع في الكتابة الأكاديمية بالايلتس', 'شرح تفصيلي لأبرز الأخطاء الشائعة والقاتلة التي يقع فيها الطلاب أثناء صياغة الجمل الأكاديمية وكيفية تجنبها لرفع السكور.', 'drive', this)">
+                <div class="lesson-info"><i class="fas fa-video"></i> <span>8. الدرس 13 خطأ شائع في الكتابة الأكاديمية بالايلتس</span></div>
+                <i class="fas fa-check-circle completion-badge"></i>
             </div>
-            <div class="lesson-item" onclick="playMedia('1d1IiMIBmVSgtgW1qPPaMvW7hkxpdmnD-', '9. انواع الجمل الإنجليزية في كتابة الآيلتس', 'شرح تفصيلي لكيفية التنويع بين الجمل البسيطة والمركبة والمعقدة (Simple, Compound, Complex) لتلبية معايير التقييم وحصد درجات عالية.', 'drive', this)">
-                <i class="fas fa-video"></i> <span>9. انواع الجمل الإنجليزية في كتابة الآيلتس</span>
+            <div class="lesson-item" id="lesson-9" onclick="playMedia('1d1IiMIBmVSgtgW1qPPaMvW7hkxpdmnD-', '9. انواع الجمل الإنجليزية في كتابة الآيلتس', 'شرح تفصيلي لكيفية التنويع بين الجمل البسيطة والمركبة والمعقدة (Simple, Compound, Complex) لتلبية معايير التقييم وحصد درجات عالية.', 'drive', this)">
+                <div class="lesson-info"><i class="fas fa-video"></i> <span>9. انواع الجمل الإنجليزية في كتابة الآيلتس</span></div>
+                <i class="fas fa-check-circle completion-badge"></i>
             </div>
-            <div class="lesson-item" onclick="playMedia('1Q3lj78gMnd2ME9AlG1ThT0OzgVx1Er_v', '10. علامات الترقيم الأساسية للكتابة بالإنجليزية', 'تعلم القواعد الصحيحة لاستخدام الفاصلة، النقطة، وغيرها من علامات الترقيم لتفادي خسارة الدرجات في معيار التماسك والترابط اللغوي.', 'drive', this)">
-                <i class="fas fa-video"></i> <span>10. علامات الترقيم الأساسية للكتابة بالإنجليزية</span>
+            <div class="lesson-item" id="lesson-10" onclick="playMedia('1Q3lj78gMnd2ME9AlG1ThT0OzgVx1Er_v', '10. علامات الترقيم الأساسية للكتابة بالإنجليزية', 'تعلم القواعد الصحيحة لاستخدام الفاصلة، النقطة، وغيرها من علامات الترقيم لتفادي خسارة الدرجات في معيار التماسك والترابط اللغوي.', 'drive', this)">
+                <div class="lesson-info"><i class="fas fa-video"></i> <span>10. علامات الترقيم الأساسية للكتابة بالإنجليزية</span></div>
+                <i class="fas fa-check-circle completion-badge"></i>
             </div>
-            <div class="lesson-item" onclick="playMedia('1XifZJDFEhZ3smfaiCzwS-7vjFaddGo0X', '11. المهمة الأولى بكتابة الآيلتس الأكاديمي', 'شرح تطبيقي وعملي لكيفية التعامل مع متطلبات الـ Task 1 الأكاديمي واستعراض التكنيكات المباشرة لتنظيم الأفكار والبيانات.', 'drive', this)">
-                <i class="fas fa-video"></i> <span>11. المهمة الأولى بكتابة الآيلتس الأكاديمي</span>
+            <div class="lesson-item" id="lesson-11" onclick="playMedia('1XifZJDFEhZ3smfaiCzwS-7vjFaddGo0X', '11. المهمة الأولى بكتابة الآيلتس الأكاديمي', 'شرح تطبيقي وعملي لكيفية التعامل مع متطلبات الـ Task 1 الأكاديمي واستعراض التكنيكات المباشرة لتنظيم الأفكار والبيانات.', 'drive', this)">
+                <div class="lesson-info"><i class="fas fa-video"></i> <span>11. المهمة الأولى بكتابة الآيلتس الأكاديمي</span></div>
+                <i class="fas fa-check-circle completion-badge"></i>
             </div>
 
             <div class="section-title">قسم الاستماع (IELTS Listening)</div>
-            <div class="lesson-item" onclick="playMedia('1c1eGri9OVEcQV7xkVxY5B0AT5RR3K8ND', '12. أفضل طرق حل أسئلة الاستماع في الأيلتس', 'شرح تأسيسي لاستراتيجيات حل قسم الاستماع، وكيفية التركيز لالتقاط الإجابات الصحيحة وتجنب المشتتات والخدع الصوتية أثناء الاختبار.', 'drive', this)">
-                <i class="fas fa-video"></i> <span>12. أفضل طرق حل أسئلة الاستماع في الأيلتس</span>
+            <div class="lesson-item" id="lesson-12" onclick="playMedia('1c1eGri9OVEcQV7xkVxY5B0AT5RR3K8ND', '12. أفضل طرق حل أسئلة الاستماع في الأيلتس', 'شرح تأسيسي لاستراتيجيات حل قسم الاستماع، وكيفية التركيز لالتقاط الإجابات الصحيحة وتجنب المشتتات والخدع الصوتية أثناء الاختبار.', 'drive', this)">
+                <div class="lesson-info"><i class="fas fa-video"></i> <span>12. أفضل طرق حل أسئلة الاستماع في الأيلتس</span></div>
+                <i class="fas fa-check-circle completion-badge"></i>
             </div>
-            <div class="lesson-item" onclick="playMedia('1u4pTjzYffhZLn_9wnHY33gwLe_nhdJ2n', '13. كيف تحسن درجتك في قسم الإستماع بالأيلتس؟', 'شرح متقدم ومكمل لاستراتيجيات التغلب على الخدع السمعية ومطابقة الكلمات المفتاحية بدقة لضمان تحسين مجموع الدرجات.', 'drive', this)">
-                <i class="fas fa-video"></i> <span>13. كيف تحسن درجتك في قسم الإستماع بالأيلتس؟</span>
+            <div class="lesson-item" id="lesson-13" onclick="playMedia('1u4pTjzYffhZLn_9wnHY33gwLe_nhdJ2n', '13. كيف تحسن درجتك في قسم الإستماع بالأيلتس؟', 'شرح متقدم ومكمل لاستراتيجيات التغلب على الخدع السمعية ومطابقة الكلمات المفتاحية بدقة لضمان تحسين مجموع الدرجات.', 'drive', this)">
+                <div class="lesson-info"><i class="fas fa-video"></i> <span>13. كيف تحسن درجتك في قسم الإستماع بالأيلتس؟</span></div>
+                <i class="fas fa-check-circle completion-badge"></i>
             </div>
-            <div class="lesson-item" onclick="playMedia('1gN-nQRAXSFJpHjqyIzql-KrP456KZLke', '14. خطوات بسيطة لحل سؤال الخريطة', 'شرح تفصيلي لتكنيكات التعامل مع أسئلة الخرائط والمخططات (Map/Plan Labelling) في اختبار الاستماع وكيفية تتبع الاتجاهات بدقة.', 'drive', this)">
-                <i class="fas fa-video"></i> <span>14. خطوات بسيطة لحل سؤال الخريطة</span>
+            <div class="lesson-item" id="lesson-14" onclick="playMedia('1gN-nQRAXSFJpHjqyIzql-KrP456KZLke', '14. خطوات بسيطة لحل سؤال الخريطة', 'شرح تفصيلي لتكنيكات التعامل مع أسئلة الخرائط والمخططات (Map/Plan Labelling) في اختبار الاستماع وكيفية تتبع الاتجاهات بدقة.', 'drive', this)">
+                <div class="lesson-info"><i class="fas fa-video"></i> <span>14. خطوات بسيطة لحل سؤال الخريطة</span></div>
+                <i class="fas fa-check-circle completion-badge"></i>
             </div>
-            <div class="lesson-item" onclick="playMedia('1V-1LvXG0D7luSx78em7wOw4va3c6iyi0', '15. التدريب على حل الجزء الثالث من قسم الاستماع في الايلتس', 'جلسة تدريبية عملية وتطبيقية على أسئلة الجزء الثالث (Part 3) الأكاديمي الشامل لحل أصعب التمارين والتغلب على تداخل الخيارات.', 'drive', this)">
-                <i class="fas fa-video"></i> <span>15. التدريب على حل الجزء الثالث من قسم الاستماع في الايلتس</span>
+            <div class="lesson-item" id="lesson-15" onclick="playMedia('1V-1LvXG0D7luSx78em7wOw4va3c6iyi0', '15. التدريب على حل الجزء الثالث من قسم الاستماع في الايلتس', 'جلسة تدريبية عملية وتطبيقية على أسئلة الجزء الثالث (Part 3) الأكاديمي الشامل لحل أصعب التمارين والتغلب على تداخل الخيارات.', 'drive', this)">
+                <div class="lesson-info"><i class="fas fa-video"></i> <span>15. التدريب على حل الجزء الثالث من قسم الاستماع في الايلتس</span></div>
+                <i class="fas fa-check-circle completion-badge"></i>
             </div>
-            <div class="lesson-item" onclick="playMedia('1F0gWmqSrlbme5bzUMD8LMmSDohqwJ1p0', '16. الكلمات الأكثر استخداما في الجزء الثالث من استماع الايلتس', 'استعراض لأكثر المفردات والكلمات الأكاديمية تكراراً في الجزء الثالث لتسهيل فهم الحوارات السريعة ومطابقة المرادفات بكفاءة.', 'drive', this)">
-                <i class="fas fa-video"></i> <span>16. الكلمات الأكثر استخداما في الجزء الثالث من استماع الايلتس</span>
+            <div class="lesson-item" id="lesson-16" onclick="playMedia('1F0gWmqSrlbme5bzUMD8LMmSDohqwJ1p0', '16. الكلمات الأكثر استخداما في الجزء الثالث من استماع الايلتس', 'استعراض لأكثر المفردات والكلمات الأكاديمية تكراراً في الجزء الثالث لتسهيل فهم الحوارات السريعة ومطابقة المرادفات بكفاءة.', 'drive', this)">
+                <div class="lesson-info"><i class="fas fa-video"></i> <span>16. الكلمات الأكثر استخداما في الجزء الثالث من استماع الايلتس</span></div>
+                <i class="fas fa-check-circle completion-badge"></i>
             </div>
 
             <div class="section-title">قسم المحادثة (IELTS Speaking)</div>
-            <div class="lesson-item" onclick="playMedia('1aFthnza8hr8PV6fZG0Xk69TnJeaAl1AD', '17. 7 أخطاء شائعة يقع فيها معظم المتقدمين للاختبار', 'تعرف على أشهر 7 سقطات شائعة في اختبار التحدث وتجنبها تماماً لتضمن الحفاظ على طلاقة وثقة عالية أمام الممتحن.', 'drive', this)">
-                <i class="fas fa-video"></i> <span>17. 7 أخطاء شائعة يقع فيها معظم المتقدمين للاختبار</span>
+            <div class="lesson-item" id="lesson-17" onclick="playMedia('1aFthnza8hr8PV6fZG0Xk69TnJeaAl1AD', '17. 7 أخطاء شائعة يقع فيها معظم المتقدمين للاختبار', 'تعرف على أشهر 7 سقطات شائعة في اختبار التحدث وتجنبها تماماً لتضمن الحفاظ على طلاقة وثقة عالية أمام الممتحن.', 'drive', this)">
+                <div class="lesson-info"><i class="fas fa-video"></i> <span>17. 7 أخطاء شائعة يقع فيها معظم المتقدمين للاختبار</span></div>
+                <i class="fas fa-check-circle completion-badge"></i>
             </div>
-            <div class="lesson-item" onclick="playMedia('1dzbjyd3mpqtACWIZIYB44fxKNJ7Jc8Vx', '18. أساسيات قسم التحدث باختبار الآيلتس', 'شرح مبسط لهيكل وشروط قسم التحدث، وكيفية تقسيم الإجابات وتلبية المعايير الأربعة التي يتم التقييم بناءً عليها.', 'drive', this)">
-                <i class="fas fa-video"></i> <span>18. أساسيات قسم التحدث باختبار الآيلتس</span>
+            <div class="lesson-item" id="lesson-18" onclick="playMedia('1dzbjyd3mpqtACWIZIYB44fxKNJ7Jc8Vx', '18. أساسيات قسم التحدث باختبار الآيلتس', 'شرح مبسط لهيكل وشروط قسم التحدث، وكيفية تقسيم الإجابات وتلبية المعايير الأربعة التي يتم التقييم بناءً عليها.', 'drive', this)">
+                <div class="lesson-info"><i class="fas fa-video"></i> <span>18. أساسيات قسم التحدث باختبار الآيلتس</span></div>
+                <i class="fas fa-check-circle completion-badge"></i>
             </div>
-            <div class="lesson-item" onclick="playMedia('1n-eLQvHUkWdnK9tWPGB9f0KeSEOgyR11', '19. خمس طرق ذكية للتحدث بطلاقة في اختبار الآيلتس', 'استراتيجيات عملية وتقنيات ذكية للتغلب على التلعثم والتردد، وتنظيم الأفكار بشكل عفوي ومقنع خلال أجزاء الاختبار.', 'drive', this)">
-                <i class="fas fa-video"></i> <span>19. خمس طرق ذكية للتحدث بطلاقة في اختبار الآيلتس</span>
+            <div class="lesson-item" id="lesson-19" onclick="playMedia('1n-eLQvHUkWdnK9tWPGB9f0KeSEOgyR11', '19. خمس طرق ذكية للتحدث بطلاقة في اختبار الآيلتس', 'استراتيجيات عملية وتقنيات ذكية للتغلب على التلعثم والتردد، وتنظيم الأفكار بشكل عفوي ومقنع خلال أجزاء الاختبار.', 'drive', this)">
+                <div class="lesson-info"><i class="fas fa-video"></i> <span>19. خمس طرق ذكية للتحدث بطلاقة في اختبار الآيلتس</span></div>
+                <i class="fas fa-check-circle completion-badge"></i>
             </div>
-            <div class="lesson-item" onclick="playMedia('1-NztFBTIAt6iD-vGSc__RBBgPQD4rThX', '20. كلمة بديلة لجيد جداً وسيئ جداً', 'أثري حصيلتك اللغوية بالتوقف عن استخدام الكلمات المكررة، وتعلم البدائل الأكاديمية القوية لرفع سكور الـ Lexical Resource.', 'drive', this)">
-                <i class="fas fa-video"></i> <span>20. كلمة بديلة لجيد جداً وسيئ جداً</span>
+            <div class="lesson-item" id="lesson-20" onclick="playMedia('1-NztFBTIAt6iD-vGSc__RBBgPQD4rThX', '20. كلمة بديلة لجيد جداً وسيئ جداً', 'أثري حصيلتك اللغوية بالتوقف عن استخدام الكلمات المكررة، وتعلم البدائل الأكاديمية القوية لرفع سكور الـ Lexical Resource.', 'drive', this)">
+                <div class="lesson-info"><i class="fas fa-video"></i> <span>20. كلمة بديلة لجيد جداً وسيئ جداً</span></div>
+                <i class="fas fa-check-circle completion-badge"></i>
             </div>
-            <div class="lesson-item" onclick="playMedia('1FpElonG8Kfnj-_drymKzYu8uY1LjuQHe', '21. مصطلحات للتحدث بطلاقة في اختبار الأيلتس', 'مجموعة مميزة من التعبيرات الاصطلاحية (Idioms) والروابط الكلامية التي تمنح إجابتك طابعاً طبيعياً وقوياً كالمتحدثين الأصليين.', 'drive', this)">
-                <i class="fas fa-video"></i> <span>21. مصطلحات للتحدث بطلاقة في اختبار الأيلتس</span>
+            <div class="lesson-item" id="lesson-21" onclick="playMedia('1FpElonG8Kfnj-_drymKzYu8uY1LjuQHe', '21. مصطلحات للتحدث بطلاقة في اختبار الأيلتس', 'مجموعة مميزة من التعبيرات الاصطلاحية (Idioms) والروابط الكلامية التي تمنح إجابتك طابعاً طبيعياً وقوياً كالمتحدثين الأصليين.', 'drive', this)">
+                <div class="lesson-info"><i class="fas fa-video"></i> <span>21. مصطلحات للتحدث بطلاقة في اختبار الأيلتس</span></div>
+                <i class="fas fa-check-circle completion-badge"></i>
             </div>
 
             <div class="section-title">خاتمة المنصة</div>
-            <div class="lesson-item" onclick="playMedia('1CZ437WJE4_QhJqALmhB7ejdFnRPTyu9n', '22. كورس أيلتس شامل في (7 ساعات)', 'المرجع الشامل والدليل الذهبي الأضخم على المنصة؛ كورس كامل ومكثف يجمع كافة المهارات والتكنيكات التطبيقية لاجتياز الاختبار في جلسة واحدة مراجعة.', 'drive', this)">
-                <i class="fas fa-graduation-cap"></i> <span>22. كورس أيلتس شامل في (7 ساعات)</span>
+            <div class="lesson-item" id="lesson-22" onclick="playMedia('1CZ437WJE4_QhJqALmhB7ejdFnRPTyu9n', '22. كورس أيلتس شامل في (7 ساعات)', 'المرجع الشامل والدليل الذهبي الأضخم على المنصة؛ كورس كامل ومكثف يجمع كافة المهارات والتكنيكات التطبيقية لاجتياز الاختبار في جلسة واحدة مراجعة.', 'drive', this)">
+                <div class="lesson-info"><i class="fas fa-graduation-cap"></i> <span>22. كورس أيلتس شامل في (7 ساعات)</span></div>
+                <i class="fas fa-check-circle completion-badge"></i>
             </div>
 
         </div>
@@ -138,37 +169,140 @@
             <iframe id="driveFrame" style="display:none;" allow="autoplay" allowfullscreen></iframe>
         </div>
         <div class="details">
-            <h1 id="titleText">1. بوابة النجاح</h1>
-            <p id="descText">مقدمة تعريفية عن المنصة وكيفية البدء واستغلال الكورس الشامل.</p>
+            <div class="details-text">
+                <h1 id="titleText">1. بوابة النجاح</h1>
+                <p id="descText">مقدمة تعريفية عن المنصة وكيفية البدء واستغلال الكورس الشامل.</p>
+            </div>
+            <div class="action-area">
+                <button class="complete-btn" id="completeBtn" onclick="toggleCompletion()">
+                    <i class="fas fa-check"></i> <span id="btnText">تحديد كدرس منجز</span>
+                </button>
+                <div class="resume-alert" id="resumeAlert">
+                    <i class="fas fa-history"></i> <span id="resumeAlertText">توقفت سابقاً عند الدقيقة 0:00</span>
+                </div>
+            </div>
         </div>
     </main>
 
     <script>
+        let currentLessonId = 'lesson-1';
+        let currentVideoType = 'cloudinary';
+
+        // الحماية ورمز الدخول المحدث
         function checkAccess() {
-            if(document.getElementById('passCode').value === '1234') document.getElementById('lock-screen').style.display = 'none';
-            else alert('الرمز خطأ!');
+            if(document.getElementById('passCode').value === '51talk') {
+                document.getElementById('lock-screen').style.display = 'none';
+                loadUserData();
+            } else {
+                alert('الرمز خطأ!');
+            }
         }
 
+        // تشغيل الميديا والتحكم بالخواص
         function playMedia(source, title, desc, type, el) {
             document.querySelectorAll('.lesson-item').forEach(i => i.classList.remove('active'));
             el.classList.add('active');
+            currentLessonId = el.id;
+            currentVideoType = type;
+
             document.getElementById('titleText').innerText = title;
             document.getElementById('descText').innerText = desc;
             
             const video = document.getElementById('directVideo');
             const iframe = document.getElementById('driveFrame');
+            const resumeAlert = document.getElementById('resumeAlert');
+            
+            resumeAlert.style.display = 'none';
+            updateButtonState();
 
             if(type === 'drive') {
                 video.style.display = 'none';
                 video.pause();
                 iframe.style.display = 'block';
                 iframe.src = `https://drive.google.com/file/d/${source}/preview`;
+                
+                // جلب آخر توقف لفيديوهات الدرايف وعرض تنبيه للطالب
+                let savedTime = localStorage.getItem('time_' + currentLessonId);
+                if (savedTime && parseFloat(savedTime) > 5) {
+                    let mins = Math.floor(savedTime / 60);
+                    let secs = Math.floor(savedTime % 60);
+                    document.getElementById('resumeAlertText').innerText = `توقفت سابقاً عند الدقيقة ${mins}:${secs < 10 ? '0' : ''}${secs}`;
+                    resumeAlert.style.display = 'flex';
+                }
             } else {
                 iframe.style.display = 'none';
                 iframe.src = '';
                 video.style.display = 'block';
                 video.src = source;
                 video.play();
+
+                // العودة التلقائية للثانية المحددة في مشغل الفيديو المباشر
+                let savedTime = localStorage.getItem('time_' + currentLessonId);
+                if (savedTime) {
+                    video.currentTime = parseFloat(savedTime);
+                }
+            }
+            
+            localStorage.setItem('last_watched_lesson', currentLessonId);
+        }
+
+        // حفظ مكان التوقف تلقائياً كل 4 ثوانٍ للفيديو النشط
+        const directVideoPlayer = document.getElementById('directVideo');
+        directVideoPlayer.ontimeupdate = function() {
+            if (currentVideoType === 'cloudinary' && directVideoPlayer.currentTime > 2) {
+                localStorage.setItem('time_' + currentLessonId, directVideoPlayer.currentTime);
+            }
+        };
+
+        // خاصية تم الإنجاز
+        function toggleCompletion() {
+            const el = document.getElementById(currentLessonId);
+            let completedList = JSON.parse(localStorage.getItem('completed_lessons') || '[]');
+            
+            if (el.classList.contains('completed-item')) {
+                el.classList.remove('completed-item');
+                completedList = completedList.filter(id => id !== currentLessonId);
+            } else {
+                el.classList.add('completed-item');
+                if (!completedList.includes(currentLessonId)) completedList.push(currentLessonId);
+            }
+            
+            localStorage.setItem('completed_lessons', JSON.stringify(completedList));
+            updateButtonState();
+        }
+
+        function updateButtonState() {
+            const el = document.getElementById(currentLessonId);
+            const btn = document.getElementById('completeBtn');
+            const btnText = document.getElementById('btnText');
+            
+            if (el && el.classList.contains('completed-item')) {
+                btn.classList.add('is-done');
+                btnText.innerText = 'تم الإنجاز ✓';
+            } else {
+                btn.classList.remove('is-done');
+                btnText.innerText = 'تحديد كدرس منجز';
+            }
+        }
+
+        // تحميل البيانات المحفوظة بجهاز الطالب فور الدخول الصحيح
+        function loadUserData() {
+            // 1. تحميل الفيديوهات المنجزة
+            let completedList = JSON.parse(localStorage.getItem('completed_lessons') || '[]');
+            completedList.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.add('completed-item');
+            });
+
+            // 2. تذكر آخر فيديو شاهده الطالب وفتحه تلقائياً
+            let lastLesson = localStorage.getItem('last_watched_lesson');
+            if (lastLesson) {
+                const el = document.getElementById(lastLesson);
+                if (el) {
+                    el.click();
+                }
+            } else {
+                updateButtonState();
             }
         }
     </script>
