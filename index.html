@@ -55,8 +55,8 @@
             <div class="lesson-item active" onclick="playLesson('https://res.cloudinary.com/dr3i6fqai/video/upload/v1778804565/Lark20260515-032212_pp1bf8.mp4', '1. بوابة النجاح: 51Talk', 'مقدمة تعريفية عن المنصة وكيفية البدء والمميزات المتاحة.', this)">
                 <i class="fas fa-play-circle"></i> <span>1. بوابة النجاح</span>
             </div>
-            <div class="lesson-item" onclick="playLesson('https://res.cloudinary.com/dr3i6fqai/video/upload/v1778809271/R1-_IELTS_Reading_Basics_%D8%A3%D8%B3%D8%A7%D8%B3%D9%8A%D8%A7%D8%AA_%D9%82%D8%B3%D9%85_%D8%A7%D9%84%D9%82%D8%B1%D8%A7%D8%A1%D8%A9_%D9%81%D9%8I_%D8%A7%D9%84%D8%A7%D9%8A%D9%84%D8%AA%D8%B3_xlhqh5.mp4', '2. أساسيات قسم القراءة', 'شرح مفصل لأساسيات واستراتيجيات قسم القراءة في اختبار الايلتس.', this)">
-                <i class="fas fa-book-open"></i> <span>2. أساسيات القراءة</span>
+            <div class="lesson-item" onclick="playLesson('https://res.cloudinary.com/dr3i6fqai/video/upload/v1778809680/%D8%A7%D9%82%D9%88%D9%89_%D9%A5_%D8%AA%D9%83%D9%86%D9%8A%D9%83%D8%A7%D8%AA_%D9%81%D9%8A_%D9%82%D8%B3%D9%85_%D8%A7%D9%84%D9%82%D8%B1%D8%A7%D8%A1%D8%A9_-_%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D8%B2%D8%AF%D8%A7%D8%AF_%D9%84%D8%A7%D8%AE%D8%AA%D8%A8%D8%A7%D8%B1_%D8%A7%D9%84%D8%A7%D9%8A%D9%84%D8%AA%D8%B3_vsqujb.mp4', '2. أقوى 5 تكنيكات في القراءة', 'تعلم الاستراتيجيات الذهبية للتعامل مع نصوص القراءة المعقدة بسرعة ودقة.', this)">
+                <i class="fas fa-lightbulb"></i> <span>2. تكنيكات القراءة</span>
             </div>
         </div>
     </aside>
@@ -87,11 +87,11 @@
             el.classList.add('active');
 
             const wrapper = document.getElementById('playerWrapper');
-            // استخدام encodeURI للتعامل مع الرموز العربية في الرابط
-            const safeUrl = encodeURI(decodeURI(url));
+            // ميزة التنظيف التلقائي للرابط لضمان التشغيل
+            const cleanUrl = url.trim();
             
             wrapper.innerHTML = `<video id="vPlayer" controls autoplay preload="auto" controlsList="nodownload">
-                                    <source src="${safeUrl}" type="video/mp4">
+                                    <source src="${cleanUrl}" type="video/mp4">
                                  </video>`;
             
             document.getElementById('titleDisplay').innerText = title;
