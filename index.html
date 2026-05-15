@@ -18,28 +18,32 @@
         }
         .login-box { background: var(--sidebar); padding: 40px; border-radius: 20px; border: 1px solid var(--gold); text-align: center; box-shadow: 0 0 30px rgba(0,0,0,0.5); }
         .login-box input { padding: 12px; border-radius: 8px; border: none; width: 220px; text-align: center; font-size: 1.1rem; outline: none; margin-bottom: 10px; }
-        .login-box button { background: var(--gold); border: none; padding: 10px 30px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1rem; transition: 0.3s; }
-        .login-box button:hover { background: #b08d4a; transform: translateY(-2px); }
+        .login-box button { background: var(--gold); border: none; padding: 10px 30px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; }
 
         /* التصميم الرئيسي */
-        .sidebar { width: 350px; background: var(--sidebar); border-left: 1px solid rgba(197,160,89,0.2); display: flex; flex-direction: column; }
-        .sidebar-header { padding: 40px 20px; text-align: center; border-bottom: 1px solid rgba(197,160,89,0.1); }
-        .sidebar-header img { max-width: 180px; filter: drop-shadow(0 0 8px rgba(197, 160, 89, 0.3)); }
+        .sidebar { width: 380px; background: var(--sidebar); border-left: 1px solid rgba(197,160,89,0.2); display: flex; flex-direction: column; }
+        .sidebar-header { padding: 25px; text-align: center; border-bottom: 1px solid rgba(197,160,89,0.1); }
+        .sidebar-header img { max-width: 150px; margin-bottom: 15px; }
         
-        .lessons-list { flex-grow: 1; overflow-y: auto; padding: 20px; }
-        .lesson-item { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 12px; margin-bottom: 12px; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: 0.3s; border: 1px solid transparent; }
-        .lesson-item:hover { background: rgba(197,160,89,0.1); border-color: rgba(197,160,89,0.3); }
-        .lesson-item.active { background: var(--gold); color: black; font-weight: bold; }
+        /* خانة البحث */
+        .search-box { padding: 10px 20px; }
+        .search-box input { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(197,160,89,0.3); background: rgba(255,255,255,0.05); color: white; outline: none; font-family: 'Cairo'; }
 
-        .main-content { flex-grow: 1; display: flex; flex-direction: column; }
-        .video-container { width: 100%; aspect-ratio: 16/9; background: #000; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .lessons-list { flex-grow: 1; overflow-y: auto; padding: 15px; scrollbar-width: thin; scrollbar-color: var(--gold) transparent; }
+        .lesson-item { background: rgba(255,255,255,0.02); padding: 12px; border-radius: 10px; margin-bottom: 8px; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: 0.2s; border: 1px solid transparent; }
+        .lesson-item:hover { background: rgba(197,160,89,0.08); border-color: rgba(197,160,89,0.2); }
+        .lesson-item.active { background: var(--gold); color: black; font-weight: bold; }
+        .lesson-item i { font-size: 1.2rem; min-width: 25px; }
+
+        .main-content { flex-grow: 1; display: flex; flex-direction: column; background: #000; }
+        .video-container { width: 100%; aspect-ratio: 16/9; background: #000; }
         video { width: 100%; height: 100%; outline: none; }
         
-        .details { padding: 40px; overflow-y: auto; }
-        .details h1 { color: var(--gold); margin: 0; font-size: 2.2rem; }
-        .details p { margin-top: 15px; font-size: 1.15rem; line-height: 1.8; color: #94a3b8; max-width: 800px; }
+        .details { padding: 30px; background: var(--bg); flex-grow: 1; border-top: 1px solid rgba(197,160,89,0.1); }
+        .details h1 { color: var(--gold); margin: 0; font-size: 1.8rem; }
+        .details p { margin-top: 10px; font-size: 1.05rem; line-height: 1.6; color: #94a3b8; }
 
-        @media (max-width: 900px) {
+        @media (max-width: 1000px) {
             body { flex-direction: column; overflow: auto; }
             .sidebar { width: 100%; height: auto; }
             .video-container { aspect-ratio: 16/9; }
@@ -52,25 +56,32 @@
         <div class="login-box">
             <h2 style="color:var(--gold)">دخول الطلاب</h2>
             <p>يرجى إدخال رمز الوصول الخاص بالأكاديمية</p>
-            <input type="password" id="passCode" placeholder="أدخل الرمز هنا">
+            <input type="password" id="passCode" placeholder="أدخل الرمز">
             <br>
-            <button onclick="checkAccess()">دخول المنصة</button>
+            <button onclick="checkAccess()">دخول</button>
         </div>
     </div>
 
     <aside class="sidebar">
         <div class="sidebar-header">
-            <img src="https://res.cloudinary.com/dr3i6fqai/image/upload/v1778798404/117_z6fozk.png" alt="51Talk Logo">
+            <img src="https://res.cloudinary.com/dr3i6fqai/image/upload/v1778798404/117_z6fozk.png" alt="Logo">
         </div>
+        
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="ابحث عن درس..." onkeyup="searchLessons()">
+        </div>
+
         <div class="lessons-list" id="list">
-            <div class="lesson-item active" onclick="play('https://res.cloudinary.com/dr3i6fqai/video/upload/f_auto,q_auto/v1778804565/Lark20260515-032212_pp1bf8.mp4', 'بوابة النجاح: 51Talk', 'مقدمة تعريفية شاملة عن منصة 51Talk في المملكة العربية السعودية، وأهم ميزاتها وكيفية البدء في تطوير مهاراتك اللغوية من خلالها.', this)">
-                <i class="fas fa-play-circle" style="font-size: 1.5rem;"></i>
+            <div class="lesson-item active" onclick="play('https://res.cloudinary.com/dr3i6fqai/video/upload/f_auto,q_auto/v1778804565/Lark20260515-032212_pp1bf8.mp4', 'بوابة النجاح: 51Talk', 'مقدمة تعريفية عن المنصة في السعودية.', this)">
+                <i class="fas fa-play-circle"></i>
                 <span>1. بوابة النجاح: 51Talk</span>
             </div>
-            
-            <div style="color: #444; font-size: 0.8rem; margin-top: 20px; text-align: center; border-top: 1px solid #111; padding-top: 10px;">
-                قريباً: تكتيكات الـ IELTS المتقدمة
+
+            <div class="lesson-item" onclick="play('رابط_فيديو_2', 'نصائح وخفايا الآيلتس', 'أسرار وتكتيكات للحصول على الدرجة المطلوبة.', this)">
+                <i class="fas fa-lightbulb"></i>
+                <span>2. نصائح وخفايا الآيلتس</span>
             </div>
+            
         </div>
     </aside>
 
@@ -82,43 +93,36 @@
         </div>
         <div class="details">
             <h1 id="title">بوابة النجاح: 51Talk</h1>
-            <p id="desc">مقدمة تعريفية شاملة عن منصة 51Talk في المملكة العربية السعودية، وأهم ميزاتها وكيفية البدء في تطوير مهاراتك اللغوية من خلالها.</p>
+            <p id="desc">مقدمة تعريفية عن المنصة في السعودية.</p>
         </div>
     </main>
 
     <script>
-        // التحقق من الرمز
         function checkAccess() {
             const code = document.getElementById('passCode').value;
             if(code === '1234') { 
-                document.getElementById('lock-screen').style.opacity = '0';
-                setTimeout(() => {
-                    document.getElementById('lock-screen').style.display = 'none';
-                }, 300);
-            } else {
-                alert('عذراً، الرمز الذي أدخلته غير صحيح.');
-            }
+                document.getElementById('lock-screen').style.display = 'none';
+            } else { alert('الرمز خطأ!'); }
         }
 
-        // دعم مفتاح Enter
-        document.getElementById('passCode').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') { checkAccess(); }
-        });
-
-        // تشغيل الفيديو وتحديث البيانات
         function play(url, title, desc, el) {
             document.querySelectorAll('.lesson-item').forEach(i => i.classList.remove('active'));
             el.classList.add('active');
-            
             const v = document.getElementById('player');
-            const s = document.getElementById('source');
-            
-            s.src = url;
+            document.getElementById('source').src = url;
             document.getElementById('title').innerText = title;
             document.getElementById('desc').innerText = desc;
-            
-            v.load();
-            v.play();
+            v.load(); v.play();
+        }
+
+        // وظيفة البحث
+        function searchLessons() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let items = document.getElementsByClassName('lesson-item');
+            for (let i = 0; i < items.length; i++) {
+                let text = items[i].getElementsByTagName('span')[0].innerText.toLowerCase();
+                items[i].style.display = text.includes(input) ? "flex" : "none";
+            }
         }
     </script>
 </body>
