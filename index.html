@@ -12,9 +12,10 @@
         
         /* شاشة الدخول */
         #lock-screen { position: fixed; inset: 0; background: var(--bg); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .login-box { background: var(--sidebar); padding: 40px; border-radius: 20px; border: 1px solid var(--gold); text-align: center; }
-        .login-box input { padding: 12px; border-radius: 8px; border: none; width: 220px; text-align: center; margin-bottom: 15px; outline: none; }
+        .login-box { background: var(--sidebar); padding: 40px; border-radius: 20px; border: 1px solid var(--gold); text-align: center; box-shadow: 0 0 30px rgba(0,0,0,0.5); }
+        .login-box input { padding: 12px; border-radius: 8px; border: none; width: 220px; text-align: center; margin-bottom: 15px; outline: none; font-size: 1.1rem; }
         .login-box button { background: var(--gold); border: none; padding: 10px 30px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .login-box button:hover { background: #b08d4a; }
 
         /* القائمة الجانبية */
         .sidebar { width: 350px; background: var(--sidebar); border-left: 1px solid rgba(197,160,89,0.2); display: flex; flex-direction: column; }
@@ -41,6 +42,7 @@
     <div id="lock-screen">
         <div class="login-box">
             <h2 style="color:var(--gold)">دخول الطلاب</h2>
+            <p>يرجى إدخال رمز الوصول</p>
             <input type="password" id="passCode" placeholder="أدخل الرمز">
             <br>
             <button onclick="checkAccess()">دخول</button>
@@ -52,11 +54,11 @@
             <img src="https://res.cloudinary.com/dr3i6fqai/image/upload/v1778798404/117_z6fozk.png" alt="Logo">
         </div>
         <div class="lessons-list" id="list">
-            <div class="lesson-item active" onclick="forcePlay('https://res.cloudinary.com/dr3i6fqai/video/upload/f_auto,q_auto/v1778804565/Lark20260515-032212_pp1bf8.mp4', '1. بوابة النجاح', 'مقدمة تعريفية عن المنصة وكيفية البدء.', this)">
+            <div class="lesson-item active" onclick="playLesson('https://res.cloudinary.com/dr3i6fqai/video/upload/v1778804565/Lark20260515-032212_pp1bf8.mp4', '1. بوابة النجاح: 51Talk', 'مقدمة تعريفية عن المنصة وكيفية البدء والمميزات المتاحة.', this)">
                 <i class="fas fa-play-circle"></i> <span>1. بوابة النجاح</span>
             </div>
-            <div class="lesson-item" onclick="forcePlay('https://res.cloudinary.com/dr3i6fqai/video/upload/vc_h264/v1778806504/psv9wo.mp4', '2. الخطة الكاملة', 'دليل شامل يختصر عليك الطريق في 10 دقائق فقط.', this)">
-                <i class="fas fa-map-marked-alt"></i> <span>2. الخطة الكاملة</span>
+            <div class="lesson-item" onclick="playLesson('https://res.cloudinary.com/dr3i6fqai/video/upload/v1778808840/Lark20260515-043329_btx1jr.mp4', '2. خطة الايلتس المختصرة', 'شرح سريع ومبسط للبدء في رحلة الايلتس.', this)">
+                <i class="fas fa-bolt"></i> <span>2. الخطة المختصرة</span>
             </div>
         </div>
     </aside>
@@ -64,34 +66,36 @@
     <main class="main-content">
         <div class="video-container" id="playerWrapper">
             <video id="vPlayer" controls preload="auto">
-                <source src="https://res.cloudinary.com/dr3i6fqai/video/upload/f_auto,q_auto/v1778804565/Lark20260515-032212_pp1bf8.mp4" type="video/mp4">
+                <source src="https://res.cloudinary.com/dr3i6fqai/video/upload/v1778804565/Lark20260515-032212_pp1bf8.mp4" type="video/mp4">
             </video>
         </div>
         <div class="details">
-            <h1 id="titleDisplay">1. بوابة النجاح</h1>
-            <p id="descDisplay">مقدمة تعريفية عن المنصة وكيفية البدء.</p>
+            <h1 id="titleDisplay">1. بوابة النجاح: 51Talk</h1>
+            <p id="descDisplay">مقدمة تعريفية عن المنصة وكيفية البدء والمميزات المتاحة.</p>
         </div>
     </main>
 
     <script>
         function checkAccess() {
-            if(document.getElementById('passCode').value === '1234') document.getElementById('lock-screen').style.display = 'none';
-            else alert('الرمز خطأ!');
+            if(document.getElementById('passCode').value === '1234') { 
+                document.getElementById('lock-screen').style.display = 'none';
+            } else { 
+                alert('الرمز غير صحيح، يرجى المحاولة مرة أخرى.'); 
+            }
         }
 
-        function forcePlay(url, title, desc, el) {
-            // تحديث القائمة
+        function playLesson(url, title, desc, el) {
+            // تحديث حالة القائمة النشطة
             document.querySelectorAll('.lesson-item').forEach(i => i.classList.remove('active'));
             el.classList.add('active');
 
-            // إعادة بناء المشغل لضمان تنظيف الذاكرة والبدء من جديد
+            // إعادة بناء المشغل لضمان عمل الرابط الجديد فوراً
             const wrapper = document.getElementById('playerWrapper');
             wrapper.innerHTML = `<video id="vPlayer" controls autoplay preload="auto" controlsList="nodownload">
                                     <source src="${url}" type="video/mp4">
-                                    متصفحك لا يدعم تشغيل هذا الفيديو.
                                  </video>`;
             
-            // تحديث النصوص
+            // تحديث نصوص العنوان والوصف
             document.getElementById('titleDisplay').innerText = title;
             document.getElementById('descDisplay').innerText = desc;
         }
