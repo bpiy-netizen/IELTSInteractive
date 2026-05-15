@@ -18,20 +18,19 @@
         .sidebar { width: 350px; background: var(--sidebar); border-left: 1px solid rgba(197,160,89,0.2); display: flex; flex-direction: column; }
         .sidebar-header { padding: 25px; text-align: center; border-bottom: 1px solid rgba(197,160,89,0.1); }
         .sidebar-header img { max-width: 150px; }
-        
         .lessons-list { flex-grow: 1; overflow-y: auto; padding: 15px; }
-        .lesson-item { background: rgba(255,255,255,0.02); padding: 15px; border-radius: 12px; margin-bottom: 10px; cursor: pointer; display: flex; align-items: center; gap: 15px; transition: 0.3s; border: 1px solid transparent; }
+        .lesson-item { background: rgba(255,255,255,0.02); padding: 15px; border-radius: 12px; margin-bottom: 10px; cursor: pointer; display: flex; align-items: center; gap: 15px; transition: 0.3s; }
         .lesson-item.active { background: var(--gold); color: black; font-weight: bold; }
 
         .main-content { flex-grow: 1; display: flex; flex-direction: column; background: #000; }
         .video-container { width: 100%; aspect-ratio: 16/9; background: #000; position: relative; }
-        #videoPlayerArea { width: 100%; height: 100%; border: none; }
+        iframe, video { width: 100%; height: 100%; border: none; position: absolute; top: 0; left: 0; }
         
-        .details { padding: 30px; background: var(--bg); border-top: 1px solid rgba(197,160,89,0.1); flex-grow: 1; }
+        .details { padding: 30px; background: var(--bg); border-top: 1px solid rgba(197,160,89,0.1); flex-grow: 1; overflow-y: auto; }
         .details h1 { color: var(--gold); margin: 0; font-size: 1.8rem; }
         .details p { margin-top: 10px; color: #94a3b8; line-height: 1.7; }
 
-        @media (max-width: 1000px) { body { flex-direction: column; overflow: auto; } .sidebar { width: 100%; height: auto; } }
+        @media (max-width: 1000px) { body { flex-direction: column; overflow: auto; } .sidebar { width: 100%; } }
     </style>
 </head>
 <body>
@@ -46,25 +45,22 @@
     </div>
 
     <aside class="sidebar">
-        <div class="sidebar-header">
-            <img src="https://res.cloudinary.com/dr3i6fqai/image/upload/v1778798404/117_z6fozk.png" alt="Logo">
-        </div>
+        <div class="sidebar-header"><img src="https://res.cloudinary.com/dr3i6fqai/image/upload/v1778798404/117_z6fozk.png"></div>
         <div class="lessons-list">
-            <div class="lesson-item active" onclick="playMedia('https://res.cloudinary.com/dr3i6fqai/video/upload/v1778804565/Lark20260515-032212_pp1bf8.mp4', '1. بوابة النجاح', 'مقدمة تعريفية عن المنصة.', 'cloudinary', this)">
+            <div class="lesson-item active" onclick="playMedia('https://res.cloudinary.com/dr3i6fqai/video/upload/v1778804565/Lark20260515-032212_pp1bf8.mp4', '1. بوابة النجاح', 'مقدمة تعريفية عن المنصة وكيفية البدء.', 'cloudinary', this)">
                 <i class="fas fa-play-circle"></i> <span>1. بوابة النجاح</span>
             </div>
             
-            <div class="lesson-item" onclick="playMedia('pS676O4p-Wk', '2. الكورس الشامل (يوتيوب)', 'هذا مثال لفيديو طويل يعمل بنظام التضمين الآمن.', 'youtube', this)">
-                <i class="fas fa-video"></i> <span>2. فيديو يوتيوب طويل</span>
+            <div class="lesson-item" onclick="playMedia('1_0DLq2upn41dzTRVa6cOjNwlYgXBtRJr', '2. أقوى 5 تكنيكات في قسم القراءة', 'شرح تفصيلي ومكثف لاستراتيجيات التعامل مع قسم القراءة في اختبار IELTS الاستعداد.', 'drive', this)">
+                <i class="fas fa-video"></i> <span>2. تكنيكات قسم القراءة</span>
             </div>
         </div>
     </aside>
 
     <main class="main-content">
         <div class="video-container" id="playerWrapper">
-            <video id="videoPlayerArea" controls autoplay>
-                <source src="https://res.cloudinary.com/dr3i6fqai/video/upload/v1778804565/Lark20260515-032212_pp1bf8.mp4" type="video/mp4">
-            </video>
+            <video id="directVideo" controls autoplay><source src="https://res.cloudinary.com/dr3i6fqai/video/upload/v1778804565/Lark20260515-032212_pp1bf8.mp4" type="video/mp4"></video>
+            <iframe id="driveFrame" style="display:none;" allow="autoplay" allowfullscreen></iframe>
         </div>
         <div class="details">
             <h1 id="titleText">1. بوابة النجاح</h1>
@@ -83,18 +79,21 @@
             el.classList.add('active');
             document.getElementById('titleText').innerText = title;
             document.getElementById('descText').innerText = desc;
+            
+            const video = document.getElementById('directVideo');
+            const iframe = document.getElementById('driveFrame');
 
-            const wrapper = document.getElementById('playerWrapper');
-
-            if(type === 'youtube') {
-                // استخدام youtube-nocookie لتجاوز قيود المتصفحات و GitHub
-                wrapper.innerHTML = `<iframe id="videoPlayerArea" src="https://www.youtube-nocookie.com/embed/${source}?autoplay=1&rel=0" 
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                    allowfullscreen></iframe>`;
+            if(type === 'drive') {
+                video.style.display = 'none';
+                video.pause();
+                iframe.style.display = 'block';
+                iframe.src = `https://drive.google.com/file/d/${source}/preview`;
             } else {
-                wrapper.innerHTML = `<video id="videoPlayerArea" controls autoplay>
-                                        <source src="${source}" type="video/mp4">
-                                     </video>`;
+                iframe.style.display = 'none';
+                iframe.src = '';
+                video.style.display = 'block';
+                video.src = source;
+                video.play();
             }
         }
     </script>
