@@ -3,141 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>أكاديمية IELTS | د. مصطفى مكاحلة</title>
+    <title>أكاديمية IELTS التفاعلية | د. مصطفى مكاحلة</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap');
-        
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
         :root {
-            --sidebar-bg: #000d1a;
-            --main-bg: #001226;
+            --primary: #000a14;
+            --sidebar: #001226;
             --gold: #c5a059;
-            --text-gray: #a0aec0;
+            --glass: rgba(255, 255, 255, 0.03);
         }
-
         body {
             margin: 0; font-family: 'Cairo', sans-serif;
-            background: var(--main-bg); color: white;
+            background: var(--primary); color: white;
             display: flex; height: 100vh; overflow: hidden;
         }
-
-        /* القائمة الجانبية - Sidebar */
+        /* القائمة الجانبية */
         .sidebar {
-            width: 350px; background: var(--sidebar-bg);
+            width: 350px; background: var(--sidebar);
             border-left: 1px solid rgba(197, 160, 89, 0.2);
             display: flex; flex-direction: column;
         }
-
-        .sidebar-header {
-            padding: 30px; text-align: center;
-            border-bottom: 1px solid rgba(197, 160, 89, 0.1);
-        }
-
+        .sidebar-header { padding: 30px; text-align: center; border-bottom: 1px solid rgba(197, 160, 89, 0.1); }
         .sidebar-header img { max-width: 180px; }
 
-        .course-list { flex-grow: 1; overflow-y: auto; padding: 20px; }
-
-        .category-title {
-            color: var(--gold); font-size: 0.8rem;
-            text-transform: uppercase; margin: 20px 0 10px;
-            letter-spacing: 1px; font-weight: bold;
-        }
-
+        .lessons-list { flex-grow: 1; overflow-y: auto; padding: 20px; }
         .lesson-item {
-            display: flex; align-items: center; gap: 15px;
-            padding: 15px; border-radius: 12px; margin-bottom: 8px;
-            cursor: pointer; transition: 0.3s;
-            background: rgba(255, 255, 255, 0.02);
+            background: var(--glass); padding: 15px; border-radius: 12px;
+            margin-bottom: 10px; cursor: pointer; transition: 0.3s;
+            display: flex; align-items: center; gap: 12px; border: 1px solid transparent;
         }
+        .lesson-item:hover { border-color: var(--gold); background: rgba(197, 160, 89, 0.1); }
+        .lesson-item.active { background: var(--gold); color: black; font-weight: bold; }
 
-        .lesson-item:hover { background: rgba(197, 160, 89, 0.1); }
-        .lesson-item.active { background: var(--gold); color: #000; }
-
-        .lesson-item i { font-size: 1.2rem; }
-
-        /* منطقة المحتوى - Main Content */
+        /* منطقة العرض */
         .main-content { flex-grow: 1; display: flex; flex-direction: column; overflow-y: auto; }
-
-        .video-container {
-            width: 100%; background: #000;
-            aspect-ratio: 16 / 9; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        video { width: 100%; height: 100%; object-fit: contain; }
-
-        .video-info { padding: 40px; }
-
-        .video-info h1 { color: var(--gold); margin: 0 0 10px; font-size: 2rem; }
-        .video-info p { color: var(--text-gray); font-size: 1.1rem; line-height: 1.6; }
-
-        /* التجاوب مع الجوال */
-        @media (max-width: 900px) {
-            body { flex-direction: column; overflow: auto; }
-            .sidebar { width: 100%; height: auto; }
-            .video-container { position: sticky; top: 0; z-index: 100; }
-        }
+        .video-container { width: 100%; aspect-ratio: 16/9; background: #000; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        video { width: 100%; height: 100%; }
+        .details { padding: 40px; }
+        .details h1 { color: var(--gold); font-size: 2rem; margin: 0; }
+        .details p { color: #888; font-size: 1.1rem; margin-top: 10px; }
     </style>
 </head>
 <body>
 
-    <div class="sidebar">
+    <aside class="sidebar">
         <div class="sidebar-header">
-            <img src="logo.png" alt="Logo" onerror="this.src='https://via.placeholder.com/150x50/000d1a/c5a059?text=IELTS+LOGO'">
+            <img src="logo.png" alt="IELTS Academy">
         </div>
-        
-        <div class="course-list">
-            <div class="category-title">وحدة الاستماع (Listening)</div>
-            <div class="lesson-item active" onclick="changeVideo('intro.mp4', 'مقدمة الأكاديمية', 'أهلاً بك يا دكتور مصطفى في منصتك التعليمية. هذا الفيديو يشرح آلية عمل النظام.', this)">
+        <div class="lessons-list">
+            <div class="lesson-item active" onclick="changeVideo('رابط_فيديو_Cloudinary_هنا', 'مقدمة الأكاديمية', 'كلمة ترحيبية من د. مصطفى مكاحلة', this)">
                 <i class="fas fa-play-circle"></i>
                 <span>1. المقدمة والترحيب</span>
             </div>
-            
-            <div class="lesson-item" onclick="changeVideo('lesson1.mp4', 'تكتيكات الاستماع 1', 'شرح مفصل لكيفية التعامل مع الجزء الأول من اختبار الاستماع.', this)">
-                <i class="fas fa-headphones"></i>
-                <span>2. تكتيكات الاستماع</span>
             </div>
+    </aside>
 
-            <div class="category-title">وحدة القراءة (Reading)</div>
-            <div class="lesson-item" onclick="changeVideo('reading-intro.mp4', 'أساسيات القراءة', 'كيف تدير وقتك في ساعة القراءة بفعالية.', this)">
-                <i class="fas fa-book-open"></i>
-                <span>1. إدارة الوقت في القراءة</span>
-            </div>
-        </div>
-    </div>
-
-    <div class="main-content">
+    <main class="main-content">
         <div class="video-container">
             <video id="mainPlayer" controls controlsList="nodownload">
-                <source id="vSource" src="intro.mp4" type="video/mp4">
-                متصفحك لا يدعم تشغيل هذا الفيديو.
+                <source id="vSource" src="رابط_فيديو_Cloudinary_هنا" type="video/mp4">
             </video>
         </div>
-
-        <div class="video-info">
-            <h1 id="vTitle">مقدمة الأكاديمية</h1>
-            <p id="vDesc">أهلاً بك يا دكتور مصطفى في منصتك التعليمية. هذا الفيديو يشرح آلية عمل النظام.</p>
-            <hr style="border: 0; border-top: 1px solid rgba(197, 160, 89, 0.1); margin: 30px 0;">
-            <div style="display: flex; gap: 20px;">
-                <button style="background: var(--gold); border: 0; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold;">تحميل المرفقات (PDF)</button>
-                <button style="background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 10px 20px; border-radius: 8px; cursor: pointer;">تواصل مع الدكتور</button>
-            </div>
+        <div class="details">
+            <h1 id="vTitle">مرحباً بك في أكاديمية IELTS</h1>
+            <p id="vDesc">دورة الآيلتس المكثفة - إشراف د. مصطفى مكاحلة</p>
         </div>
-    </div>
+    </main>
 
     <script>
-        function changeVideo(src, title, desc, element) {
+        function changeVideo(url, title, desc, element) {
             const video = document.getElementById('mainPlayer');
             const source = document.getElementById('vSource');
-            
-            // تحديث العناصر النشطة
-            document.querySelectorAll('.lesson-item').forEach(item => item.classList.remove('active'));
+            document.querySelectorAll('.lesson-item').forEach(i => i.classList.remove('active'));
             element.classList.add('active');
-
-            // تغيير مصدر الفيديو
-            source.src = src;
+            source.src = url;
             document.getElementById('vTitle').innerText = title;
             document.getElementById('vDesc').innerText = desc;
-
             video.load();
             video.play();
         }
