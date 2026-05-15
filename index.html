@@ -25,7 +25,6 @@
         .sidebar-header { padding: 25px; text-align: center; border-bottom: 1px solid rgba(197,160,89,0.1); }
         .sidebar-header img { max-width: 150px; margin-bottom: 15px; }
         
-        /* خانة البحث */
         .search-box { padding: 10px 20px; }
         .search-box input { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(197,160,89,0.3); background: rgba(255,255,255,0.05); color: white; outline: none; font-family: 'Cairo'; }
 
@@ -33,7 +32,6 @@
         .lesson-item { background: rgba(255,255,255,0.02); padding: 12px; border-radius: 10px; margin-bottom: 8px; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: 0.2s; border: 1px solid transparent; }
         .lesson-item:hover { background: rgba(197,160,89,0.08); border-color: rgba(197,160,89,0.2); }
         .lesson-item.active { background: var(--gold); color: black; font-weight: bold; }
-        .lesson-item i { font-size: 1.2rem; min-width: 25px; }
 
         .main-content { flex-grow: 1; display: flex; flex-direction: column; background: #000; }
         .video-container { width: 100%; aspect-ratio: 16/9; background: #000; }
@@ -46,7 +44,6 @@
         @media (max-width: 1000px) {
             body { flex-direction: column; overflow: auto; }
             .sidebar { width: 100%; height: auto; }
-            .video-container { aspect-ratio: 16/9; }
         }
     </style>
 </head>
@@ -72,16 +69,15 @@
         </div>
 
         <div class="lessons-list" id="list">
-            <div class="lesson-item active" onclick="play('https://res.cloudinary.com/dr3i6fqai/video/upload/f_auto,q_auto/v1778804565/Lark20260515-032212_pp1bf8.mp4', 'بوابة النجاح: 51Talk', 'مقدمة تعريفية عن المنصة في السعودية.', this)">
+            <div class="lesson-item active" onclick="play('https://res.cloudinary.com/dr3i6fqai/video/upload/f_auto,q_auto/v1778804565/Lark20260515-032212_pp1bf8.mp4', 'بوابة النجاح: 51Talk', 'مقدمة تعريفية عن المنصة في السعودية وكيفية البدء.', this)">
                 <i class="fas fa-play-circle"></i>
                 <span>1. بوابة النجاح: 51Talk</span>
             </div>
 
-            <div class="lesson-item" onclick="play('رابط_فيديو_2', 'نصائح وخفايا الآيلتس', 'أسرار وتكتيكات للحصول على الدرجة المطلوبة.', this)">
-                <i class="fas fa-lightbulb"></i>
-                <span>2. نصائح وخفايا الآيلتس</span>
+            <div class="lesson-item" onclick="play('https://res.cloudinary.com/dr3i6fqai/video/upload/f_auto,q_auto/v1778806504/%D8%A7%D9%84%D8%AE%D8%B7%D8%A9_%D8%A7%D9%84%D9%83%D8%A7%D9%85%D9%84%D8%A9_%D9%84%D8%A7%D8%AE%D8%AA%D8%A8%D8%A7%D8%B1_%D8%A7%D9%84%D8%A7%D9%8اي%D9%84%D8%AA%D8%B3_%D9%85%D9%86_%D8%A7%D9%84%D8%B5%D9%81%D8%B1_%D9%84%D9%84%D8%A5%D8%AD%D8%AA%D8%B1%D8%A7%D9%81_%D9%81%D9%8A_10_%D8%AF%D9%82%D8%A7%D9%8اي%D9%82_psv9wo.mp4', 'الخطة الكاملة للايلتس من الصفر', 'دليل شامل يختصر عليك الطريق من البداية حتى الاحتراف في 10 دقائق فقط.', this)">
+                <i class="fas fa-map-marked-alt"></i>
+                <span>2. الخطة الكاملة للايلتس</span>
             </div>
-            
         </div>
     </aside>
 
@@ -93,7 +89,7 @@
         </div>
         <div class="details">
             <h1 id="title">بوابة النجاح: 51Talk</h1>
-            <p id="desc">مقدمة تعريفية عن المنصة في السعودية.</p>
+            <p id="desc">مقدمة تعريفية عن المنصة في السعودية وكيفية البدء.</p>
         </div>
     </main>
 
@@ -115,7 +111,6 @@
             v.load(); v.play();
         }
 
-        // وظيفة البحث
         function searchLessons() {
             let input = document.getElementById('searchInput').value.toLowerCase();
             let items = document.getElementsByClassName('lesson-item');
