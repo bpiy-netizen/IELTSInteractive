@@ -17,11 +17,11 @@
         .sidebar-header { padding: 25px; text-align: center; border-bottom: 1px solid rgba(197,160,89,0.1); }
         .sidebar-header img { max-width: 150px; }
         .lessons-list { flex-grow: 1; overflow-y: auto; padding: 15px; }
-        .lesson-item { background: rgba(255,255,255,0.02); padding: 15px; border-radius: 12px; margin-bottom: 10px; cursor: pointer; display: flex; align-items: center; gap: 15px; transition: 0.3s; }
+        .lesson-item { background: rgba(255,255,255,0.02); padding: 15px; border-radius: 12px; margin-bottom: 10px; cursor: pointer; display: flex; align-items: center; gap: 15px; transition: 0.3s; border: 1px solid transparent; }
         .lesson-item.active { background: var(--gold); color: black; font-weight: bold; }
         .main-content { flex-grow: 1; display: flex; flex-direction: column; background: #000; }
         .video-container { width: 100%; aspect-ratio: 16/9; background: #000; }
-        video { width: 100%; height: 100%; display: block; outline: none; }
+        video { width: 100%; height: 100%; display: block; }
         .details { padding: 30px; background: var(--bg); border-top: 1px solid rgba(197,160,89,0.1); flex-grow: 1; }
         .details h1 { color: var(--gold); margin: 0; font-size: 1.8rem; }
         .details p { margin-top: 10px; color: #94a3b8; line-height: 1.7; }
@@ -42,24 +42,24 @@
     <aside class="sidebar">
         <div class="sidebar-header"><img src="https://res.cloudinary.com/dr3i6fqai/image/upload/v1778798404/117_z6fozk.png"></div>
         <div class="lessons-list">
-            <div class="lesson-item active" onclick="playVideo('https://res.cloudinary.com/dr3i6fqai/video/upload/v1778804565/Lark20260515-032212_pp1bf8.mp4', '1. بوابة النجاح', 'مقدمة تعريفية عن المنصة وكيفية البدء.', this)">
+            <div class="lesson-item active" onclick="forcePlay('https://res.cloudinary.com/dr3i6fqai/video/upload/v1778804565/Lark20260515-032212_pp1bf8.mp4', '1. بوابة النجاح', 'مقدمة تعريفية عن المنصة وكيفية البدء.', this)">
                 <i class="fas fa-play-circle"></i> <span>1. بوابة النجاح</span>
             </div>
-            <div class="lesson-item" onclick="playVideo('https://res.cloudinary.com/dr3i6fqai/video/upload/v1778806504/psv9wo.mp4', '2. الخطة الكاملة', 'خارطة طريق شاملة لاختبار الايلتس من الصفر.', this)">
+            <div class="lesson-item" onclick="forcePlay('https://res.cloudinary.com/dr3i6fqai/video/upload/v1778806504/psv9wo.mp4', '2. الخطة الكاملة', 'دليل شامل يختصر عليك الطريق في 10 دقائق فقط.', this)">
                 <i class="fas fa-map-marked-alt"></i> <span>2. الخطة الكاملة</span>
             </div>
         </div>
     </aside>
 
     <main class="main-content">
-        <div class="video-container" id="videoArea">
-            <video id="mainPlayer" controls controlsList="nodownload">
+        <div class="video-container" id="playerWrapper">
+            <video id="vPlayer" controls preload="auto" controlsList="nodownload">
                 <source src="https://res.cloudinary.com/dr3i6fqai/video/upload/v1778804565/Lark20260515-032212_pp1bf8.mp4" type="video/mp4">
             </video>
         </div>
         <div class="details">
-            <h1 id="titleText">1. بوابة النجاح</h1>
-            <p id="descText">مقدمة تعريفية عن المنصة وكيفية البدء.</p>
+            <h1 id="titleDisplay">1. بوابة النجاح</h1>
+            <p id="descDisplay">مقدمة تعريفية عن المنصة وكيفية البدء.</p>
         </div>
     </main>
 
@@ -69,21 +69,23 @@
             else alert('الرمز خطأ!');
         }
 
-        function playVideo(url, title, desc, el) {
-            // تحديث القائمة
+        function forcePlay(url, title, desc, el) {
+            // تحديث الشكل
             document.querySelectorAll('.lesson-item').forEach(i => i.classList.remove('active'));
             el.classList.add('active');
 
-            // تحديث الفيديو بطريقة الإجبار (Force Reload)
-            const videoArea = document.getElementById('videoArea');
-            videoArea.innerHTML = `<video id="mainPlayer" controls controlsList="nodownload" autoplay>
+            // تحديث الفيديو مع خاصية الـ Preload
+            const wrapper = document.getElementById('playerWrapper');
+            wrapper.innerHTML = `<video id="vPlayer" controls autoplay preload="auto" controlsList="nodownload">
                                     <source src="${url}" type="video/mp4">
-                                    متصفحك لا يدعم تشغيل الفيديو.
-                                   </video>`;
+                                 </video>`;
             
             // تحديث النصوص
-            document.getElementById('titleText').innerText = title;
-            document.getElementById('descText').innerText = desc;
+            document.getElementById('titleDisplay').innerText = title;
+            document.getElementById('descDisplay').innerText = desc;
+            
+            // تشغيل الفيديو يدوياً للتأكيد
+            document.getElementById('vPlayer').play();
         }
     </script>
 </body>
