@@ -26,6 +26,12 @@
         .lesson-item.active { background: var(--gold); color: black; font-weight: bold; }
         .lesson-item i { font-size: 1.1rem; }
         
+        /* روابط ملفات الـ PDF */
+        .pdf-item { background: rgba(239, 68, 68, 0.05); border: 1px solid rgba(239, 68, 68, 0.15); color: #f87171; text-decoration: none; }
+        .pdf-item:hover { background: rgba(239, 68, 68, 0.15); color: #fca5a5; transform: translateY(-1px); }
+        .pdf-item i.fa-file-pdf { color: #ef4444; font-size: 1.2rem; }
+        .pdf-item i.fa-external-link-alt { font-size: 0.85rem; opacity: 0.7; }
+
         /* أيقونة الصح التفاعلية بجانب اسم الفيديو */
         .completion-btn-zone { padding: 5px; cursor: pointer; color: rgba(255,255,255,0.2); transition: 0.2s; }
         .completion-btn-zone:hover { color: #10b981; }
@@ -179,8 +185,8 @@
                 <div class="completion-btn-zone" onclick="toggleLessonCompletion('lesson-18', event)"><i class="fas fa-check-circle"></i></div>
             </div>
             <div class="lesson-item" id="lesson-19">
-                <div class="lesson-info" onclick="playMedia('1n-eLQvHUkWdnK9tWPGB9f0KeSEOgyR11', '19. خمس طرق ذكية للتحدث بطلاقة في اختبار الآيلتس', 'استراتيجيات عملية وتقنيات ذكية للتغلب على التلعثم والتردد، وتنظيم الأفكار بشكل عفوي ومقنع خلال أجزاء الاختبار.', 'drive', this.parentElement)">
-                    <i class="fas fa-video"></i> <span>19.box خمس طرق ذكية للتحدث بطلاقة في اختبار الآيلتس</span>
+                <div class="lesson-info" onclick="playMedia('1n-eLQvHUkWdnK9tWPGB9f0KeSEOgyR11', '19. خمس طرق ذشان لتحدث بطلاقة في اختبار الآيلتس', 'استراتيجيات عملية وتقنيات ذكية للتغلب على التلعثم والتردد، وتنظيم الأفكار بشكل عفوي ومقنع خلال أجزاء الاختبار.', 'drive', this.parentElement)">
+                    <i class="fas fa-video"></i> <span>19. خمس طرق ذكية للتحدث بطلاقة في اختبار الآيلتس</span>
                 </div>
                 <div class="completion-btn-zone" onclick="toggleLessonCompletion('lesson-19', event)"><i class="fas fa-check-circle"></i></div>
             </div>
@@ -204,6 +210,26 @@
                 </div>
                 <div class="completion-btn-zone" onclick="toggleLessonCompletion('lesson-22', event)"><i class="fas fa-check-circle"></i></div>
             </div>
+
+            <div class="section-title">المرفقات والملخصات (PDFs)</div>
+            <a href="https://drive.google.com" target="_blank" class="lesson-item pdf-item">
+                <div class="lesson-info">
+                    <i class="fas fa-file-pdf"></i> <span>كتيب تمارين القراءة الأكاديمية</span>
+                </div>
+                <i class="fas fa-external-link-alt"></i>
+            </a>
+            <a href="https://drive.google.com" target="_blank" class="lesson-item pdf-item">
+                <div class="lesson-info">
+                    <i class="fas fa-file-pdf"></i> <span>هياكل تراكيب جمل الكتابة Task 1 & 2</span>
+                </div>
+                <i class="fas fa-external-link-alt"></i>
+            </a>
+            <a href="https://drive.google.com" target="_blank" class="lesson-item pdf-item">
+                <div class="lesson-info">
+                    <i class="fas fa-file-pdf"></i> <span>بنك مصطلحات التحدث والـ Idioms</span>
+                </div>
+                <i class="fas fa-external-link-alt"></i>
+            </a>
 
         </div>
     </aside>
@@ -288,9 +314,8 @@
             }
         };
 
-        // التبديل عند الضغط مباشرة على أيقونة الصح الجانبية
         function toggleLessonCompletion(id, event) {
-            if(event) event.stopPropagation(); // منع فتح الفيديو عند الضغط على الصح فقط
+            if(event) event.stopPropagation(); 
             
             const el = document.getElementById(id);
             let completedList = JSON.parse(localStorage.getItem('completed_lessons') || '[]');
@@ -317,7 +342,6 @@
             if (lastLesson) {
                 const el = document.getElementById(lastLesson);
                 if (el) {
-                    // نأخذ عنصر الـ info الداخلي لتشغيله دون التأثير على حالة الصح
                     const infoEl = el.querySelector('.lesson-info');
                     if(infoEl) infoEl.click();
                 }
