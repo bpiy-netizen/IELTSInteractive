@@ -7,42 +7,71 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
+        
         :root {
-            --primary: #000a14;
-            --sidebar: #001226;
+            --bg-main: #000a14;
+            --bg-sidebar: #001226;
             --gold: #c5a059;
+            --text-main: #e2e8f0;
             --glass: rgba(255, 255, 255, 0.03);
         }
+
         body {
             margin: 0; font-family: 'Cairo', sans-serif;
-            background: var(--primary); color: white;
+            background: var(--bg-main); color: var(--text-main);
             display: flex; height: 100vh; overflow: hidden;
         }
+
         /* القائمة الجانبية */
         .sidebar {
-            width: 350px; background: var(--sidebar);
+            width: 380px; background: var(--bg-sidebar);
             border-left: 1px solid rgba(197, 160, 89, 0.2);
             display: flex; flex-direction: column;
+            box-shadow: 10px 0 30px rgba(0,0,0,0.5);
         }
-        .sidebar-header { padding: 30px; text-align: center; border-bottom: 1px solid rgba(197, 160, 89, 0.1); }
-        .sidebar-header img { max-width: 180px; }
 
-        .lessons-list { flex-grow: 1; overflow-y: auto; padding: 20px; }
-        .lesson-item {
-            background: var(--glass); padding: 15px; border-radius: 12px;
-            margin-bottom: 10px; cursor: pointer; transition: 0.3s;
-            display: flex; align-items: center; gap: 12px; border: 1px solid transparent;
+        .sidebar-header {
+            padding: 40px 20px; text-align: center;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.1);
         }
-        .lesson-item:hover { border-color: var(--gold); background: rgba(197, 160, 89, 0.1); }
-        .lesson-item.active { background: var(--gold); color: black; font-weight: bold; }
 
-        /* منطقة العرض */
-        .main-content { flex-grow: 1; display: flex; flex-direction: column; overflow-y: auto; }
-        .video-container { width: 100%; aspect-ratio: 16/9; background: #000; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        video { width: 100%; height: 100%; }
-        .details { padding: 40px; }
-        .details h1 { color: var(--gold); font-size: 2rem; margin: 0; }
-        .details p { color: #888; font-size: 1.1rem; margin-top: 10px; }
+        .sidebar-header img { max-width: 180px; filter: drop-shadow(0 0 10px rgba(197, 160, 89, 0.2)); }
+
+        .course-content { flex-grow: 1; overflow-y: auto; padding: 20px; }
+
+        .lesson-card {
+            background: var(--glass); border: 1px solid transparent;
+            padding: 15px; border-radius: 15px; margin-bottom: 10px;
+            cursor: pointer; transition: 0.3s;
+            display: flex; align-items: center; gap: 15px;
+        }
+
+        .lesson-card:hover { border-color: var(--gold); background: rgba(197, 160, 89, 0.05); }
+        .lesson-card.active { background: var(--gold); color: #000; font-weight: bold; }
+
+        /* المحتوى الرئيسي */
+        .main-content { flex-grow: 1; display: flex; flex-direction: column; background: var(--bg-main); }
+
+        .video-wrapper {
+            width: 100%; background: #000;
+            aspect-ratio: 16 / 9; box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+        }
+
+        video { width: 100%; height: 100%; outline: none; }
+
+        .video-details { padding: 40px; }
+        .video-details h1 { color: var(--gold); font-size: 2.2rem; margin: 0 0 10px; }
+        .video-details p { color: #94a3b8; font-size: 1.1rem; line-height: 1.8; }
+
+        .btn-action {
+            margin-top: 20px; padding: 12px 25px; border-radius: 10px;
+            background: var(--gold); border: none; font-weight: bold; cursor: pointer;
+        }
+
+        @media (max-width: 900px) {
+            body { flex-direction: column; overflow: auto; }
+            .sidebar { width: 100%; height: auto; }
+        }
     </style>
 </head>
 <body>
@@ -51,35 +80,51 @@
         <div class="sidebar-header">
             <img src="logo.png" alt="IELTS Academy">
         </div>
-        <div class="lessons-list">
-            <div class="lesson-item active" onclick="changeVideo('رابط_فيديو_Cloudinary_هنا', 'مقدمة الأكاديمية', 'كلمة ترحيبية من د. مصطفى مكاحلة', this)">
+        
+        <div class="course-content">
+            <div style="color: var(--gold); font-size: 0.8rem; margin-bottom: 15px; letter-spacing: 1px;">محتوى الدورة</div>
+            
+            <div class="lesson-card active" onclick="playVideo('https://res.cloudinary.com/dr3i6fqai/video/upload/v1778803781/intro.mov_mjsodb.mov', 'مرحباً بك في أكاديمية IELTS', 'هذا الفيديو الترحيبي يستعرض الخطة الدراسية ومنهجية التدريب التفاعلية للدكتور مصطفى مكاحلة.', this)">
                 <i class="fas fa-play-circle"></i>
                 <span>1. المقدمة والترحيب</span>
             </div>
+
+            <div class="lesson-card" style="opacity: 0.5; cursor: not-allowed;">
+                <i class="fas fa-lock"></i>
+                <span>2. تكتيكات الاستماع (قريباً)</span>
             </div>
+        </div>
     </aside>
 
     <main class="main-content">
-        <div class="video-container">
+        <div class="video-wrapper">
             <video id="mainPlayer" controls controlsList="nodownload">
-                <source id="vSource" src="رابط_فيديو_Cloudinary_هنا" type="video/mp4">
+                <source id="vSource" src="https://res.cloudinary.com/dr3i6fqai/video/upload/v1778803781/intro.mov_mjsodb.mov" type="video/mp4">
+                <source id="vSourceMOV" src="https://res.cloudinary.com/dr3i6fqai/video/upload/v1778803781/intro.mov_mjsodb.mov" type="video/quicktime">
             </video>
         </div>
-        <div class="details">
+
+        <div class="video-details">
             <h1 id="vTitle">مرحباً بك في أكاديمية IELTS</h1>
-            <p id="vDesc">دورة الآيلتس المكثفة - إشراف د. مصطفى مكاحلة</p>
+            <p id="vDesc">هذا الفيديو الترحيبي يستعرض الخطة الدراسية ومنهجية التدريب التفاعلية للدكتور مصطفى مكاحلة.</p>
+            <button class="btn-action">تحميل ملفات الدرس (PDF)</button>
         </div>
     </main>
 
     <script>
-        function changeVideo(url, title, desc, element) {
+        function playVideo(url, title, desc, element) {
             const video = document.getElementById('mainPlayer');
             const source = document.getElementById('vSource');
-            document.querySelectorAll('.lesson-item').forEach(i => i.classList.remove('active'));
+            const sourceMOV = document.getElementById('vSourceMOV');
+            
+            document.querySelectorAll('.lesson-card').forEach(card => card.classList.remove('active'));
             element.classList.add('active');
+
             source.src = url;
+            sourceMOV.src = url;
             document.getElementById('vTitle').innerText = title;
             document.getElementById('vDesc').innerText = desc;
+
             video.load();
             video.play();
         }
