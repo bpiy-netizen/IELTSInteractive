@@ -8,46 +8,24 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
         :root { --bg: #000a14; --sidebar: #001226; --gold: #c5a059; --text: #e2e8f0; }
-        
         body { margin: 0; font-family: 'Cairo', sans-serif; background: var(--bg); color: var(--text); display: flex; height: 100vh; overflow: hidden; }
-
-        /* شاشة قفل الدخول */
-        #lock-screen {
-            position: fixed; inset: 0; background: var(--bg); z-index: 9999;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-        }
-        .login-box { background: var(--sidebar); padding: 40px; border-radius: 20px; border: 1px solid var(--gold); text-align: center; box-shadow: 0 0 30px rgba(0,0,0,0.5); }
-        .login-box input { padding: 12px; border-radius: 8px; border: none; width: 220px; text-align: center; font-size: 1.1rem; outline: none; margin-bottom: 15px; }
-        .login-box button { background: var(--gold); border: none; padding: 10px 30px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; }
-
-        /* القائمة الجانبية */
+        #lock-screen { position: fixed; inset: 0; background: var(--bg); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .login-box { background: var(--sidebar); padding: 40px; border-radius: 20px; border: 1px solid var(--gold); text-align: center; }
+        .login-box input { padding: 12px; border-radius: 8px; border: none; width: 220px; text-align: center; margin-bottom: 15px; }
+        .login-box button { background: var(--gold); border: none; padding: 10px 30px; border-radius: 8px; cursor: pointer; font-weight: bold; }
         .sidebar { width: 380px; background: var(--sidebar); border-left: 1px solid rgba(197,160,89,0.2); display: flex; flex-direction: column; }
         .sidebar-header { padding: 25px; text-align: center; border-bottom: 1px solid rgba(197,160,89,0.1); }
-        .sidebar-header img { max-width: 150px; margin-bottom: 10px; }
-        
-        .search-box { padding: 10px 20px; }
-        .search-box input { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(197,160,89,0.3); background: rgba(255,255,255,0.05); color: white; outline: none; font-family: 'Cairo'; }
-
+        .sidebar-header img { max-width: 150px; }
         .lessons-list { flex-grow: 1; overflow-y: auto; padding: 15px; }
-        .lesson-item { background: rgba(255,255,255,0.02); padding: 15px; border-radius: 12px; margin-bottom: 10px; cursor: pointer; display: flex; align-items: center; gap: 15px; transition: 0.3s; border: 1px solid transparent; }
-        .lesson-item:hover { background: rgba(197,160,89,0.1); border-color: rgba(197,160,89,0.3); }
+        .lesson-item { background: rgba(255,255,255,0.02); padding: 15px; border-radius: 12px; margin-bottom: 10px; cursor: pointer; display: flex; align-items: center; gap: 15px; transition: 0.3s; }
         .lesson-item.active { background: var(--gold); color: black; font-weight: bold; }
-        .lesson-item i { font-size: 1.2rem; }
-
-        /* منطقة المحتوى الرئيسي */
-        .main-content { flex-grow: 1; display: flex; flex-direction: column; background: #000; overflow-y: auto; }
-        .video-container { width: 100%; aspect-ratio: 16/9; background: #000; position: relative; }
-        video { width: 100%; height: 100%; display: block; }
-        
+        .main-content { flex-grow: 1; display: flex; flex-direction: column; background: #000; }
+        .video-container { width: 100%; aspect-ratio: 16/9; background: #000; }
+        video { width: 100%; height: 100%; }
         .details { padding: 35px; background: var(--bg); border-top: 1px solid rgba(197,160,89,0.1); }
-        .details h1 { color: var(--gold); margin: 0; font-size: 1.8rem; }
-        .details p { margin-top: 10px; font-size: 1.1rem; line-height: 1.7; color: #94a3b8; max-width: 900px; }
-
-        @media (max-width: 1000px) {
-            body { flex-direction: column; overflow: auto; }
-            .sidebar { width: 100%; height: auto; }
-            .main-content { height: auto; }
-        }
+        .details h1 { color: var(--gold); margin: 0; }
+        .details p { margin-top: 10px; color: #94a3b8; line-height: 1.7; }
+        @media (max-width: 1000px) { body { flex-direction: column; overflow: auto; } .sidebar { width: 100%; } }
     </style>
 </head>
 <body>
@@ -55,7 +33,6 @@
     <div id="lock-screen">
         <div class="login-box">
             <h2 style="color:var(--gold)">دخول الطلاب</h2>
-            <p>يرجى إدخال رمز الوصول الخاص بالأكاديمية</p>
             <input type="password" id="passCode" placeholder="أدخل الرمز">
             <br>
             <button onclick="checkAccess()">دخول</button>
@@ -66,68 +43,50 @@
         <div class="sidebar-header">
             <img src="https://res.cloudinary.com/dr3i6fqai/image/upload/v1778798404/117_z6fozk.png" alt="Logo">
         </div>
-        <div class="search-box">
-            <input type="text" id="searchInput" placeholder="ابحث عن درس..." onkeyup="searchLessons()">
-        </div>
-        <div class="lessons-list" id="list">
-            <div class="lesson-item active" onclick="changeVideo('https://res.cloudinary.com/dr3i6fqai/video/upload/f_auto,q_auto/v1778804565/Lark20260515-032212_pp1bf8.mp4', 'بوابة النجاح: 51Talk', 'مقدمة تعريفية عن المنصة في السعودية وكيفية البدء.')">
-                <i class="fas fa-play-circle"></i>
-                <span>1. بوابة النجاح: 51Talk</span>
+        <div class="lessons-list">
+            <div class="lesson-item active" onclick="loadNewVideo('https://res.cloudinary.com/dr3i6fqai/video/upload/f_auto,q_auto/v1778804565/Lark20260515-032212_pp1bf8.mp4', 'بوابة النجاح: 51Talk', 'مقدمة تعريفية عن المنصة وكيفية البدء.', this)">
+                <i class="fas fa-play-circle"></i> <span>1. بوابة النجاح</span>
             </div>
-            <div class="lesson-item" onclick="changeVideo('https://res.cloudinary.com/dr3i6fqai/video/upload/v1778806504/psv9wo.mp4', 'الخطة الكاملة للايلتس من الصفر', 'دليل شامل يختصر عليك الطريق من البداية حتى الاحتراف في 10 دقائق فقط.')">
-                <i class="fas fa-map-marked-alt"></i>
-                <span>2. الخطة الكاملة للايلتس</span>
+            <div class="lesson-item" onclick="loadNewVideo('https://res.cloudinary.com/dr3i6fqai/video/upload/v1778806504/psv9wo.mp4', 'الخطة الكاملة للايلتس', 'دليل شامل يختصر عليك الطريق في 10 دقائق.', this)">
+                <i class="fas fa-map-marked-alt"></i> <span>2. الخطة الكاملة</span>
             </div>
         </div>
     </aside>
 
     <main class="main-content">
-        <div class="video-container">
+        <div class="video-container" id="playerWrapper">
             <video id="mainPlayer" controls controlsList="nodownload">
-                <source id="videoSrc" src="https://res.cloudinary.com/dr3i6fqai/video/upload/f_auto,q_auto/v1778804565/Lark20260515-032212_pp1bf8.mp4" type="video/mp4">
+                <source src="https://res.cloudinary.com/dr3i6fqai/video/upload/f_auto,q_auto/v1778804565/Lark20260515-032212_pp1bf8.mp4" type="video/mp4">
             </video>
         </div>
         <div class="details">
             <h1 id="vidTitle">بوابة النجاح: 51Talk</h1>
-            <p id="vidDesc">مقدمة تعريفية عن المنصة في السعودية وكيفية البدء.</p>
+            <p id="vidDesc">مقدمة تعريفية عن المنصة وكيفية البدء.</p>
         </div>
     </main>
 
     <script>
         function checkAccess() {
-            if(document.getElementById('passCode').value === '1234') { 
-                document.getElementById('lock-screen').style.display = 'none';
-            } else { alert('الرمز خطأ!'); }
+            if(document.getElementById('passCode').value === '1234') document.getElementById('lock-screen').style.display = 'none';
+            else alert('خطأ!');
         }
 
-        function changeVideo(url, title, desc) {
-            // تحديث الفيديو
-            const video = document.getElementById('mainPlayer');
-            const source = document.getElementById('videoSrc');
-            
-            source.src = url;
-            video.load();
-            video.play();
+        function loadNewVideo(url, title, desc, el) {
+            // 1. تحديث شكل القائمة
+            document.querySelectorAll('.lesson-item').forEach(item => item.classList.remove('active'));
+            el.classList.add('active');
 
-            // تحديث النصوص
+            // 2. تدمير وإعادة بناء عنصر الفيديو (لحل مشكلة عدم التشغيل)
+            const wrapper = document.getElementById('playerWrapper');
+            wrapper.innerHTML = `<video id="mainPlayer" controls controlsList="nodownload"><source src="${url}" type="video/mp4"></video>`;
+            
+            const newPlayer = document.getElementById('mainPlayer');
+            newPlayer.load();
+            newPlayer.play();
+
+            // 3. تحديث النصوص
             document.getElementById('vidTitle').innerText = title;
             document.getElementById('vidDesc').innerText = desc;
-
-            // تحديث الحالة النشطة في القائمة
-            const items = document.querySelectorAll('.lesson-item');
-            items.forEach(item => {
-                item.classList.remove('active');
-                if(item.innerText.includes(title)) item.classList.add('active');
-            });
-        }
-
-        function searchLessons() {
-            let input = document.getElementById('searchInput').value.toLowerCase();
-            let items = document.getElementsByClassName('lesson-item');
-            for (let i = 0; i < items.length; i++) {
-                let text = items[i].innerText.toLowerCase();
-                items[i].style.display = text.includes(input) ? "flex" : "none";
-            }
         }
     </script>
 </body>
