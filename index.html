@@ -19,6 +19,7 @@
         .login-box { background: var(--sidebar); padding: 40px; border-radius: 20px; border: 1px solid var(--gold); text-align: center; box-shadow: 0 0 30px rgba(0,0,0,0.5); }
         .login-box input { padding: 12px; border-radius: 8px; border: none; width: 220px; text-align: center; font-size: 1.1rem; outline: none; margin-bottom: 10px; }
         .login-box button { background: var(--gold); border: none; padding: 10px 30px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .login-box button:hover { background: #b08d4a; }
 
         /* التصميم الرئيسي */
         .sidebar { width: 380px; background: var(--sidebar); border-left: 1px solid rgba(197,160,89,0.2); display: flex; flex-direction: column; }
@@ -74,7 +75,7 @@
                 <span>1. بوابة النجاح: 51Talk</span>
             </div>
 
-            <div class="lesson-item" onclick="play('https://res.cloudinary.com/dr3i6fqai/video/upload/f_auto,q_auto/v1778806504/%D8%A7%D9%84%D8%AE%D8%B7%D8%A9_%D8%A7%D9%84%D9%83%D8%A7%D9%85%D9%84%D8%A9_%D9%84%D8%A7%D8%AE%D8%AA%D8%A8%D8%A7%D8%B1_%D8%A7%D9%84%D8%A7%D9%8اي%D9%84%D8%AA%D8%B3_%D9%85%D9%86_%D8%A7%D9%84%D8%B5%D9%81%D8%B1_%D9%84%D9%84%D8%A5%D8%AD%D8%AA%D8%B1%D8%A7%D9%81_%D9%81%D9%8A_10_%D8%AF%D9%82%D8%A7%D9%8اي%D9%82_psv9wo.mp4', 'الخطة الكاملة للايلتس من الصفر', 'دليل شامل يختصر عليك الطريق من البداية حتى الاحتراف في 10 دقائق فقط.', this)">
+            <div class="lesson-item" onclick="play('https://res.cloudinary.com/dr3i6fqai/video/upload/f_auto,q_auto/v1778806504/psv9wo.mp4', 'الخطة الكاملة للايلتس من الصفر', 'دليل شامل يختصر عليك الطريق من البداية حتى الاحتراف في 10 دقائق فقط.', this)">
                 <i class="fas fa-map-marked-alt"></i>
                 <span>2. الخطة الكاملة للايلتس</span>
             </div>
@@ -105,10 +106,12 @@
             document.querySelectorAll('.lesson-item').forEach(i => i.classList.remove('active'));
             el.classList.add('active');
             const v = document.getElementById('player');
-            document.getElementById('source').src = url;
+            const s = document.getElementById('source');
+            s.src = url;
             document.getElementById('title').innerText = title;
             document.getElementById('desc').innerText = desc;
-            v.load(); v.play();
+            v.load();
+            v.play();
         }
 
         function searchLessons() {
