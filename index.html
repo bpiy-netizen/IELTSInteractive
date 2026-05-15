@@ -15,7 +15,6 @@
         .login-box { background: var(--sidebar); padding: 40px; border-radius: 20px; border: 1px solid var(--gold); text-align: center; box-shadow: 0 0 30px rgba(0,0,0,0.5); }
         .login-box input { padding: 12px; border-radius: 8px; border: none; width: 220px; text-align: center; margin-bottom: 15px; outline: none; font-size: 1.1rem; }
         .login-box button { background: var(--gold); border: none; padding: 10px 30px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; }
-        .login-box button:hover { background: #b08d4a; }
 
         /* القائمة الجانبية */
         .sidebar { width: 350px; background: var(--sidebar); border-left: 1px solid rgba(197,160,89,0.2); display: flex; flex-direction: column; }
@@ -42,7 +41,6 @@
     <div id="lock-screen">
         <div class="login-box">
             <h2 style="color:var(--gold)">دخول الطلاب</h2>
-            <p>يرجى إدخال رمز الوصول</p>
             <input type="password" id="passCode" placeholder="أدخل الرمز">
             <br>
             <button onclick="checkAccess()">دخول</button>
@@ -57,8 +55,8 @@
             <div class="lesson-item active" onclick="playLesson('https://res.cloudinary.com/dr3i6fqai/video/upload/v1778804565/Lark20260515-032212_pp1bf8.mp4', '1. بوابة النجاح: 51Talk', 'مقدمة تعريفية عن المنصة وكيفية البدء والمميزات المتاحة.', this)">
                 <i class="fas fa-play-circle"></i> <span>1. بوابة النجاح</span>
             </div>
-            <div class="lesson-item" onclick="playLesson('https://res.cloudinary.com/dr3i6fqai/video/upload/v1778808840/Lark20260515-043329_btx1jr.mp4', '2. خطة الايلتس المختصرة', 'شرح سريع ومبسط للبدء في رحلة الايلتس.', this)">
-                <i class="fas fa-bolt"></i> <span>2. الخطة المختصرة</span>
+            <div class="lesson-item" onclick="playLesson('https://res.cloudinary.com/dr3i6fqai/video/upload/v1778809271/R1-_IELTS_Reading_Basics_%D8%A3%D8%B3%D8%A7%D8%B3%D9%8A%D8%A7%D8%AA_%D9%82%D8%B3%D9%85_%D8%A7%D9%84%D9%82%D8%B1%D8%A7%D8%A1%D8%A9_%D9%81%D9%8I_%D8%A7%D9%84%D8%A7%D9%8A%D9%84%D8%AA%D8%B3_xlhqh5.mp4', '2. أساسيات قسم القراءة', 'شرح مفصل لأساسيات واستراتيجيات قسم القراءة في اختبار الايلتس.', this)">
+                <i class="fas fa-book-open"></i> <span>2. أساسيات القراءة</span>
             </div>
         </div>
     </aside>
@@ -80,22 +78,22 @@
             if(document.getElementById('passCode').value === '1234') { 
                 document.getElementById('lock-screen').style.display = 'none';
             } else { 
-                alert('الرمز غير صحيح، يرجى المحاولة مرة أخرى.'); 
+                alert('الرمز غير صحيح!'); 
             }
         }
 
         function playLesson(url, title, desc, el) {
-            // تحديث حالة القائمة النشطة
             document.querySelectorAll('.lesson-item').forEach(i => i.classList.remove('active'));
             el.classList.add('active');
 
-            // إعادة بناء المشغل لضمان عمل الرابط الجديد فوراً
             const wrapper = document.getElementById('playerWrapper');
+            // استخدام encodeURI للتعامل مع الرموز العربية في الرابط
+            const safeUrl = encodeURI(decodeURI(url));
+            
             wrapper.innerHTML = `<video id="vPlayer" controls autoplay preload="auto" controlsList="nodownload">
-                                    <source src="${url}" type="video/mp4">
+                                    <source src="${safeUrl}" type="video/mp4">
                                  </video>`;
             
-            // تحديث نصوص العنوان والوصف
             document.getElementById('titleDisplay').innerText = title;
             document.getElementById('descDisplay').innerText = desc;
         }
