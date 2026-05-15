@@ -17,8 +17,9 @@
             display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
         .login-box { background: var(--sidebar); padding: 40px; border-radius: 20px; border: 1px solid var(--gold); text-align: center; }
-        .login-box input { padding: 10px; border-radius: 8px; border: none; width: 200px; text-align: center; font-size: 1.1rem; }
-        .login-box button { background: var(--gold); border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 10px; }
+        .login-box input { padding: 10px; border-radius: 8px; border: none; width: 200px; text-align: center; font-size: 1.1rem; outline: none; }
+        .login-box button { background: var(--gold); border: none; padding: 10px 25px; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 15px; transition: 0.3s; }
+        .login-box button:hover { background: #b08d4a; }
 
         /* التصميم الرئيسي */
         .sidebar { width: 350px; background: var(--sidebar); border-left: 1px solid rgba(197,160,89,0.2); display: flex; flex-direction: column; }
@@ -33,7 +34,8 @@
         .video-container { width: 100%; aspect-ratio: 16/9; background: #000; }
         video { width: 100%; height: 100%; }
         .details { padding: 40px; }
-        .details h1 { color: var(--gold); margin: 0; }
+        .details h1 { color: var(--gold); margin: 0; font-size: 2rem; }
+        .details p { margin-top: 10px; font-size: 1.1rem; line-height: 1.6; color: #94a3b8; }
     </style>
 </head>
 <body>
@@ -53,27 +55,26 @@
             <img src="logo.png" alt="Logo">
         </div>
         <div class="lessons-list" id="list">
-            <div class="lesson-item active" onclick="play('https://res.cloudinary.com/dr3i6fqai/video/upload/f_auto,q_auto/v1778803781/intro.mov_mjsodb.mov', 'المقدمة والترحيب', 'أهلاً بكم في أكاديمية IELTS مع د. مصطفى مكاحلة', this)">
+            <div class="lesson-item active" onclick="play('https://res.cloudinary.com/dr3i6fqai/video/upload/f_auto,q_auto/v1778804565/Lark20260515-032212_pp1bf8.mp4', 'الدرس الأول: مقدمة الدورة', 'أهلاً بكم في أكاديمية IELTS مع الدكتور مصطفى مكاحلة. في هذا الدرس نبدأ الرحلة نحو الدرجة المطلوبة.', this)">
                 <i class="fas fa-play-circle"></i>
-                <span>1. المقدمة والترحيب</span>
+                <span>1. الدرس الأول</span>
             </div>
-            </div>
+        </div>
     </aside>
 
     <main class="main-content">
         <div class="video-container">
             <video id="player" controls controlsList="nodownload">
-                <source id="source" src="https://res.cloudinary.com/dr3i6fqai/video/upload/f_auto,q_auto/v1778803781/intro.mov_mjsodb.mov" type="video/mp4">
+                <source id="source" src="https://res.cloudinary.com/dr3i6fqai/video/upload/f_auto,q_auto/v1778804565/Lark20260515-032212_pp1bf8.mp4" type="video/mp4">
             </video>
         </div>
         <div class="details">
-            <h1 id="title">المقدمة والترحيب</h1>
-            <p id="desc">أهلاً بكم في أكاديمية IELTS مع د. مصطفى مكاحلة</p>
+            <h1 id="title">الدرس الأول: مقدمة الدورة</h1>
+            <p id="desc">أهلاً بكم في أكاديمية IELTS مع الدكتور مصطفى مكاحلة. في هذا الدرس نبدأ الرحلة نحو الدرجة المطلوبة.</p>
         </div>
     </main>
 
     <script>
-        // وظيفة التحقق من الرمز (يمكنك تغيير 1234 لأي رمز تريد)
         function checkAccess() {
             const code = document.getElementById('passCode').value;
             if(code === '1234') { 
@@ -83,7 +84,11 @@
             }
         }
 
-        // وظيفة تشغيل الفيديو
+        // دعم الضغط على Enter للدخول
+        document.getElementById('passCode').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') { checkAccess(); }
+        });
+
         function play(url, title, desc, el) {
             document.querySelectorAll('.lesson-item').forEach(i => i.classList.remove('active'));
             el.classList.add('active');
